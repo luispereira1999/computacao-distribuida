@@ -1,0 +1,29 @@
+{
+   "name": "picand-go",
+   "version": "1.0.0",
+   "description": "Aplicação web de venda e entrega de bens.",
+   "main": "app.js",
+   "scripts": {
+      "start": "node app.js"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/luispereira1999/computacao-distribuida.git"
+   },
+   "keywords": [
+      "Picand Go",
+      "Web Application",
+      "API"
+   ],
+   "author": "João Antunes, Luís Pereira, Rui Pinto",
+   "license": "MIT",
+   "bugs": {
+      "url": "https://github.com/luispereira1999/computacao-distribuida/issues"
+   },
+   "homepage": "https://github.com/luispereira1999/computacao-distribuida#readme",
+   "dependencies": {
+      "express": "^4.17.1",
+      "md5": "^2.3.0",
+      "sqlite3": "^5.0.0"
+   }
+}
