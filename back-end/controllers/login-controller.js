@@ -34,3 +34,19 @@ module.exports = {
       })
    }
 }
+
+
+function checkFields(req, res) {
+   var errors = []
+
+   if (!req.body.username) {
+      errors.push("O nome de utilizador não foi preenchido.")
+   }
+   if (!req.body.password) {
+      errors.push("A senha não foi preenchida.")
+   }
+   if (errors.length) {
+      res.status(400).json({ "error": errors.join(" | ") })
+      return true
+   }
+}
