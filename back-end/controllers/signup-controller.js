@@ -10,6 +10,8 @@ var Admin = require("../models/admin")
 module.exports = {
    signupClient: async(req, res) => {
       const db = database.connect()
+      if (checkFields(req, res, "client"))
+         return
 
       var user = getUser(req.body)
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -30,6 +32,8 @@ module.exports = {
 
    signupMerchant: async(req, res) => {
       const db = database.connect()
+      if (checkFields(req, res, "merchant"))
+         return
 
       var user = getUser(req.body)
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -53,6 +57,8 @@ module.exports = {
 
    signupDriver: async(req, res) => {
       const db = database.connect()
+      if (checkFields(req, res, "driver"))
+         return
 
       var user = getUser(req.body)
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -76,6 +82,8 @@ module.exports = {
 
    signupAdmin: async(req, res) => {
       const db = database.connect()
+      if (checkFields(req, res, "admin"))
+         return
 
       var user = getUser(req.body)
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -94,6 +102,50 @@ module.exports = {
          insertInAdminsTable(db, res, data)
          db.close()
       })
+   }
+}
+
+
+function checkFields(req, res, profile) {
+   var errors = []
+
+   if (profile == "client") {
+      if (!req.body.username) {
+         errors.push("O nome de utilizador não foi preenchido.")
+      }
+      if (!req.body.password) {
+         errors.push("A senha não foi preenchida.")
+      }
+      if (!req.body.name) {
+         errors.push("O nome não foi preenchido.")
+      }
+      if (!req.body.email) {
+         errors.push("O email não foi preenchido.")
+      }
+      if (errors.length) {
+         res.status(400).json({ "error": errors.join(" | ") })
+         return true
+      }
+   } else if (profile == "merchant" || profile == "driver" || profile == "admin") {
+      if (!req.body.username) {
+         errors.push("O nome de utilizador não foi preenchido.")
+      }
+      if (!req.body.password) {
+         errors.push("A senha não foi preenchida.")
+      }
+      if (!req.body.name) {
+         errors.push("O nome não foi preenchido.")
+      }
+      if (!req.body.email) {
+         errors.push("O email não foi preenchido.")
+      }
+      if (!req.body.registration_request) {
+         errors.push("O pedido de registo não foi preenchido.")
+      }
+      if (errors.length) {
+         res.status(400).json({ "error": errors.join(" | ") })
+         return true
+      }
    }
 }
 
@@ -181,7 +233,8 @@ function insertInAdminsTable(db, res, data) {
          return res.status(400).json({ "error": err.message })
       }
       res.json({
-         "message": "Condutor registado com sucesso!"
+         "message": "Admin registado com sucesso!"
       })
    })
+
 }
