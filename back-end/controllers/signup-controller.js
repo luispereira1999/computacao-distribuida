@@ -6,6 +6,7 @@ var Client = require("../models/client");
 var Merchant = require("../models/merchant");
 var Driver = require("../models/driver");
 var Admin = require("../models/admin");
+var TypeUser = require("../models/type-user");
 
 
 module.exports = {
@@ -23,11 +24,12 @@ module.exports = {
       }
 
       var user = new User(req.body);
+      var typeUser = new TypeUser({ "id": 1 })
 
       // inserir na tabela utilizadores
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, type, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 1, 1];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 1, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
@@ -71,11 +73,12 @@ module.exports = {
       }
 
       var user = new User(req.body);
+      var typeUser = new TypeUser({ "id": 2 })
 
       // inserir na tabela utilizadores
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 2, 0];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
@@ -107,11 +110,12 @@ module.exports = {
       }
 
       var user = new User(req.body);
+      var typeUser = new TypeUser({ "id": 3 })
 
       // inserir na tabela utilizadores
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 3, 0];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
@@ -143,11 +147,12 @@ module.exports = {
       }
 
       var user = new User(req.body);
+      var typeUser = new TypeUser({ "id": 4 })
 
       // inserir na tabela utilizadores
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 4, 0];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });

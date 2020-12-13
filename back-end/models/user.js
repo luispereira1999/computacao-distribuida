@@ -13,5 +13,6 @@ module.exports = class {
       this.zip_code = data.zip_code ? data.zip_code : null;
       this.nif = data.nif ? data.nif : null;
       this.active = data.active ? data.active : null;
+      this.type = data.type ? data.type : null;
    }
-}
+};
