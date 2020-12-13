@@ -8,14 +8,14 @@ module.exports = {
    login: async (req, res) => {
       const db = database.connect();
 
-      if (errors = checkFields(req, res))
+      if (errors = checkFields(req))
          return res.status(400).json({ "error": errors.join(" | ") });
 
       var user = new User(req.body);
-      var sql = "SELECT * FROM users WHERE username = ?";
-      var params = user.username;
 
-      // obter utilizador
+      // selecionar utilizador que pretende fazer login
+      var sql = "SELECT * FROM Users WHERE username = ?";
+      var params = user.username;
       db.get(sql, params, async function (err, row) {
          if (err) {
             return res.status(400).json({ "error": err.message });
@@ -25,18 +25,18 @@ module.exports = {
             const checkPassword = await bcrypt.compareSync(user.password, row.password);
 
             if (checkPassword) {
-               // dados da sessão
+               // dados ao criar sessão
                const token = jwt.sign({
-                  id_user: row.id_user,
+                  id: row.id,
                   username: row.username,
-                  nome: row.nome,
-                  email: row.email
+                  name: row.name,
+                  email: row.email,
+                  type: row.type,
                }, "hard-secret", { expiresIn: "24h" });
 
                res.json({
                   "message": "O utilizador: " + row.username + " efetuou login com sucesso!",
-                  "session": token,
-                  "data": row
+                  "session": token
                });
             } else {
                res.json({
@@ -51,11 +51,14 @@ module.exports = {
 };
 
 
-function checkFields(req, res) {
+function checkFields(req) {
    var errors = [];
 
    if (!req.body.username) {
       errors.push("O nome de utilizador não foi preenchido.");
+   }
+   if (!req.body.password) {
+      errors.push("A senha não foi preenchida.");
    }
    if (!req.body.password) {
       errors.push("A senha não foi preenchida.");
