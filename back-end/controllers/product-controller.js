@@ -15,8 +15,8 @@ module.exports = {
             return res.status(500).json({ "error": err.message });
          }
 
-         return res.json({
-            "message": "Produtos selecionados com sucesso!",
+         res.json({
+            "message": "Produtos obtidos com sucesso!",
             "data": rows
          });
       });
@@ -28,24 +28,25 @@ module.exports = {
    getOne: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 1);
-      if (errors.exist) {
-         return res.status(400).json({ "error": errors.message.join(" | ") });
-      }
+      var product = new Product(req.params);
 
-      var product = new Product(req.body);
-      var merchant = new Merchant({ "id": req.user.id })
-
-      // inserir na tabela produtos
-      var sql = "INSERT INTO Products (name, stock, merchant_id) VALUES (?, ?, ?)";
-      var params = [product.name, product.stock, merchant.id];
-      db.run(sql, params, function (err) {
+      // selecionar produto na base de dados
+      var sql = "SELECT * FROM Products WHERE id = ?";
+      var params = [product.id];
+      db.get(sql, params, function (err, row) {
          if (err) {
             return res.status(500).json({ "error": err.message });
          }
 
+         if (row) {
+            res.json({
+               "message": "Produto obtido com sucesso!",
+               "data": row
+            });
+         }
+         else
          res.json({
-            "message": "Produto registado com sucesso!",
+            "message": "Oh! Produto não existe!"
          });
       });
 
