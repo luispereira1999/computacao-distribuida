@@ -4,6 +4,55 @@ var Product = require("../models/product");
 
 
 module.exports = {
+   getAll: async (req, res) => {
+      const db = database.connect();
+
+      // selecionar produtos na base de dados
+      var sql = "SELECT * FROM Products";
+      var params = [];
+      db.all(sql, params, function (err, rows) {
+         if (err) {
+            return res.status(500).json({ "error": err.message });
+         }
+
+         return res.json({
+            "message": "Produtos selecionados com sucesso!",
+            "data": rows
+         });
+      });
+
+      db.close();
+   },
+
+
+   getOne: async (req, res) => {
+      const db = database.connect();
+
+      var errors = await checkFields(req, 1);
+      if (errors.exist) {
+         return res.status(400).json({ "error": errors.message.join(" | ") });
+      }
+
+      var product = new Product(req.body);
+      var merchant = new Merchant({ "id": req.user.id })
+
+      // inserir na tabela produtos
+      var sql = "INSERT INTO Products (name, stock, merchant_id) VALUES (?, ?, ?)";
+      var params = [product.name, product.stock, merchant.id];
+      db.run(sql, params, function (err) {
+         if (err) {
+            return res.status(500).json({ "error": err.message });
+         }
+
+         res.json({
+            "message": "Produto registado com sucesso!",
+         });
+      });
+
+      db.close();
+   },
+
+
    new: async (req, res) => {
       const db = database.connect();
 
