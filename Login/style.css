@@ -62,13 +62,27 @@ body{
     font-size: 12px;
 }
 
-.box input[type="submit"]{
-    border: none;
-    outline: none;
-    color: #fff;
+.box input[type="submit"][value="Entrar"]{
+    width: 100%;
+    font-size: 15px; 
+    border: 0px;
     background: #F2182A;
-    padding: 10px 20px;
+    color: #fff;
     cursor: pointer;
+    outline: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.box input[type="submit"]{
+    width: 100%;
+    font-size: 15px; 
+    border: 0px;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    padding: 10px 20px;
     border-radius: 20px;
 }
 
