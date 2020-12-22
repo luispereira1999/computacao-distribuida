@@ -3,4 +3,4 @@ module.exports = class {
       this.id = data.id ? data.id : null;
       this.type = data.type ? data.type : null;
    }
-}
+};

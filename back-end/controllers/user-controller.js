@@ -1,5 +1,4 @@
 const database = require("../utils/database");
-const jwt = require("jsonwebtoken");
 var User = require("../models/user");
 
 
@@ -8,10 +7,9 @@ module.exports = {
       const db = database.connect();
 
       // obter dados da request
-      const decodedSession = jwt.verify(req.body.session, "hard-secret");
-      var user = new User(decodedSession);
+      var user = new User(req.user);
 
-      if (checkValidID(req.params.id, decodedSession.id))
+      if (checkValidID(req.params.id, req.user.id))
          return res.status(400).json({ "error": "Ups! ID do utilizador não corresponde ao da sessão atual." });
 
       // selecionar utilizador na base de dados
@@ -19,24 +17,22 @@ module.exports = {
       var params = user.id;
       db.get(sql, params, function (err, row) {
          if (err)
-            return res.status(400).json({ "error": res.message });
+            return res.status(500).json({ "error": res.message });
 
-         return res.json({ "data": row });
+         res.status(200).json({ "data": row });
       });
 
       db.close();
    },
 
 
-   // editar utilizador
    edit: async (req, res, next) => {
       const db = database.connect();
 
       // obter dados da request
-      const decodedSession = jwt.verify(req.body.session, "hard-secret");
-      var user = new User(decodedSession);
+      var user = new User(req.user);
 
-      if (checkValidID(req.params.id, decodedSession.id))
+      if (checkValidID(req.params.id, req.user.id))
          return res.status(400).json({ "error": "Ups! ID do utilizador não corresponde ao da sessão atual." });
 
       // editar na tabela utilizadores
@@ -44,66 +40,55 @@ module.exports = {
       var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(400).json({ "error": res.message });
+            return res.status(500).json({ "error": res.message });
 
-         return res.json({ "message": "Utilizador editado com sucesso!" });
+         res.status(200).json({ "message": "Utilizador editado com sucesso!" });
       });
 
       db.close();
    },
 
 
-   // ativar utilizador
-   active: async (req, res, next) => {
+   accept: async (req, res, next) => { 
       const db = database.connect();
 
       // obter dados da request
-      const decodedSession = jwt.verify(req.body.session, "hard-secret");
-      var user = new User(decodedSession);
+      var user = new User(req.user);
 
-      if (checkValidID(req.params.id, decodedSession.id))
+      if (checkValidID(req.params.id, req.user.id))
          return res.status(400).json({ "error": "Ups! ID do utilizador não corresponde ao da sessão atual." });
 
-      // ativar utilizador na base de dados
-      var sql = "UPDATE Users SET active = 1 WHERE id = ?";
+      // aceitar utilizador na base de dados
+      var sql = "UPDATE Users SET accepted = 1 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(400).json({ "error": res.message });
+            return res.status(500).json({ "error": res.message });
 
-         return res.json({ "message": "Utilizador ativado com sucesso!" });
+         res.status(200).json({ "message": "Utilizador aceitado com sucesso!" });
       });
 
       db.close();
    },
 
 
-   // excluir utilizador
    delete: async (req, res, next) => {
       const db = database.connect();
 
       // obter dados da request
-      const decodedSession = jwt.verify(req.body.session, "hard-secret");
-      var user = new User(decodedSession);
+      var user = new User(req.user);
 
-      if (checkValidID(req.params.id, decodedSession.id))
+      if (checkValidID(req.params.id, req.user.id))
          return res.status(400).json({ "error": "Ups! ID do utilizador não corresponde ao da sessão atual." });
 
-      // apagar na tabela utilizadores
-      var sql = "DELETE FROM Users WHERE id = ?";
+      // excluir utilizador na base de dados
+      var sql = "UPDATE Users SET deleted = 1 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(400).json({ "error": res.message });
+            return res.status(500).json({ "error": res.message });
 
-         // apagar na tabela do tipo de utilizador
-         var sql = checkUserType(decodedSession.type);
-         db.run(sql, params, function (err) {
-            if (err)
-               return res.status(400).json({ "error": res.message });
-
-            return res.json({ "message": "Utilizador excluído com sucesso!", });
-         });
+         res.status(200).json({ "message": "Utilizador excluído com sucesso!", });
       });
 
       db.close();

@@ -15,7 +15,7 @@ module.exports = {
             return res.status(500).json({ "error": err.message });
          }
 
-         res.json({
+         res.status(200).json({
             "message": "Produtos obtidos com sucesso!",
             "data": rows
          });
@@ -39,22 +39,22 @@ module.exports = {
          }
 
          if (row) {
-            res.json({
+            res.status(200).json({
                "message": "Produto obtido com sucesso!",
                "data": row
             });
          }
          else
-         res.json({
-            "message": "Oh! Produto não existe!"
-         });
+            res.status(200).json({
+               "message": "Oh! Produto não existe!"
+            });
       });
 
       db.close();
    },
 
 
-   new: async (req, res) => {
+   create: async (req, res) => {
       const db = database.connect();
 
       var errors = await checkFields(req, 1);
@@ -66,20 +66,20 @@ module.exports = {
       var merchant = new Merchant({ "id": req.user.id })
 
       // inserir na tabela produtos
-      var sql = "INSERT INTO Products (name, stock, merchant_id) VALUES (?, ?, ?)";
-      var params = [product.name, product.stock, merchant.id];
+      var sql = "INSERT INTO Products (name, stock, deleted, merchant_id) VALUES (?, ?, ?, ?)";
+      var params = [product.name, product.deleted, 1, merchant.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
          }
 
-         res.json({
+         res.status(201).json({
             "message": "Produto registado com sucesso!",
          });
       });
 
       db.close();
-   },
+   }
 };
 
 
@@ -105,4 +105,9 @@ function checkFields(req, typeUser) {
    }
 
    return ({ "exist": false });
+}
+
+
+function checkValidID(currentID, sessionID) {
+   return currentID != sessionID;
 }

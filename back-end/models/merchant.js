@@ -4,4 +4,4 @@ module.exports = class {
       this.registration_request = data.registration_request ? data.registration_request : null;
       this.user_id = data.user_id ? data.user_id : null;
    }
-}
+};

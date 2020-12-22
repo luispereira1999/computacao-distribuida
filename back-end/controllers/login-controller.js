@@ -18,7 +18,7 @@ module.exports = {
       var params = user.username;
       db.get(sql, params, async function (err, row) {
          if (err) {
-            return res.status(400).json({ "error": err.message });
+            return res.status(500).json({ "error": err.message });
          }
 
          if (row) {
@@ -34,15 +34,24 @@ module.exports = {
                   type: row.type,
                }, "hard-secret", { expiresIn: "24h" });
 
-               res.json({
-                  "message": "O utilizador: " + row.username + " efetuou login com sucesso!",
+               var error = checkRow(row);
+               if (error.value)
+                  return res.status(400).json({ "message": error.message });
+
+               res.status(200).json({
+                  "message": "O utilizador efetuou login com sucesso!",
                   "session": token
                });
             } else {
-               res.json({
-                  "message": "Nome de utilizador ou senha inválidos. Tente novamente!"
+               return res.status(400).json({
+                  "message": "Nome de utilizador ou senha inválidos. Tente outro!"
                });
             }
+         }
+         else {
+            return res.status(400).json({
+               "message": "O utilizador não existe. Tente novamente!"
+            });
          }
 
          db.close();
@@ -54,16 +63,24 @@ module.exports = {
 function checkFields(req) {
    var errors = [];
 
-   if (!req.body.username) {
+   if (!req.body.username)
       errors.push("O nome de utilizador não foi preenchido.");
-   }
-   if (!req.body.password) {
+   if (!req.body.password)
       errors.push("A senha não foi preenchida.");
-   }
-   if (!req.body.password) {
+   if (!req.body.password)
       errors.push("A senha não foi preenchida.");
-   }
-   if (errors.length) {
+   if (errors.length)
       return errors;
-   }
+}
+
+
+function checkRow(row) {
+   if (row.deleted)
+      return { "value": true, "message": "O utilizador não existe. Tente outro!" }
+   if (row.locked)
+      return { "value": true, "message": "Ups! O utilizador foi bloqueado." }
+   if (row.accepted)
+      return { "value": true, "message": "Ups! O utilizador não foi ativado. Aguarde pela resposta!" }
+
+   return { "value": false };
 }

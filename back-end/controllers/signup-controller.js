@@ -27,9 +27,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 1 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, type, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 1, typeUser.id];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
@@ -48,7 +48,7 @@ module.exports = {
             type: user.type
          }, "hard-secret", { expiresIn: "24h" });
 
-         res.json({
+         res.status(201).json({
             "message": "Cliente registado com sucesso!",
             "message2": "O utilizador: " + user.username + " efetuou login com sucesso!",
             "session": token
@@ -76,9 +76,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 2 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, typeUser.id];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
@@ -113,9 +113,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 3 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, typeUser.id];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, 1, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
@@ -150,9 +150,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 4 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, typeUser.id];
+      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, 0, 1, typeUser.id];
       db.run(sql, params, function (err) {
          if (err) {
             return res.status(500).json({ "error": err.message });
@@ -187,9 +187,6 @@ function checkFields(req, typeUser) {
       if (!req.body.email) {
          errors.push("O email não foi preenchido.");
       }
-      if (!req.body.type) {
-         errors.push("O tipo não foi preenchido.");
-      }
       if (errors.length) {
          return ({
             "exist": true,
@@ -209,9 +206,6 @@ function checkFields(req, typeUser) {
       if (!req.body.email) {
          errors.push("O email não foi preenchido.");
       }
-      if (!req.body.type) {
-         errors.push("O tipo não foi preenchido.");
-      }
       if (!req.body.registration_request) {
          errors.push("O pedido de registo não foi preenchido.");
       }
@@ -230,7 +224,7 @@ function checkFields(req, typeUser) {
 function checkUsernameOrEmailAlreadyExist(db, req, res) {
    return new Promise((resolve) => {
       var user = new User(req.body);
-      var sql = "SELECT * FROM Users WHERE username = ? OR email = ? LIMIT 1";
+      var sql = "SELECT id FROM Users WHERE (username = ? OR email = ?) AND deleted = 0 LIMIT 1";
       var params = [user.username, user.email];
       var userExist = { "exist": false };
 
@@ -281,9 +275,7 @@ function insertInMerchantsTable(db, res, data) {
          return res.status(500).json({ "error": err.message });
       }
 
-      return res.json({
-         "message": "Empresa registada com sucesso!"
-      });
+      res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde enquanto o analisamos." });
    });
 }
 
@@ -298,9 +290,7 @@ function insertInDriversTable(db, res, data) {
          return res.status(500).json({ "error": err.message });
       }
 
-      return res.json({
-         "message": "Condutor registado com sucesso!"
-      });
+      res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde enquanto o analisamos." });
    });
 }
 
@@ -315,8 +305,6 @@ function insertInAdminsTable(db, res, data) {
          return res.status(500).json({ "error": err.message });
       }
 
-      return res.json({
-         "message": "Admin registado com sucesso!"
-      });
+      res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde enquanto o analisamos." });
    });
 }
