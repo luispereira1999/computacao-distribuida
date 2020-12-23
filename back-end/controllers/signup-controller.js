@@ -26,6 +26,7 @@ module.exports = {
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, typeUser.id];
+
       db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "error": err.message });
@@ -70,6 +71,7 @@ module.exports = {
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, registration_request, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, user.registration_request, typeUser.id];
+
       db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "error": err.message });
@@ -101,6 +103,7 @@ module.exports = {
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, registration_request, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, user.registration_request, typeUser.id];
+
       db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "error": err.message });
@@ -132,6 +135,7 @@ module.exports = {
       var sql = "INSERT INTO Users (username, password, name, email, birth_date, gender, phone_number, city, address, zip_code, nif, registration_request, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif, user.registration_request, typeUser.id];
+
       db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "error": err.message });
