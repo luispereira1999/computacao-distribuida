@@ -60,11 +60,8 @@ module.exports = {
          return res.status(400).json({ "error": errors.message.join(" | ") });
       }
 
-      var user = new User(req.user)
-      if (user.type != 2)
-         return res.status(201).json({ "message": "O utilizador não tem permissão para executar esta operação!" });
-
       var product = new Product(req.body);
+      var user = new User(req.user);
 
       // inserir na tabela produtos
       var sql = "INSERT INTO Products (name, stock, deleted, user_id) VALUES (?, ?, 0, ?)";

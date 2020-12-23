@@ -77,9 +77,6 @@ module.exports = {
       var user = new User(req.params);
       var userLogged = new User(req.user);
 
-      if (userLogged.type != 4)
-         return res.status(201).json({ "message": "O utilizador não tem permissão para executar esta operação." });
-
       if (userLogged.id == user.id)
          return res.status(201).json({ "message": "Oh! Não pode excluir o utilizador atual." });
 
