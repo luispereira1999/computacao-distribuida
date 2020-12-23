@@ -17,9 +17,8 @@ module.exports = {
       var sql = "SELECT * FROM Users WHERE username = ?";
       var params = user.username;
       db.get(sql, params, async function (err, row) {
-         if (err) {
-            return res.status(400).json({ "error": err.message });
-         }
+         if (err)
+            return res.status(500).json({ "error": err.message });
 
          if (row) {
             const checkPassword = await bcrypt.compareSync(user.password, row.password);
@@ -34,19 +33,27 @@ module.exports = {
                   type: row.type,
                }, "hard-secret", { expiresIn: "24h" });
 
-               res.json({
-                  "message": "O utilizador: " + row.username + " efetuou login com sucesso!",
+               var error = checkRow(row);
+               if (error.value)
+                  return res.status(400).json({ "message": error.message });
+
+               res.status(200).json({
+                  "message": "O utilizador efetuou login com sucesso!",
                   "session": token
                });
-            } else {
-               res.json({
-                  "message": "Nome de utilizador ou senha inválidos. Tente novamente!"
+            } else
+               return res.status(400).json({
+                  "message": "Nome de utilizador ou senha inválidos. Tente outro!"
                });
-            }
          }
-
-         db.close();
+         else {
+            return res.status(400).json({
+               "message": "O utilizador não existe. Tente novamente!"
+            });
+         }
       });
+
+      db.close();
    }
 };
 
@@ -54,16 +61,24 @@ module.exports = {
 function checkFields(req) {
    var errors = [];
 
-   if (!req.body.username) {
+   if (!req.body.username)
       errors.push("O nome de utilizador não foi preenchido.");
-   }
-   if (!req.body.password) {
+   if (!req.body.password)
       errors.push("A senha não foi preenchida.");
-   }
-   if (!req.body.password) {
+   if (!req.body.password)
       errors.push("A senha não foi preenchida.");
-   }
-   if (errors.length) {
+   if (errors.length)
       return errors;
-   }
+}
+
+
+function checkRow(row) {
+   if (row.deleted == 1)
+      return { "value": true, "message": "O utilizador não existe. Tente outro!" }
+   if (row.locked == 1)
+      return { "value": true, "message": "Ups! O utilizador está bloqueado." }
+   if (row.accepted == 0)
+      return { "value": true, "message": "Ups! O utilizador não está ativado. Aguarde por favor pela resposta!" }
+
+   return { "value": false };
 }
