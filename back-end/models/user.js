@@ -12,6 +12,7 @@ module.exports = class {
       this.address = data.address ? data.address : null;
       this.zip_code = data.zip_code ? data.zip_code : null;
       this.nif = data.nif ? data.nif : null;
+      this.registration_request = data.registration_request ? data.registration_request : null;
       this.accepted = data.accepted ? data.accepted : null;
       this.locked = data.locked ? data.locked : null;
       this.deleted = data.deleted ? data.deleted : null;

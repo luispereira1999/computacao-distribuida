@@ -17,9 +17,8 @@ module.exports = {
       var sql = "SELECT * FROM Users WHERE username = ?";
       var params = user.username;
       db.get(sql, params, async function (err, row) {
-         if (err) {
+         if (err)
             return res.status(500).json({ "error": err.message });
-         }
 
          if (row) {
             const checkPassword = await bcrypt.compareSync(user.password, row.password);
@@ -42,20 +41,19 @@ module.exports = {
                   "message": "O utilizador efetuou login com sucesso!",
                   "session": token
                });
-            } else {
+            } else
                return res.status(400).json({
                   "message": "Nome de utilizador ou senha inválidos. Tente outro!"
                });
-            }
          }
          else {
             return res.status(400).json({
                "message": "O utilizador não existe. Tente novamente!"
             });
          }
-
-         db.close();
       });
+
+      db.close();
    }
 };
 
@@ -75,12 +73,12 @@ function checkFields(req) {
 
 
 function checkRow(row) {
-   if (row.deleted)
+   if (row.deleted == 1)
       return { "value": true, "message": "O utilizador não existe. Tente outro!" }
-   if (row.locked)
-      return { "value": true, "message": "Ups! O utilizador foi bloqueado." }
-   if (row.accepted)
-      return { "value": true, "message": "Ups! O utilizador não foi ativado. Aguarde pela resposta!" }
+   if (row.locked == 1)
+      return { "value": true, "message": "Ups! O utilizador está bloqueado." }
+   if (row.accepted == 0)
+      return { "value": true, "message": "Ups! O utilizador não está ativado. Aguarde por favor pela resposta!" }
 
    return { "value": false };
 }

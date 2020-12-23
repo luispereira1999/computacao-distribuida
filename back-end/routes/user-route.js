@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require("../controllers/user-controller");
 const validateLogin = require("../middlewares/authenticate");
 
-router.get("/account/:id", validateLogin, userController.view);
+router.post("/account", validateLogin, userController.view);
 router.patch("/accept/:id", validateLogin, userController.accept);
 router.patch("/delete/:id", validateLogin, userController.delete);
 

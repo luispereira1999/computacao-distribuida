@@ -1,5 +1,5 @@
 const database = require("../utils/database");
-var Merchant = require("../models/merchant");
+var User = require("../models/user");
 var Product = require("../models/product");
 
 
@@ -8,17 +8,19 @@ module.exports = {
       const db = database.connect();
 
       // selecionar produtos na base de dados
-      var sql = "SELECT * FROM Products";
+      var sql = "SELECT * FROM Products LIMIT 10";
       var params = [];
       db.all(sql, params, function (err, rows) {
-         if (err) {
+         if (err)
             return res.status(500).json({ "error": err.message });
-         }
 
-         res.status(200).json({
-            "message": "Produtos obtidos com sucesso!",
-            "data": rows
-         });
+         if (rows.length == 0)
+            res.status(200).json({ "message": "Oh! Não existem produtos." });
+         else
+            res.status(200).json({
+               "message": "Produtos obtidos com sucesso!",
+               "data": rows
+            });
       });
 
       db.close();
@@ -34,20 +36,16 @@ module.exports = {
       var sql = "SELECT * FROM Products WHERE id = ?";
       var params = [product.id];
       db.get(sql, params, function (err, row) {
-         if (err) {
+         if (err)
             return res.status(500).json({ "error": err.message });
-         }
 
-         if (row) {
+         if (row)
             res.status(200).json({
                "message": "Produto obtido com sucesso!",
                "data": row
             });
-         }
          else
-            res.status(200).json({
-               "message": "Oh! Produto não existe!"
-            });
+            res.status(200).json({ "message": "Oh! O produto não existe!" });
       });
 
       db.close();
@@ -62,20 +60,20 @@ module.exports = {
          return res.status(400).json({ "error": errors.message.join(" | ") });
       }
 
+      var user = new User(req.user)
+      if (user.type != 2)
+         return res.status(201).json({ "message": "O utilizador não tem permissão para executar esta operação!" });
+
       var product = new Product(req.body);
-      var merchant = new Merchant({ "id": req.user.id })
 
       // inserir na tabela produtos
-      var sql = "INSERT INTO Products (name, stock, deleted, merchant_id) VALUES (?, ?, ?, ?)";
-      var params = [product.name, product.deleted, 1, merchant.id];
+      var sql = "INSERT INTO Products (name, stock, deleted, user_id) VALUES (?, ?, 0, ?)";
+      var params = [product.name, product.stock, user.id];
       db.run(sql, params, function (err) {
-         if (err) {
+         if (err)
             return res.status(500).json({ "error": err.message });
-         }
 
-         res.status(201).json({
-            "message": "Produto registado com sucesso!",
-         });
+         res.status(201).json({ "message": "Produto criado com sucesso!" });
       });
 
       db.close();
@@ -94,7 +92,7 @@ function checkFields(req, typeUser) {
          errors.push("A quantidade de stock não foi preenchida.");
       }
       if (!req.body.merchant_id) {
-         errors.push("O ID da empresa não foi preenchida.");
+         errors.push("O ID do utilizador empresa não foi preenchida.");
       }
       if (errors.length) {
          return ({
@@ -105,9 +103,4 @@ function checkFields(req, typeUser) {
    }
 
    return ({ "exist": false });
-}
-
-
-function checkValidID(currentID, sessionID) {
-   return currentID != sessionID;
 }
