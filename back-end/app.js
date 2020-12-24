@@ -25,7 +25,7 @@ const productsRoute = require("./routes/products-route");
 
 app.use("/api/login", loginRoute);
 app.use("/api/signup", signupRoute);
-app.use("/api/user", userRoute);
+app.use("/api/users", userRoute);
 app.use("/api/products", productsRoute);
 
 // rota quando uma rota não existe

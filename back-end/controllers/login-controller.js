@@ -74,7 +74,7 @@ function checkFields(req) {
 
 function checkRow(row) {
    if (row.deleted == 1)
-      return { "value": true, "message": "O utilizador não existe. Tente outro!" }
+      return { "value": true, "message": "O utilizador não existe. Tente outro por favor." }
    if (row.locked == 1)
       return { "value": true, "message": "Ups! O utilizador está bloqueado." }
    if (row.accepted == 0)
