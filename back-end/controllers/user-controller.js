@@ -23,24 +23,25 @@ module.exports = {
    },
 
 
-   edit: async (req, res, next) => {
-      const db = database.connect();
+   // editData: async (req, res, next) => {
+   //    const db = database.connect();
 
-      // obter dados da request
-      var user = new User(req.user);
+   //    // obter dados da request
+   //    var user = new User(req.body);
+   //    var userLogged = new User(req.user);
 
-      // editar na tabela utilizadores
-      var sql = "UPDATE Users SET username = ?, password = ?, name = ?, email = ?, birth_date = ?, gender = ?, phone_number = ?, city = ?, address = ?, zip_code = ?, nif = ? WHERE id = ?";
-      var params = [user.username, hash, user.name, user.email, user.birth_date, user.gender, user.phone_number, user.city, user.address, user.zip_code, user.nif];
-      db.run(sql, params, function (err) {
-         if (err)
-            return res.status(500).json({ "error": res.message });
+   // atualizar utilizador na base de dados
+   //    var sql = "UPDATE Users SET name = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ? WHERE id = ?";
+   //    var params = [user.name, user.email, user.phone_number, user.address, user.zip_code, user.nif, userLogged.id];
+   //    db.run(sql, params, function (err) {
+   //       if (err)
+   //          return res.status(500).json({ "error": res.message });
 
-         res.status(200).json({ "message": "Utilizador editado com sucesso!" });
-      });
+   //       res.status(200).json({ "message": "Utilizador editado com sucesso!" });
+   //    });
 
-      db.close();
-   },
+   //    db.close();
+   // },
 
 
    accept: async (req, res, next) => {
@@ -48,12 +49,8 @@ module.exports = {
 
       // obter dados da request
       var user = new User(req.params);
-      var userLogged = new User(req.user);
 
-      if (userLogged.type != 4)
-         return res.status(201).json({ "message": "O utilizador não tem permissão para executar esta operação!" });
-
-      // aceitar utilizador na base de dados
+      // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET accepted = 1 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, function (err) {
@@ -80,7 +77,7 @@ module.exports = {
       if (userLogged.id == user.id)
          return res.status(201).json({ "message": "Oh! Não pode excluir o utilizador atual." });
 
-      // excluir utilizador na base de dados
+      // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET deleted = 1 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, function (err) {
