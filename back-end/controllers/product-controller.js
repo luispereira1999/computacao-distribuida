@@ -74,6 +74,29 @@ module.exports = {
       });
 
       db.close();
+   },
+
+
+   delete: async (req, res) => {
+      const db = database.connect();
+
+      var product = new Product(req.params);
+      var user = new User(req.user);
+
+      // atualizar produtos na base de dados
+      var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
+      var params = [product.id, user.id];
+      db.run(sql, params, function (err, row) {
+         if (err)
+            return res.status(500).json({ "error": err.message });
+
+         if (this.changes == 0)
+            return res.status(201).json({ "message": "Oh! O produto não existe ou não pertence a esta empresa." });
+
+         res.status(201).json({ "message": "Produto excluído com sucesso!" });
+      });
+
+      db.close();
    }
 };
 
