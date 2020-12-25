@@ -6,8 +6,9 @@ const validateUser = require("../middlewares/active");
 const validateType = require("../middlewares/type");
 
 router.get("/", productController.getAll);
-router.get("/:id", productController.getOne);
+router.get("/:id", productController.getById);
 router.post("/create", [validateLogin, validateUser, validateType.checkMerchant], productController.create);
+router.patch("/edit/:id", [validateLogin, validateUser, validateType.checkMerchant], productController.edit);
 router.patch("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productController.delete);
 
 module.exports = router;
