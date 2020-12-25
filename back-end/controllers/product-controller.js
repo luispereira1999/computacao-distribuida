@@ -52,6 +52,30 @@ module.exports = {
    },
 
 
+   getByName: async (req, res) => {
+      const db = database.connect();
+
+      var product = new Product(req.params);
+
+      // selecionar produto na base de dados
+      var sql = "SELECT * FROM Products WHERE name LIKE ? LIMIT 10";
+      var params = "%" + product.name + "%";
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "error": err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Oh! Não existem produtos com este nome." });
+         else
+            res.status(200).json({
+               "message": "Produtos obtidos com sucesso!",
+               "data": rows
+            });
+      });
+
+      db.close();
+   },
+
    create: async (req, res) => {
       const db = database.connect();
 
