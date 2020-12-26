@@ -8,14 +8,14 @@ module.exports = {
       const db = database.connect();
 
       // selecionar produtos na base de dados
-      var sql = "SELECT * FROM Products LIMIT 10";
+      var sql = "SELECT * FROM Products";
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
             return res.status(500).json({ "error": err.message });
 
          if (rows.length == 0)
-            res.status(200).json({ "message": "Oh! Não existem produtos." });
+            res.status(400).json({ "message": "Oh! Não existem produtos." });
          else
             res.status(200).json({
                "message": "Produtos obtidos com sucesso!",
@@ -27,7 +27,7 @@ module.exports = {
    },
 
 
-   getOne: async (req, res) => {
+   getById: async (req, res) => {
       const db = database.connect();
 
       var product = new Product(req.params);
@@ -45,12 +45,36 @@ module.exports = {
                "data": row
             });
          else
-            res.status(200).json({ "message": "Oh! O produto não existe!" });
+            res.status(400).json({ "message": "Oh! O produto não existe!" });
       });
 
       db.close();
    },
 
+
+   getByName: async (req, res) => {
+      const db = database.connect();
+
+      var product = new Product(req.params);
+
+      // selecionar produto na base de dados
+      var sql = "SELECT * FROM Products WHERE name LIKE ?";
+      var params = "%" + product.name + "%";
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "error": err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Oh! Não existem produtos com este nome." });
+         else
+            res.status(200).json({
+               "message": "Produtos obtidos com sucesso!",
+               "data": rows
+            });
+      });
+
+      db.close();
+   },
 
    create: async (req, res) => {
       const db = database.connect();
@@ -77,13 +101,42 @@ module.exports = {
    },
 
 
+   edit: async (req, res) => {
+      const db = database.connect();
+
+      var errors = await checkFields(req, 1);
+      if (errors.exist) {
+         return res.status(400).json({ "error": errors.message.join(" | ") });
+      }
+
+      var allData = Object.assign(req.body, req.params);
+      var product = new Product(allData);
+      var user = new User(req.user);
+
+      // atualizar produto na base de dados
+      var sql = "UPDATE Products SET name = ?, stock = ? WHERE id = ? AND user_id = ?";
+      var params = [product.name, product.stock, product.id, user.id];
+      db.run(sql, params, function (err, row) {
+         if (err)
+            return res.status(500).json({ "error": err.message });
+
+         if (this.changes == 0)
+            return res.status(400).json({ "message": "Oh! O produto não existe ou não pertence a esta empresa." });
+
+         res.status(200).json({ "message": "Produto editado com sucesso!" });
+      });
+
+      db.close();
+   },
+
+
    delete: async (req, res) => {
       const db = database.connect();
 
       var product = new Product(req.params);
       var user = new User(req.user);
 
-      // atualizar produtos na base de dados
+      // atualizar produto na base de dados
       var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
       var params = [product.id, user.id];
       db.run(sql, params, function (err, row) {
@@ -91,9 +144,9 @@ module.exports = {
             return res.status(500).json({ "error": err.message });
 
          if (this.changes == 0)
-            return res.status(201).json({ "message": "Oh! O produto não existe ou não pertence a esta empresa." });
+            return res.status(400).json({ "message": "Oh! O produto não existe ou não pertence a esta empresa." });
 
-         res.status(201).json({ "message": "Produto excluído com sucesso!" });
+         res.status(200).json({ "message": "Produto excluído com sucesso!" });
       });
 
       db.close();
@@ -110,9 +163,6 @@ function checkFields(req, typeUser) {
       }
       if (!req.body.stock) {
          errors.push("A quantidade de stock não foi preenchida.");
-      }
-      if (!req.body.merchant_id) {
-         errors.push("O ID do utilizador empresa não foi preenchida.");
       }
       if (errors.length) {
          return ({

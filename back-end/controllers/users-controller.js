@@ -6,7 +6,6 @@ module.exports = {
    view: async (req, res, next) => {
       const db = database.connect();
 
-      // obter dados da request
       var user = new User(req.user);
 
       // selecionar utilizador na base de dados
@@ -26,7 +25,6 @@ module.exports = {
    // editData: async (req, res, next) => {
    //    const db = database.connect();
 
-   //    // obter dados da request
    //    var user = new User(req.body);
    //    var userLogged = new User(req.user);
 
@@ -44,10 +42,76 @@ module.exports = {
    // },
 
 
+   getByNotAccepted: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT username, name, email, type FROM Users WHERE accepted = 0";
+      var params = [];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "error": res.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Oh! Não existem utilizadores por aceitar." });
+         else
+            res.status(200).json({
+               "message": "Utilizadores obtidos com sucesso!",
+               "data": rows
+            });
+      });
+
+      db.close();
+   },
+
+
+   setAdmin: async (req, res, next) => {
+      const db = database.connect();
+
+      var user = new User(req.params);
+
+      // atualizar utilizador na base de dados
+      var sql = "UPDATE Users SET type = 4 WHERE id = ?";
+      var params = user.id;
+      db.run(sql, params, function (err) {
+         if (err)
+            return res.status(500).json({ "error": res.message });
+
+         if (this.changes == 0)
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+
+         res.status(200).json({ "message": "Utilizador definido como administrador com sucesso!" });
+      });
+
+      db.close();
+   },
+
+
+   removeAdmin: async (req, res, next) => {
+      const db = database.connect();
+
+      var user = new User(req.params);
+
+      // atualizar utilizador na base de dados
+      var sql = "UPDATE Users SET type = 1 WHERE id = ?";
+      var params = user.id;
+      db.run(sql, params, function (err) {
+         if (err)
+            return res.status(500).json({ "error": res.message });
+
+         if (this.changes == 0)
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+
+         res.status(200).json({ "message": "Utilizador removido de administrador com sucesso!" });
+      });
+
+      db.close();
+   },
+
+
    accept: async (req, res, next) => {
       const db = database.connect();
 
-      // obter dados da request
       var user = new User(req.params);
 
       // atualizar utilizador na base de dados
@@ -58,7 +122,7 @@ module.exports = {
             return res.status(500).json({ "error": res.message });
 
          if (this.changes == 0)
-            return res.status(201).json({ "message": "Oh! O utilizador não existe." });
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
 
          res.status(200).json({ "message": "Utilizador aceitado com sucesso!" });
       });
@@ -70,7 +134,6 @@ module.exports = {
    delete: async (req, res, next) => {
       const db = database.connect();
 
-      // obter dados da request
       var user = new User(req.params);
       var userLogged = new User(req.user);
 
@@ -85,7 +148,7 @@ module.exports = {
             return res.status(500).json({ "error": res.message });
 
          if (this.changes == 0)
-            return res.status(201).json({ "message": "Oh! O utilizador não existe." });
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
 
          res.status(200).json({ "message": "Utilizador excluído com sucesso!" });
       });
