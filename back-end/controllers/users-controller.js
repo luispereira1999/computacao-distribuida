@@ -42,6 +42,29 @@ module.exports = {
    // },
 
 
+   getByNotAccepted: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT username, name, email, type FROM Users WHERE accepted = 0";
+      var params = [];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "error": res.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Oh! Não existem utilizadores por aceitar." });
+         else
+            res.status(200).json({
+               "message": "Utilizadores obtidos com sucesso!",
+               "data": rows
+            });
+      });
+
+      db.close();
+   },
+
+
    setAdmin: async (req, res, next) => {
       const db = database.connect();
 

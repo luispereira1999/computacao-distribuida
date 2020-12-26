@@ -8,7 +8,7 @@ module.exports = {
       const db = database.connect();
 
       // selecionar produtos na base de dados
-      var sql = "SELECT * FROM Products LIMIT 10";
+      var sql = "SELECT * FROM Products";
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
@@ -58,7 +58,7 @@ module.exports = {
       var product = new Product(req.params);
 
       // selecionar produto na base de dados
-      var sql = "SELECT * FROM Products WHERE name LIKE ? LIMIT 10";
+      var sql = "SELECT * FROM Products WHERE name LIKE ?";
       var params = "%" + product.name + "%";
       db.all(sql, params, function (err, rows) {
          if (err)
