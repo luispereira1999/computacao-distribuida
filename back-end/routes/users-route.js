@@ -8,6 +8,7 @@ const validateType = require("../middlewares/type");
 router.post("/account", [validateLogin, validateUser], userController.view);
 router.patch("/accept/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.accept);
 router.patch("/setAdmin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.setAdmin);
+router.patch("/removeAdmin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.removeAdmin);
 router.patch("/delete/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.delete);
 
 module.exports = router;

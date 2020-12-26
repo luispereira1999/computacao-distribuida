@@ -55,9 +55,31 @@ module.exports = {
             return res.status(500).json({ "error": res.message });
 
          if (this.changes == 0)
-            return res.status(201).json({ "message": "Oh! O utilizador não existe." });
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
 
          res.status(200).json({ "message": "Utilizador definido como administrador com sucesso!" });
+      });
+
+      db.close();
+   },
+
+
+   removeAdmin: async (req, res, next) => {
+      const db = database.connect();
+
+      var user = new User(req.params);
+
+      // atualizar utilizador na base de dados
+      var sql = "UPDATE Users SET type = 1 WHERE id = ?";
+      var params = user.id;
+      db.run(sql, params, function (err) {
+         if (err)
+            return res.status(500).json({ "error": res.message });
+
+         if (this.changes == 0)
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+
+         res.status(200).json({ "message": "Utilizador removido de administrador com sucesso!" });
       });
 
       db.close();
@@ -77,7 +99,7 @@ module.exports = {
             return res.status(500).json({ "error": res.message });
 
          if (this.changes == 0)
-            return res.status(201).json({ "message": "Oh! O utilizador não existe." });
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
 
          res.status(200).json({ "message": "Utilizador aceitado com sucesso!" });
       });
@@ -103,7 +125,7 @@ module.exports = {
             return res.status(500).json({ "error": res.message });
 
          if (this.changes == 0)
-            return res.status(201).json({ "message": "Oh! O utilizador não existe." });
+            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
 
          res.status(200).json({ "message": "Utilizador excluído com sucesso!" });
       });
