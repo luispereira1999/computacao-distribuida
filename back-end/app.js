@@ -20,12 +20,12 @@ app.get("/", (req, res) => {
 // rotas
 const signupRoute = require("./routes/signup-route");
 const loginRoute = require("./routes/login-route");
-const userRoute = require("./routes/user-route");
+const usersRoute = require("./routes/users-route");
 const productsRoute = require("./routes/products-route");
 
 app.use("/api/login", loginRoute);
 app.use("/api/signup", signupRoute);
-app.use("/api/users", userRoute);
+app.use("/api/users", usersRoute);
 app.use("/api/products", productsRoute);
 
 // rota quando uma rota não existe
