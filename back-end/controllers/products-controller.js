@@ -79,7 +79,7 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 1);
+      var errors = await checkFields(req);
       if (errors.exist) {
          return res.status(400).json({ "error": errors.message.join(" | ") });
       }
@@ -154,22 +154,20 @@ module.exports = {
 };
 
 
-function checkFields(req, typeUser) {
+function checkFields(req) {
    var errors = [];
 
-   if (typeUser == 1) {
-      if (!req.body.name) {
-         errors.push("O nome do produto não foi preenchido.");
-      }
-      if (!req.body.stock) {
-         errors.push("A quantidade de stock não foi preenchida.");
-      }
-      if (errors.length) {
-         return ({
-            "exist": true,
-            "message": errors
-         });
-      }
+   if (!req.body.name) {
+      errors.push("O nome do produto não foi preenchido.");
+   }
+   if (!req.body.stock) {
+      errors.push("A quantidade de stock não foi preenchida.");
+   }
+   if (errors.length) {
+      return ({
+         "exist": true,
+         "message": errors
+      });
    }
 
    return ({ "exist": false });

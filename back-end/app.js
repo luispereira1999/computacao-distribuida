@@ -22,11 +22,13 @@ const registerRoute = require("./routes/register-route");
 const loginRoute = require("./routes/login-route");
 const usersRoute = require("./routes/users-route");
 const productsRoute = require("./routes/products-route");
+const ordersRoute = require("./routes/orders-route");
 
 app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/products", productsRoute);
+app.use("/api/orders", ordersRoute);
 
 // rota quando uma rota não existe
 app.use(function (req, res, next) {
