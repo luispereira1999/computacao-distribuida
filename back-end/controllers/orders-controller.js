@@ -43,20 +43,20 @@ module.exports = {
    cancel: async (req, res) => {
       const db = database.connect();
 
-      var product = new Product(req.params);
+      var order = new Order(req.params);
       var user = new User(req.user);
 
       // atualizar produto na base de dados
-      var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
-      var params = [product.id, user.id];
+      var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND client_id = ?";
+      var params = [order.id, user.id];
       db.run(sql, params, function (err, row) {
          if (err)
             return res.status(500).json({ "error": err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! O produto não existe ou não pertence a esta empresa." });
+            return res.status(400).json({ "message": "Oh! A encomenda não existe." });
 
-         res.status(200).json({ "message": "Produto excluído com sucesso!" });
+         res.status(200).json({ "message": "Encomenda excluída com sucesso!" });
       });
 
       db.close();
