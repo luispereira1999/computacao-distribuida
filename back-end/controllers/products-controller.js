@@ -55,6 +55,10 @@ module.exports = {
    getByName: async (req, res) => {
       const db = database.connect();
 
+      var error = await checkFilter(req.params.filter);
+      if (error.exist)
+         return res.status(400).json({ "error": "Oh! O Filtro não está disponível." });
+
       var product = new Product(req.params);
 
       // selecionar produto na base de dados
@@ -65,7 +69,7 @@ module.exports = {
             return res.status(500).json({ "error": err.message });
 
          if (rows.length == 0)
-            res.status(400).json({ "message": "Oh! Não existem produtos com este nome." });
+            res.status(400).json({ "message": "Oh! Não existem produtos com este filtro." });
          else
             res.status(200).json({
                "message": "Produtos obtidos com sucesso!",
@@ -76,13 +80,13 @@ module.exports = {
       db.close();
    },
 
+
    create: async (req, res) => {
       const db = database.connect();
 
       var errors = await checkFields(req);
-      if (errors.exist) {
+      if (errors.exist)
          return res.status(400).json({ "error": errors.message.join(" | ") });
-      }
 
       var product = new Product(req.body);
       var user = new User(req.user);
@@ -105,9 +109,8 @@ module.exports = {
       const db = database.connect();
 
       var errors = await checkFields(req, 1);
-      if (errors.exist) {
+      if (errors.exist)
          return res.status(400).json({ "error": errors.message.join(" | ") });
-      }
 
       var allData = Object.assign(req.body, req.params);
       var product = new Product(allData);
@@ -157,18 +160,20 @@ module.exports = {
 function checkFields(req) {
    var errors = [];
 
-   if (!req.body.name) {
+   if (!req.body.name)
       errors.push("O nome do produto não foi preenchido.");
-   }
-   if (!req.body.stock) {
+   if (!req.body.stock)
       errors.push("A quantidade de stock não foi preenchida.");
-   }
-   if (errors.length) {
-      return ({
-         "exist": true,
-         "message": errors
-      });
-   }
 
-   return ({ "exist": false });
+   if (errors.length)
+      return ({ "exist": true, "message": errors });
+   else return ({ "exist": false });
+}
+
+
+function checkFilter(filter) {
+   if (filter == "name")
+      return { "exist": false };
+   else
+      return { "exist": true };
 }
