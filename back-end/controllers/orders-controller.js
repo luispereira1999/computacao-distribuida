@@ -47,14 +47,14 @@ module.exports = {
       var user = new User(req.user);
 
       // atualizar produto na base de dados
-      var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND client_id = ?";
+      var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND client_id = ? AND accepted = 0";
       var params = [order.id, user.id];
       db.run(sql, params, function (err, row) {
          if (err)
             return res.status(500).json({ "error": err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! A encomenda não existe." });
+            return res.status(400).json({ "message": "Oh! A encomenda não existe ou já foi aceite pelo condutor." });
 
          res.status(200).json({ "message": "Encomenda excluída com sucesso!" });
       });
