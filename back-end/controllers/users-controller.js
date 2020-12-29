@@ -91,18 +91,35 @@ module.exports = {
       const db = database.connect();
 
       var user = new User(req.params);
+      var userLogged = new User(req.user);
 
-      // atualizar utilizador na base de dados
-      var sql = "UPDATE Users SET type = 1 WHERE id = ?";
+      if (userLogged.id == user.id)
+         return res.status(201).json({ "message": "Oh! Não pode remover de administrador o utilizador atual." });
+
+      // selecionar utilizador que foi removido de utilizador na base de dados
+      var sql = "SELECT old_type FROM Users WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, function (err) {
+      db.get(sql, params, function (err, row) {
          if (err)
-            return res.status(500).json({ "error": res.message });
+            return res.status(500).json({ "error": err.message });
 
-         if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+         user.old_type = row.old_type;
 
-         res.status(200).json({ "message": "Utilizador removido de administrador com sucesso!" });
+         // atualizar utilizador na base de dados
+         var sql = "UPDATE Users SET type = ? WHERE id = ?";
+         var params = [user.old_type, user.id];
+         db.run(sql, params, function (err) {
+            if (err)
+               return res.status(500).json({ "error": res.message });
+
+            if (this.changes == 0)
+               return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+
+            res.status(200).json({
+               "message": "Utilizador removido de administrador com sucesso!",
+               "message2": "O utilizador voltou ao seu tipo de perfil antigo!"
+            });
+         });
       });
 
       db.close();
