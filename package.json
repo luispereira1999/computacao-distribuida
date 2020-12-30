@@ -4,7 +4,7 @@
    "description": "Aplicação web de venda e entrega de bens.",
    "main": "./",
    "scripts": {
-      "start": "node ./back-end/app.js"
+      "start": "nodemon ./back-end/app.js"
    },
    "repository": {
       "type": "git",
@@ -26,6 +26,7 @@
       "express": "^4.17.1",
       "jsonwebtoken": "^8.5.1",
       "multer": "^1.4.2",
+      "nodemon": "^2.0.6",
       "sqlite3": "^5.0.0"
    }
 }

@@ -160,6 +160,8 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
@@ -167,7 +169,8 @@ function checkFields(req, typeUser) {
 
          if (errors.length)
             return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+         else
+            return ({ "exist": false });
       case 2:
          if (!req.body.username)
             errors.push("O nome de utilizador não foi preenchido.");
@@ -179,6 +182,8 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
@@ -201,7 +206,8 @@ function checkFields(req, typeUser) {
 
          if (errors.length)
             return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+         else
+            return ({ "exist": false });
       case 3:
          if (!req.body.username)
             errors.push("O nome de utilizador não foi preenchido.");
@@ -215,6 +221,8 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
@@ -232,7 +240,8 @@ function checkFields(req, typeUser) {
 
          if (errors.length)
             return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+         else
+            return ({ "exist": false });
       case 4:
          if (!req.body.username)
             errors.push("O nome de utilizador não foi preenchido.");
@@ -246,6 +255,8 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
@@ -255,7 +266,8 @@ function checkFields(req, typeUser) {
 
          if (errors.length)
             return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+         else
+            return ({ "exist": false });
       default:
          return ({ "exist": false });
    }
@@ -276,13 +288,10 @@ function checkUsernameOrEmailAlreadyExist(db, req, res) {
                "message": err.message
             };
 
-         if (row)
-            return userExist = {
-               "exist": true,
-               "message": "Nome de utilizador ou email já existem. Coloque outro por favor."
-            };
-         else
-            return userExist = { "exist": false };
+         return userExist = {
+            "exist": true,
+            "message": "Nome de utilizador ou email já existem. Coloque outro por favor."
+         };
       }, () => {
          resolve(userExist);
       });

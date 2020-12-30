@@ -67,15 +67,13 @@ module.exports = {
 function checkFields(req) {
    var errors = [];
 
-   if (!req.body.id) {
+   if (!req.body.id)
       errors.push("O ID do produto não foi preenchido.");
-   }
-   if (errors.length) {
+
+   if (errors.length)
       return ({
          "exist": true,
          "message": errors
       });
-   }
-
    return ({ "exist": false });
 }
