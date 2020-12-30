@@ -1,0 +1,74 @@
+REQUISITOS FUNCIONAIS
+Fazer registo
+Fazer login
+Users		Adicionar encomenda
+		Remover encomenda
+		Alterar encomenda
+		Cancelar encomenda
+Drivers		Transportar encomenda
+Merchants		Oferecer serviço
+Admins		Aceitar condutores e empresas
+		Nomear administradores
+
+
+
+BASE DE DADOS
+Users (id, username, password, name, email, nif, address, postal_code, city, type_id)
+User_Types (id, type)
+Products (id, name, type_id)
+Product_Types (id, type)
+Orders (id)
+Deliveries (id)
+Merchants (id, name)
+
+
+
+FRONT-END - PASTAS & FICHEIROS
+css/
+	main.css
+	function.css
+js/
+	main.js
+	function.js
+index.html
+
+
+
+BACK-END - PASTAS & FICHEIROS
+models/
+	user.js
+	product.js
+	order.js
+	delivery.js
+controllers/
+	registers-controllers.js/register-controllers.js
+	logins-controllers.js
+	users-controllers.js
+	products-controllers.js
+	orders-controllers.js
+	deliveries-controllers.js
+utils/
+	picand-go.db
+
+
+
+DOCS - PASTAS & FICHEIROS
+notes.txt
+requirements.xlsx
+report.docx
+report.pdf
+
+
+
+IDEIAS
+Relatório (falar sobre logotipo, analise swot)
+Proposta de sistema (Ambito, Objetivos, Metas, Justificação de existência)
+Backlog do Produto com Prioridades (Requisitos Funcionais, Requisitos Não Funcionais)
+Backlog do Sprint
+Gráfico de Burn Down
+Mapa de gantt
+#ED1C24
+
+
+
+
