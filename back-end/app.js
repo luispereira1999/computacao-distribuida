@@ -12,23 +12,22 @@ app.listen(port, () => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// rota padrão
-app.get("/", (req, res, next) => {
-   res.status(404).json({"message":"Servidor está Ok!"});
-});
-
 // rotas
+const defaultRoute = require("./routes/default-route");
 const registerRoute = require("./routes/register-route");
 const loginRoute = require("./routes/login-route");
 const usersRoute = require("./routes/users-route");
 const productsRoute = require("./routes/products-route");
 const ordersRoute = require("./routes/orders-route");
+const deliveriesRoute = require("./routes/deliveries-route");
 
+app.use("/api", defaultRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/products", productsRoute);
 app.use("/api/orders", ordersRoute);
+app.use("/api/deliveries", deliveriesRoute);
 
 // rota quando uma rota não existe
 app.use(function (req, res, next) {

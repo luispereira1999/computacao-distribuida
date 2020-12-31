@@ -14,9 +14,11 @@ module.exports = {
       if (errors.exist)
          return res.status(400).json({ "error": errors.message.join(" | ") });
 
-      var userExist = await checkUsernameOrEmailAlreadyExist(db, req, res);
-      if (userExist.exist)
+      var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
+      if (userExist.exist) {
+         removeFile(req.file.path);
          return res.status(400).json({ "error": userExist.message });
+      }
 
       var user = new User(req.body);
       var typeUser = new TypeUser({ "id": 1 })
@@ -27,8 +29,10 @@ module.exports = {
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err)
+         if (err) {
+            removeFile(req.file.path);
             return res.status(500).json({ "error": err.message });
+         }
 
          // dados ao criar sessão
          const token = jwt.sign({
@@ -57,9 +61,11 @@ module.exports = {
       if (errors.exist)
          return res.status(400).json({ "error": errors.message.join(" | ") });
 
-      var userExist = await checkUsernameOrEmailAlreadyExist(db, req, res);
-      if (userExist.exist)
+      var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
+      if (userExist.exist) {
+         removeFile(req.file.path);
          return res.status(400).json({ "error": userExist.message });
+      }
 
       var allData = Object.assign(req.body, { "url_photo": req.file.filename });
       var user = new User(allData);
@@ -71,8 +77,10 @@ module.exports = {
       var params = [user.username, hash, user.name, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.url_photo, user.description, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err)
+         if (err) {
+            removeFile(req.file.path);
             return res.status(500).json({ "error": err.message });
+         }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
       });
@@ -88,9 +96,11 @@ module.exports = {
       if (errors.exist)
          return res.status(400).json({ "error": errors.message.join(" | ") });
 
-      var userExist = await checkUsernameOrEmailAlreadyExist(db, req, res);
-      if (userExist.exist)
+      var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
+      if (userExist.exist) {
+         removeFile(req.file.path);
          return res.status(400).json({ "error": userExist.message });
+      }
 
       var allData = Object.assign(req.body, { "url_driving_license": req.file.filename });
       var user = new User(allData);
@@ -102,8 +112,10 @@ module.exports = {
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.url_photo, user.url_driving_license, user.driving_license, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err)
+         if (err) {
+            removeFile(req.file.path);
             return res.status(500).json({ "error": err.message });
+         }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
       });
@@ -119,9 +131,11 @@ module.exports = {
       if (errors.exist)
          return res.status(400).json({ "error": errors.message.join(" | ") });
 
-      var userExist = await checkUsernameOrEmailAlreadyExist(db, req, res);
-      if (userExist.exist)
+      var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
+      if (userExist.exist) {
+         removeFile(req.file.path);
          return res.status(400).json({ "error": userExist.message });
+      }
 
       var user = new User(req.body);
       var typeUser = new TypeUser({ "id": 4 })
@@ -132,8 +146,10 @@ module.exports = {
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.description, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err)
+         if (err) {
+            removeFile(req.file.path);
             return res.status(500).json({ "error": err.message });
+         }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
       });
@@ -160,14 +176,17 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
             errors.push("O código postal não foi preenchido.");
 
          if (errors.length)
-            return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+            return { "exist": true, "message": errors };
+         else
+            return { "exist": false };
       case 2:
          if (!req.body.username)
             errors.push("O nome de utilizador não foi preenchido.");
@@ -179,6 +198,8 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
@@ -194,14 +215,14 @@ function checkFields(req, typeUser) {
          else {
             if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
                removeFile(req.file.path);
-               console.log(req.file.mimetype);
                errors.push("O logótipo foi inserido incorretamente.");
             }
          }
 
          if (errors.length)
-            return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+            return { "exist": true, "message": errors };
+         else
+            return { "exist": false };
       case 3:
          if (!req.body.username)
             errors.push("O nome de utilizador não foi preenchido.");
@@ -215,6 +236,8 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
@@ -231,8 +254,9 @@ function checkFields(req, typeUser) {
          }
 
          if (errors.length)
-            return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+            return { "exist": true, "message": errors };
+         else
+            return { "exist": false };
       case 4:
          if (!req.body.username)
             errors.push("O nome de utilizador não foi preenchido.");
@@ -246,6 +270,8 @@ function checkFields(req, typeUser) {
             errors.push("O email não foi preenchido.");
          if (!req.body.phone_number)
             errors.push("O número de telemóvel não foi preenchido.");
+         else if (req.body.phone_number.toString().length != 9)
+            errors.push("O número de telemóvel tem de ter 9 dígitos.");
          if (!req.body.address)
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
@@ -254,15 +280,16 @@ function checkFields(req, typeUser) {
             errors.push("A descrição não foi preenchida.");
 
          if (errors.length)
-            return ({ "exist": true, "message": errors });
-         else ({ "exist": false });
+            return { "exist": true, "message": errors };
+         else
+            return { "exist": false };
       default:
-         return ({ "exist": false });
+         return { "exist": false };
    }
 }
 
 
-function checkUsernameOrEmailAlreadyExist(db, req, res) {
+function checkUsernameOrEmailAlreadyExist(db, req) {
    return new Promise((resolve) => {
       var user = new User(req.body);
       var sql = "SELECT id FROM Users WHERE (username = ? OR email = ?) AND deleted = 0 LIMIT 1";
@@ -271,18 +298,9 @@ function checkUsernameOrEmailAlreadyExist(db, req, res) {
 
       db.each(sql, params, (err, row) => {
          if (err)
-            return userExist = {
-               "exist": false,
-               "message": err.message
-            };
+            return userExist = { "exist": false, "message": err.message };
 
-         if (row)
-            return userExist = {
-               "exist": true,
-               "message": "Nome de utilizador ou email já existem. Coloque outro por favor."
-            };
-         else
-            return userExist = { "exist": false };
+         return userExist = { "exist": true, "message": "Nome de utilizador ou email já existem. Coloque outro por favor." };
       }, () => {
          resolve(userExist);
       });
