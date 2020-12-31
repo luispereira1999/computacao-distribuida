@@ -1,5 +1,6 @@
 const database = require("../utils/database");
 var User = require("../models/user");
+const fs = require("fs");
 var Product = require("../models/product");
 
 
@@ -88,15 +89,18 @@ module.exports = {
       if (errors.exist)
          return res.status(400).json({ "error": errors.message.join(" | ") });
 
-      var product = new Product(req.body);
+      var allData = Object.assign(req.body, { "url_photo": req.file.path });
+      var product = new Product(allData);
       var user = new User(req.user);
 
       // inserir na tabela produtos
-      var sql = "INSERT INTO Products (name, stock, deleted, user_id) VALUES (?, ?, 0, ?)";
-      var params = [product.name, product.stock, user.id];
+      var sql = "INSERT INTO Products (name, stock, url_photo, deleted, user_id) VALUES (?, ?, ?, 0, ?)";
+      var params = [product.name, product.stock, product.url_photo, user.id];
       db.run(sql, params, function (err) {
-         if (err)
+         if (err) {
+            removeFile(req.file.path);
             return res.status(500).json({ "error": err.message });
+         }
 
          res.status(201).json({ "message": "Produto criado com sucesso!" });
       });
@@ -164,10 +168,12 @@ function checkFields(req) {
       errors.push("O nome do produto não foi preenchido.");
    if (!req.body.stock)
       errors.push("A quantidade de stock não foi preenchida.");
+   if (!req.file)
+      errors.push("A foto do produto não foi preenchida.");
 
    if (errors.length)
-      return ({ "exist": true, "message": errors });
-   else return ({ "exist": false });
+      return { "exist": true, "message": errors };
+   else return { "exist": false };
 }
 
 
@@ -176,4 +182,9 @@ function checkFilter(filter) {
       return { "exist": false };
    else
       return { "exist": true };
+}
+
+
+function removeFile(file) {
+   fs.unlinkSync(file);
 }

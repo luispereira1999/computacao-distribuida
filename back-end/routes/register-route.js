@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
    filename: async (req, file, cb) => {
       var fileExtension = path.extname(file.originalname)
       var currentDate = new Date();
-      var formatDate = currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear() + "_" + currentDate.getHours() + "_" + currentDate.getMinutes();
+      var formatDate = currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear() + "_" + currentDate.getHours() + "_" + currentDate.getMinutes() + "_" + currentDate.getSeconds();
 
       cb(null, formatDate + fileExtension);
    },
@@ -26,13 +26,13 @@ const storage = multer.diskStorage({
       console.log("error", err);
       next(err);
    }
-})
+});
 const fileFilter = async (req, file, cb) => {
    if (file.mimetype == "application/pdf" || file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg")
       cb(null, true);
    else
       cb(null, false);
-}
+};
 const upload = multer({
    "storage": storage,
    "fileFilter": fileFilter
