@@ -13,15 +13,12 @@ module.exports = {
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (rows.length == 0)
             res.status(400).json({ "message": "Oh! Não existem produtos." });
          else
-            res.status(200).json({
-               "message": "Produtos obtidos com sucesso!",
-               "data": rows
-            });
+            res.status(200).json({ "message": "Produtos obtidos com sucesso!", "data": rows });
       });
 
       db.close();
@@ -38,13 +35,10 @@ module.exports = {
       var params = [product.id];
       db.get(sql, params, function (err, row) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (row)
-            res.status(200).json({
-               "message": "Produto obtido com sucesso!",
-               "data": row
-            });
+            res.status(200).json({ "message": "Produto obtido com sucesso!", "data": row });
          else
             res.status(400).json({ "message": "Oh! O produto não existe!" });
       });
@@ -58,7 +52,7 @@ module.exports = {
 
       var error = await checkFilter(req.params.filter);
       if (error.exist)
-         return res.status(400).json({ "error": "Oh! O Filtro não está disponível." });
+         return res.status(400).json({ "message": "Oh! O Filtro não está disponível." });
 
       var product = new Product(req.params);
 
@@ -67,15 +61,12 @@ module.exports = {
       var params = "%" + product.name + "%";
       db.all(sql, params, function (err, rows) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (rows.length == 0)
             res.status(400).json({ "message": "Oh! Não existem produtos com este filtro." });
          else
-            res.status(200).json({
-               "message": "Produtos obtidos com sucesso!",
-               "data": rows
-            });
+            res.status(200).json({ "message": "Produtos obtidos com sucesso!", "data": rows });
       });
 
       db.close();
@@ -87,7 +78,7 @@ module.exports = {
 
       var errors = await checkFields(req);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "url_photo": req.file.path });
       var product = new Product(allData);
@@ -99,7 +90,7 @@ module.exports = {
       db.run(sql, params, function (err) {
          if (err) {
             removeFile(req.file.path);
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
          }
 
          res.status(201).json({ "message": "Produto criado com sucesso!" });
@@ -114,7 +105,7 @@ module.exports = {
 
       var errors = await checkFields(req, 1);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var allData = Object.assign(req.body, req.params);
       var product = new Product(allData);
@@ -123,9 +114,9 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET name = ?, stock = ? WHERE id = ? AND user_id = ?";
       var params = [product.name, product.stock, product.id, user.id];
-      db.run(sql, params, function (err, row) {
+      db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Oh! O produto não existe ou não pertence a esta empresa." });
@@ -146,9 +137,9 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
       var params = [product.id, user.id];
-      db.run(sql, params, function (err, row) {
+      db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Oh! O produto não existe ou não pertence a esta empresa." });

@@ -9,7 +9,7 @@ module.exports = {
       const db = database.connect();
 
       if (errors = checkFields(req))
-         return res.status(400).json({ "error": errors.join(" | ") });
+         return res.status(400).json({ "message": errors.join(" | ") });
 
       var user = new User(req.body);
 
@@ -18,7 +18,7 @@ module.exports = {
       var params = user.username;
       db.get(sql, params, async function (err, row) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (row) {
             const checkPassword = await bcrypt.compareSync(user.password, row.password);
@@ -37,19 +37,12 @@ module.exports = {
                if (error.value)
                   return res.status(400).json({ "message": error.message });
 
-               res.status(200).json({
-                  "message": "O utilizador efetuou login com sucesso!",
-                  "session": token
-               });
+               res.status(200).json({ "message": "O utilizador efetuou login com sucesso!", "session": token });
             } else
-               return res.status(400).json({
-                  "message": "Nome de utilizador ou senha inválidos. Tente outro!"
-               });
+               return res.status(400).json({ "message": "Nome de utilizador ou senha inválidos. Tente outro!" });
          }
          else {
-            return res.status(400).json({
-               "message": "O utilizador não existe. Tente novamente!"
-            });
+            return res.status(400).json({ "message": "O utilizador não existe. Tente novamente!" });
          }
       });
 

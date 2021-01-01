@@ -9,11 +9,11 @@ module.exports = {
 
       var errors = await checkFields(req, 1);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var orderExist = await checkOrderExist(db, req.body.order_id);
       if (!orderExist.exist)
-         return res.status(400).json({ "error": orderExist.message });
+         return res.status(400).json({ "message": orderExist.message });
 
       var allData = Object.assign({ "order_id": req.body.order_id, "user_id": req.user.id });
       var delivery = new Delivery(allData);
@@ -23,7 +23,7 @@ module.exports = {
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          res.status(201).json({ "message": "Entrega aceite com sucesso!" });
       });
@@ -43,7 +43,7 @@ module.exports = {
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Oh! A entrega não existe ou já foi entregue pelo condutor." });

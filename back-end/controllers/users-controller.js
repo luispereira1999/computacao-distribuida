@@ -13,7 +13,7 @@ module.exports = {
       var params = user.id;
       db.get(sql, params, function (err, row) {
          if (err)
-            return res.status(500).json({ "error": res.message });
+            return res.status(500).json({ "message": res.message });
 
          res.status(200).json({ "data": row });
       });
@@ -33,7 +33,7 @@ module.exports = {
    //    var params = [user.name, user.email, user.phone_number, user.address, user.zip_code, user.nif, userLogged.id];
    //    db.run(sql, params, function (err) {
    //       if (err)
-   //          return res.status(500).json({ "error": res.message });
+   //          return res.status(500).json({ "message": res.message });
 
    //       res.status(200).json({ "message": "Utilizador editado com sucesso!" });
    //    });
@@ -50,15 +50,12 @@ module.exports = {
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
-            return res.status(500).json({ "error": res.message });
+            return res.status(500).json({ "message": res.message });
 
          if (rows.length == 0)
             res.status(400).json({ "message": "Oh! Não existem utilizadores por aceitar." });
          else
-            res.status(200).json({
-               "message": "Utilizadores obtidos com sucesso!",
-               "data": rows
-            });
+            res.status(200).json({ "message": "Utilizadores obtidos com sucesso!", "data": rows });
       });
 
       db.close();
@@ -75,7 +72,7 @@ module.exports = {
       var params = user.id;
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": res.message });
+            return res.status(500).json({ "message": res.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Oh! O utilizador não existe." });
@@ -101,7 +98,7 @@ module.exports = {
       var params = user.id;
       db.get(sql, params, function (err, row) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          user.old_type = row.old_type;
 
@@ -110,15 +107,12 @@ module.exports = {
          var params = [user.old_type, user.id];
          db.run(sql, params, function (err) {
             if (err)
-               return res.status(500).json({ "error": res.message });
+               return res.status(500).json({ "message": res.message });
 
             if (this.changes == 0)
                return res.status(400).json({ "message": "Oh! O utilizador não existe." });
 
-            res.status(200).json({
-               "message": "Utilizador removido de administrador com sucesso!",
-               "message2": "O utilizador voltou ao seu tipo de perfil antigo!"
-            });
+            res.status(200).json({ "message": "Utilizador removido de administrador com sucesso!", "message2": "O utilizador voltou ao seu tipo de perfil antigo!" });
          });
       });
 
@@ -136,7 +130,7 @@ module.exports = {
       var params = user.id;
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": res.message });
+            return res.status(500).json({ "message": res.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Oh! O utilizador não existe." });
@@ -162,7 +156,7 @@ module.exports = {
       var params = user.id;
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": res.message });
+            return res.status(500).json({ "message": res.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Oh! O utilizador não existe." });

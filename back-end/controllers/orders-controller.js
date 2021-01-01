@@ -9,11 +9,11 @@ module.exports = {
 
       var errors = await checkFields(req);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var stock = await checkStockAvailable(db, req.body.product_id);
       if (!stock.available)
-         return res.status(400).json({ "error": stock.message });
+         return res.status(400).json({ "message": stock.message });
 
       var order = new Order({ "product_id": req.body.product_id, "user_id": req.user.id });
 
@@ -22,7 +22,7 @@ module.exports = {
       var params = [order.product_id, order.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          res.status(201).json({ "message": "Encomenda criada com sucesso!" });
       });
@@ -39,7 +39,7 @@ module.exports = {
 
       var stock = await getStock(db, product.id);
       if (stock.error)
-         return res.status(400).json({ "error": stock.message });
+         return res.status(400).json({ "message": stock.message });
       else
          product.stock = stock.value - 1;
 
@@ -48,14 +48,14 @@ module.exports = {
       var params = [order.id, order.product_id, order.user_id];
       db.run(sql, params, async function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": err.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Oh! A encomenda não está disponível para cancelar." });
 
          var updatedStock = await updateStock(db, product);
          if (updatedStock.error)
-            return res.status(400).json({ "error": updatedStock.message });
+            return res.status(400).json({ "message": updatedStock.message });
 
          res.status(200).json({ "message": "Encomenda excluída com sucesso!" });
       });

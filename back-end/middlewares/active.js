@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
    var params = user.id;
    db.get(sql, params, async function (err, row) {
       if (err)
-         return res.status(500).json({ "error": err.message });
+         return res.status(500).json({ "message": err.message });
 
       if (row) {
          var error = checkRow(row);

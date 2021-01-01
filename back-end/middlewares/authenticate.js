@@ -8,6 +8,6 @@ module.exports = (req, res, next) => {
       next();
    }
    catch (error) {
-      return res.status(401).send({ mensagem: "Ups! Erro ao autenticar." });
+      return res.status(401).json({ "message": "Ups! Erro ao autenticar." });
    }
 };
