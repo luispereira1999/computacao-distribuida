@@ -30,20 +30,17 @@ module.exports = {
          if (err)
             return res.status(500).json({ "message": err.message });
 
-         // dados ao criar sessão
-         const token = jwt.sign({
+         var data = {
             id: this.lastID,
             username: this.username,
             name: user.name,
             email: user.email,
             type: 1
-         }, "hard-secret", { expiresIn: "24h" });
+         };
 
-         res.status(201).json({
-            "message": "Cliente registado com sucesso!",
-            "message2": "O utilizador '" + user.username + "' efetuou login com sucesso!",
-            "session": token
-         });
+         const token = generateToken(data);
+
+         res.status(201).json({ "message": "Cliente registado com sucesso!", "data": data, "token": token });
       });
 
       db.close();
@@ -298,6 +295,17 @@ function checkUsernameOrEmailAlreadyExist(db, req) {
          resolve(userExist);
       });
    });
+}
+
+
+function generateToken(data) {
+   return jwt.sign({
+      id: data.id,
+      username: data.username,
+      name: data.name,
+      email: data.email,
+      type: data.type
+   }, "hard-secret", { expiresIn: "24h" });
 }
 
 
