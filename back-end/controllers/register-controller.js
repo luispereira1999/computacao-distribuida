@@ -15,10 +15,8 @@ module.exports = {
          return res.status(400).json({ "error": errors.message.join(" | ") });
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
-      if (userExist.exist) {
-         removeFile(req.file.path);
+      if (userExist.exist)
          return res.status(400).json({ "error": userExist.message });
-      }
 
       var user = new User(req.body);
       var typeUser = new TypeUser({ "id": 1 })
@@ -29,10 +27,8 @@ module.exports = {
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err) {
-            removeFile(req.file.path);
+         if (err)
             return res.status(500).json({ "error": err.message });
-         }
 
          // dados ao criar sessão
          const token = jwt.sign({
@@ -133,7 +129,6 @@ module.exports = {
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
-         removeFile(req.file.path);
          return res.status(400).json({ "error": userExist.message });
       }
 
@@ -146,10 +141,8 @@ module.exports = {
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.description, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err) {
-            removeFile(req.file.path);
+         if (err)
             return res.status(500).json({ "error": err.message });
-         }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
       });

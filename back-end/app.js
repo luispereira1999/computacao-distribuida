@@ -12,6 +12,16 @@ app.listen(port, () => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// resolver problemas de acesso negado - CORS
+app.use((req, res, next) => {
+   res.setHeader("Access-Control-Allow-Origin", "*");
+   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
+   res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type,Authorization");
+   res.setHeader("Access-Control-Allow-Credentials", true);
+   res.setHeader("Access-Control-Allow-Authorization", "Bearer *");
+   next();
+});
+
 // rotas
 const defaultRoute = require("./routes/default-route");
 const registerRoute = require("./routes/register-route");
