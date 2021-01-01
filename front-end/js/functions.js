@@ -4,7 +4,8 @@ function registerClient() {
 
    // pedido ao servidor
    $.post("http://localhost:4000/api/register/client/", formData).done((res) => {
-      console.log(res);
+      setSession(res);
+      redirectPage("../../../index.html");
    }).fail((err) => {
       console.log(err.responseJSON.message);
    });
@@ -12,7 +13,7 @@ function registerClient() {
 
 
 function registerMerchant() {
-   var form = document.querySelector("form");
+   var form = $("#form-register-merchant")[0];
    var formData = new FormData(form);
 
    // pedido ao servidor
@@ -25,7 +26,7 @@ function registerMerchant() {
       url: "http://localhost:4000/api/register/merchant/",
 
       success: (res) => {
-         console.log(res);
+         redirectPage("../../../index.html");
       },
       error: (err) => {
          console.log(err.responseJSON.message);
@@ -48,7 +49,7 @@ function registerDriver() {
       url: "http://localhost:4000/api/register/driver/",
 
       success: (res) => {
-         console.log(res);
+         redirectPage("../../../index.html");
       },
       error: (err) => {
          console.log(err.responseJSON.message);
@@ -63,7 +64,7 @@ function registerAdmin() {
 
    // pedido ao servidor
    $.post("http://localhost:4000/api/register/admin/", formData).done((res) => {
-      console.log(res);
+      redirectPage("../../../index.html");
    }).fail((err) => {
       console.log(err.responseJSON.message);
    });
@@ -76,7 +77,8 @@ function login() {
 
    // pedido ao servidor
    $.post("http://localhost:4000/api/login/", formData).done((res) => {
-      console.log(res);
+      setSession(res);
+      redirectPage("../index.html")
    }).fail((err) => {
       console.log(err.responseJSON.message);
    });
@@ -92,4 +94,19 @@ function getFormData(form) {
    });
 
    return indexedData;
+}
+
+
+function setSession(res) {
+   sessionStorage.setItem("token", res.token);
+   sessionStorage.setItem("id", res.data.id);
+   sessionStorage.setItem("username", res.data.username);
+   sessionStorage.setItem("name", res.data.name);
+   sessionStorage.setItem("email", res.data.email);
+   sessionStorage.setItem("type", res.data.type);
+}
+
+
+function redirectPage(page) {
+   location.href = page;
 }
