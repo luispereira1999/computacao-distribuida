@@ -6,14 +6,14 @@ function registerClient() {
    $.post("http://localhost:4000/api/register/client/", formData).done((res) => {
       console.log(res);
    }).fail((err) => {
-      console.log(err.responseJSON.error);
+      console.log(err.responseJSON.message);
    });
 }
 
 
 function registerMerchant() {
    var form = document.querySelector("form");
-   formData = new FormData(form);
+   var formData = new FormData(form);
 
    // pedido ao servidor
    $.ajax({
@@ -28,15 +28,15 @@ function registerMerchant() {
          console.log(res);
       },
       error: (err) => {
-         console.log(err.responseJSON.error);
+         console.log(err.responseJSON.message);
       }
    });
 }
 
 
 function registerDriver() {
-   var form = document.querySelector("form");
-   formData = new FormData(form);
+   var form = $("#form-register-driver")[0];
+   var formData = new FormData(form);
 
    // pedido ao servidor
    $.ajax({
@@ -51,7 +51,7 @@ function registerDriver() {
          console.log(res);
       },
       error: (err) => {
-         console.log(err.responseJSON.error);
+         console.log(err.responseJSON.message);
       }
    });
 }
@@ -60,12 +60,25 @@ function registerDriver() {
 function registerAdmin() {
    var form = $("#form-register-admin");
    var formData = getFormData(form);
- 
+
    // pedido ao servidor
    $.post("http://localhost:4000/api/register/admin/", formData).done((res) => {
       console.log(res);
    }).fail((err) => {
-      console.log(err.responseJSON.error);
+      console.log(err.responseJSON.message);
+   });
+}
+
+
+function login() {
+   var form = $("#form-login");
+   var formData = getFormData(form);
+
+   // pedido ao servidor
+   $.post("http://localhost:4000/api/login/", formData).done((res) => {
+      console.log(res);
+   }).fail((err) => {
+      console.log(err.responseJSON.message);
    });
 }
 
