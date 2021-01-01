@@ -3,7 +3,7 @@
 
 <head>
    <!-- metadados -->
-   <title>Iniciar Sessão</title>
+   <title>Página Inicial</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja">
@@ -24,27 +24,12 @@
 </head>
 
 <body>
-   <a href=""><img class="cancelar" src="imagens/close.png"></a>
+   <h1>Página inicial</h1>
+   <p>Sem sessão iniciada</p>
 
-   <div class="box">
-      <img src="imagens/Logotipo.png">
-
-      <form id="form-login">
-         <div class="inputBox">
-            <input type="text" name="username">
-            <label>Nome de Utilizador</label>
-         </div>
-         <div class="inputBox">
-            <input type="password" name="password">
-            <label>Palavra-Passe</label>
-         </div>
-         <input type="submit" value="Entrar">
-      </form>
-
-      <p>--------------------------------------------------</p>
-
-      <a href="../Registo/index.html"><input type="submit" value="Criar uma nova conta"></a>
-   </div>
+   <script>
+      $("p").text(sessionStorage.getItem("name"));
+   </script>
 </body>
 
 </html>
