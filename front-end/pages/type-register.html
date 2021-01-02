@@ -3,7 +3,7 @@
 
 <head>
    <!-- metadados -->
-   <title>Iniciar Sessão</title>
+   <title>Tipo de Registo</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja">
@@ -12,7 +12,7 @@
    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.png">
 
    <!-- CSS -->
-   <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="../css/type-register.css">
 
    <!-- JQuery -->
    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -29,26 +29,35 @@
 </head>
 
 <body>
-   <a href=""><img class="cancelar" src="imagens/close.png"></a>
+   <a href="../pages/login.html"><img class="cancelar" src="../images/close.png"></a>
 
    <div class="box">
-      <img src="imagens/Logotipo.png">
+      <p class="intro">Olá! Desejas-te registar como?</p>
 
-      <form id="form-login">
-         <div class="inputBox">
-            <input type="text" name="username">
-            <label>Nome de Utilizador</label>
-         </div>
-         <div class="inputBox">
-            <input type="password" name="password">
-            <label>Palavra-Passe</label>
-         </div>
-         <input type="submit" value="Entrar">
-      </form>
-
-      <p>--------------------------------------------------</p>
-
-      <a href="../Registo/index.html"><input type="submit" value="Criar uma nova conta"></a>
+      <a href="client.html">
+         <figure>
+            <p><img src="../images/client.png" width="80" height="80">
+            <figcaption>Cliente</figcaption>
+         </figure>
+      </a>
+      <a href="driver.html">
+         <figure>
+            <p><img src="../images/driver.png" width="80" height="80">
+            <figcaption>Condutor</figcaption>
+         </figure>
+      </a>
+      <a href="merchant.html">
+         <figure>
+            <p><img src="../images/merchant.png" width="80" height="80">
+            <figcaption>Empresa</figcaption>
+         </figure>
+      </a>
+      <a href="admin.html">
+         <figure>
+            <p><img src="../images/admin.png" width="80" height="80">
+            <figcaption>Admin</figcaption>
+         </figure>
+      </a>
    </div>
 </body>
 
