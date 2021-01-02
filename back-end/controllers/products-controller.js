@@ -85,8 +85,8 @@ module.exports = {
       var user = new User(req.user);
 
       // inserir na tabela produtos
-      var sql = "INSERT INTO Products (name, stock, url_photo, deleted, user_id) VALUES (?, ?, ?, 0, ?)";
-      var params = [product.name, product.stock, product.url_photo, user.id];
+      var sql = "INSERT INTO Products (name, stock, price, description, url_photo, deleted, user_id) VALUES (?, ?, ?, ?, ?, 0, ?)";
+      var params = [product.name, product.stock, product.price, product.description, product.url_photo, user.id];
       db.run(sql, params, function (err) {
          if (err) {
             removeFile(req.file.path);
@@ -112,7 +112,7 @@ module.exports = {
       var user = new User(req.user);
 
       // atualizar produto na base de dados
-      var sql = "UPDATE Products SET name = ?, stock = ? WHERE id = ? AND user_id = ?";
+      var sql = "UPDATE Products SET name = ?, stock = ?, price = ?, description = ? WHERE id = ? AND user_id = ?";
       var params = [product.name, product.stock, product.id, user.id];
       db.run(sql, params, function (err) {
          if (err)
@@ -158,7 +158,11 @@ function checkFields(req) {
    if (!req.body.name)
       errors.push("O nome do produto não foi preenchido.");
    if (!req.body.stock)
-      errors.push("A quantidade de stock não foi preenchida.");
+      errors.push("O stock não foi preenchida.");
+   if (!req.body.price)
+      errors.push("O preço não foi preenchido.");
+   if (!req.body.description)
+      errors.push("A descrição não foi preenchida.");
    if (!req.file)
       errors.push("A foto do produto não foi preenchida.");
 
