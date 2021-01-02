@@ -5,7 +5,8 @@ function registerClient() {
    // pedido ao servidor
    $.post("http://localhost:4000/api/register/client/", formData).done((res) => {
       setSession(res);
-      redirectPage("../../../index.html");
+      var redirectPage = "../../../index.html";
+      showMessage(res.message, redirectPage);
    }).fail((err) => {
       console.log(err.responseJSON.message);
    });
@@ -26,7 +27,8 @@ function registerMerchant() {
       url: "http://localhost:4000/api/register/merchant/",
 
       success: (res) => {
-         redirectPage("../../../index.html");
+         var redirectPage = "../../../index.html";
+         showMessage(res.message, redirectPage);
       },
       error: (err) => {
          console.log(err.responseJSON.message);
@@ -49,7 +51,8 @@ function registerDriver() {
       url: "http://localhost:4000/api/register/driver/",
 
       success: (res) => {
-         redirectPage("../../../index.html");
+         var redirectPage = "../../../index.html";
+         showMessage(res.message, redirectPage);
       },
       error: (err) => {
          console.log(err.responseJSON.message);
@@ -64,7 +67,8 @@ function registerAdmin() {
 
    // pedido ao servidor
    $.post("http://localhost:4000/api/register/admin/", formData).done((res) => {
-      redirectPage("../../../index.html");
+      var redirectPage = "../../../index.html";
+      showMessage(res.message, redirectPage);
    }).fail((err) => {
       console.log(err.responseJSON.message);
    });
@@ -78,7 +82,8 @@ function login() {
    // pedido ao servidor
    $.post("http://localhost:4000/api/login/", formData).done((res) => {
       setSession(res);
-      redirectPage("../index.html")
+      var redirectPage = "../index.html";
+      showMessage(res.message, redirectPage);
    }).fail((err) => {
       console.log(err.responseJSON.message);
    });
@@ -104,6 +109,16 @@ function setSession(res) {
    sessionStorage.setItem("name", res.data.name);
    sessionStorage.setItem("email", res.data.email);
    sessionStorage.setItem("type", res.data.type);
+}
+
+
+function showMessage(message, page) {
+   alertify.alert().setting({
+      "title": "Sucesso",
+      "label": "Confirmar",
+      "message": message,
+      "onok": () => redirectPage(page)
+   }).show();
 }
 
 
