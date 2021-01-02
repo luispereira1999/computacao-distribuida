@@ -32,8 +32,13 @@
    <h1>Página inicial</h1>
    <p>Sem sessão iniciada</p>
 
+   <a href="./pages/create-product.html">Ir para criar produto</a>
+
    <script>
-      $("p").text(sessionStorage.getItem("name"));
+      if (sessionStorage.getItem("token"))
+         $("p").text("Utilizador está logado!");
+      else
+         $("p").text("Oh! Utilizador não está logado.");
    </script>
 </body>
 

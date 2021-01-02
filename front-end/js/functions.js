@@ -5,7 +5,7 @@ function registerClient() {
    // pedido ao servidor
    $.post("http://localhost:4000/api/register/client/", formData).done((res) => {
       setSession(res);
-      var redirectPage = "../../../index.html";
+      var redirectPage = "../index.html";
       showMessage(res.message, redirectPage);
    }).fail((err) => {
       console.log(err.responseJSON.message);
@@ -27,7 +27,7 @@ function registerMerchant() {
       url: "http://localhost:4000/api/register/merchant/",
 
       success: (res) => {
-         var redirectPage = "../../../index.html";
+         var redirectPage = "../index.html";
          showMessage(res.message, redirectPage);
       },
       error: (err) => {
@@ -51,7 +51,7 @@ function registerDriver() {
       url: "http://localhost:4000/api/register/driver/",
 
       success: (res) => {
-         var redirectPage = "../../../index.html";
+         var redirectPage = "../index.html";
          showMessage(res.message, redirectPage);
       },
       error: (err) => {
@@ -67,7 +67,7 @@ function registerAdmin() {
 
    // pedido ao servidor
    $.post("http://localhost:4000/api/register/admin/", formData).done((res) => {
-      var redirectPage = "../../../index.html";
+      var redirectPage = "../index.html";
       showMessage(res.message, redirectPage);
    }).fail((err) => {
       console.log(err.responseJSON.message);
@@ -86,6 +86,32 @@ function login() {
       showMessage(res.message, redirectPage);
    }).fail((err) => {
       console.log(err.responseJSON.message);
+   });
+}
+
+
+function createProduct() {
+   var form = $("#form-create-product")[0];
+   var formData = new FormData(form);
+   var token = sessionStorage.getItem("token");
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      headers: { Authorization: "Bearer " + token },
+      processData: false,
+      type: "post",
+      url: "http://localhost:4000/api/products/create/",
+
+      success: (res) => {
+         var redirectPage = "../index.html";
+         showMessage(res.message, redirectPage);
+      },
+      error: (err) => {
+         console.log(err.responseJSON.message);
+      }
    });
 }
 
