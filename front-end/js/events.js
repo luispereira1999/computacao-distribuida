@@ -27,6 +27,21 @@ $(window).ready(() => {
    });
 
 
+   // clicar no botão de fazer login
+   $("#form-login").submit((e) => {
+      e.preventDefault();
+      login();
+   });
+
+
+   // clicar no botão de criar produto
+   $("#form-create-product").submit((e) => {
+      e.preventDefault();
+      createProduct();
+   });
+
+
+   // clicar na checkbox de receber publicidades no registo
    $("input[name='receive_advertising']").change(() => {
       var currentElement = $("input[name='receive_advertising']");
       var isChecked = currentElement.is(":checked");
