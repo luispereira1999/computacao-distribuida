@@ -18,7 +18,7 @@ module.exports = {
       var params = user.username;
       db.get(sql, params, async function (err, row) {
          if (err)
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (row) {
             const isCorrectPassword = await bcrypt.compareSync(user.password, row.password);
@@ -40,10 +40,10 @@ module.exports = {
 
                res.status(200).json({ "message": "O utilizador efetuou login com sucesso!", "data": data, "token": token });
             } else
-               return res.status(400).json({ "message": "Nome de utilizador ou senha inválidos. Tente outro!" });
+               return res.status(400).json({ "message": "Ups! Nome de utilizador ou senha inválidos. Tente novamente!" });
          }
          else {
-            return res.status(400).json({ "message": "O utilizador não existe. Tente novamente!" });
+            return res.status(400).json({ "message": "Ups! O utilizador não existe. Tente novamente!" });
          }
       });
 
@@ -68,11 +68,11 @@ function checkFields(req) {
 
 function checkActiveUser(row) {
    if (row.deleted == 1)
-      return { "value": true, "message": "O utilizador não existe. Tente outro por favor." }
+      return { "value": true, "message": "Ups! O utilizador não existe. Tente outro por favor." };
    if (row.locked == 1)
-      return { "value": true, "message": "Ups! O utilizador está bloqueado." }
+      return { "value": true, "message": "Ups! O utilizador está bloqueado." };
    if (row.accepted == 0)
-      return { "value": true, "message": "Ups! O utilizador não está ativado. Aguarde por favor pela resposta!" }
+      return { "value": true, "message": "Ups! O utilizador não está ativado. Aguarde por favor pela resposta!" };
 
    return { "value": false };
 }

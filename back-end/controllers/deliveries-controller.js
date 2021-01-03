@@ -23,7 +23,7 @@ module.exports = {
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          res.status(201).json({ "message": "Entrega aceite com sucesso!" });
       });
@@ -43,10 +43,10 @@ module.exports = {
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! A entrega não existe ou já foi entregue pelo condutor." });
+            return res.status(400).json({ "message": "Ups! A entrega não existe ou já foi entregue pelo condutor." });
 
          res.status(200).json({ "message": "Entrega concluída com sucesso!" });
       });
@@ -60,7 +60,7 @@ function checkFields(req) {
    var errors = [];
 
    if (!req.body.order_id)
-      errors.push("O ID da encomenda não foi preenchido.");
+      errors.push("Ups! O ID da encomenda não foi preenchido.");
 
    if (errors.length)
       return ({ "exist": true, "message": errors });
@@ -73,11 +73,11 @@ function checkOrderExist(db, orderId) {
       var order = new Order({ "id": orderId });
       var sql = "SELECT accepted FROM Orders WHERE id = ? AND canceled = 0";
       var params = order.id;
-      var orderExist = { "exist": false, "message": "Oh! A encomenda não existe ou foi cancelada." };
+      var orderExist = { "exist": false, "message": "Ups! A encomenda não existe ou foi cancelada." };
 
       db.each(sql, params, (err) => {
          if (err)
-            return orderExist = { "exist": false, "message": err.message };
+            return orderExist = { "exist": false, "message": "Oh! " + err.message };
 
          return orderExist = { "exist": true };
       }, () => {

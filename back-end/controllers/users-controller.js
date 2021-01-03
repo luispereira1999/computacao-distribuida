@@ -13,9 +13,9 @@ module.exports = {
       var params = user.id;
       db.get(sql, params, function (err, row) {
          if (err)
-            return res.status(500).json({ "message": res.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
-         res.status(200).json({ "data": row });
+         res.status(200).json({ "message": "Dados do utilizador obtidos com sucesso!", "data": row });
       });
 
       db.close();
@@ -33,7 +33,7 @@ module.exports = {
    //    var params = [user.name, user.email, user.phone_number, user.address, user.zip_code, user.nif, userLogged.id];
    //    db.run(sql, params, function (err) {
    //       if (err)
-   //          return res.status(500).json({ "message": res.message });
+   //          return res.status(500).json({ "message": "Oh! " + err.message });
 
    //       res.status(200).json({ "message": "Utilizador editado com sucesso!" });
    //    });
@@ -50,12 +50,34 @@ module.exports = {
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
-            return res.status(500).json({ "message": res.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (rows.length == 0)
-            res.status(400).json({ "message": "Oh! Não existem utilizadores por aceitar." });
+            res.status(400).json({ "message": "Ups! Não existem utilizadores por aceitar." });
          else
             res.status(200).json({ "message": "Utilizadores obtidos com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
+   accept: async (req, res, next) => {
+      const db = database.connect();
+
+      var user = new User(req.params);
+
+      // atualizar utilizador na base de dados
+      var sql = "UPDATE Users SET accepted = 1 WHERE id = ?";
+      var params = user.id;
+      db.run(sql, params, function (err) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (this.changes == 0)
+            return res.status(400).json({ "message": "Ups! O utilizador não existe." });
+
+         res.status(200).json({ "message": "Utilizador aceitado com sucesso!" });
       });
 
       db.close();
@@ -72,10 +94,10 @@ module.exports = {
       var params = user.id;
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "message": res.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+            return res.status(400).json({ "message": "Ups! O utilizador não existe." });
 
          res.status(200).json({ "message": "Utilizador definido como administrador com sucesso!" });
       });
@@ -98,7 +120,7 @@ module.exports = {
       var params = user.id;
       db.get(sql, params, function (err, row) {
          if (err)
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          user.old_type = row.old_type;
 
@@ -107,35 +129,13 @@ module.exports = {
          var params = [user.old_type, user.id];
          db.run(sql, params, function (err) {
             if (err)
-               return res.status(500).json({ "message": res.message });
+               return res.status(500).json({ "message": "Oh! " + err.message });
 
             if (this.changes == 0)
-               return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+               return res.status(400).json({ "message": "Ups! O utilizador não existe." });
 
-            res.status(200).json({ "message": "Utilizador removido de administrador com sucesso!", "message2": "O utilizador voltou ao seu tipo de perfil antigo!" });
+            res.status(200).json({ "message": "Utilizador removido de administrador com sucesso! Voltou ao seu tipo antigo." });
          });
-      });
-
-      db.close();
-   },
-
-
-   accept: async (req, res, next) => {
-      const db = database.connect();
-
-      var user = new User(req.params);
-
-      // atualizar utilizador na base de dados
-      var sql = "UPDATE Users SET accepted = 1 WHERE id = ?";
-      var params = user.id;
-      db.run(sql, params, function (err) {
-         if (err)
-            return res.status(500).json({ "message": res.message });
-
-         if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
-
-         res.status(200).json({ "message": "Utilizador aceitado com sucesso!" });
       });
 
       db.close();
@@ -149,17 +149,17 @@ module.exports = {
       var userLogged = new User(req.user);
 
       if (userLogged.id == user.id)
-         return res.status(201).json({ "message": "Oh! Não pode excluir o utilizador atual." });
+         return res.status(201).json({ "message": "Ups! Não pode excluir o utilizador atual." });
 
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET deleted = 1 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "message": res.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! O utilizador não existe." });
+            return res.status(400).json({ "message": "Ups! O utilizador não existe." });
 
          res.status(200).json({ "message": "Utilizador excluído com sucesso!" });
       });

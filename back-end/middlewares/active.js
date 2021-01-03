@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
    var params = user.id;
    db.get(sql, params, async function (err, row) {
       if (err)
-         return res.status(500).json({ "message": err.message });
+         return res.status(500).json({ "message": "Oh! " + err.message });
 
       if (row) {
          var error = checkRow(row);
@@ -32,7 +32,7 @@ module.exports = (req, res, next) => {
 
 function checkRow(row) {
    if (row.deleted == 1)
-      return { "value": true, "message": "O utilizador atual já não existe." }
+      return { "value": true, "message": "Ups! O utilizador atual já não existe." }
    if (row.locked == 1)
       return { "value": true, "message": "Ups! O utilizador atual está bloqueado." }
    if (row.accepted == 0)

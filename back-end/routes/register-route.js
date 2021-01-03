@@ -21,10 +21,6 @@ const storage = multer.diskStorage({
       var formatDate = currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear() + "_" + currentDate.getHours() + "_" + currentDate.getMinutes() + "_" + currentDate.getSeconds();
 
       cb(null, formatDate + fileExtension);
-   },
-   onError: (err, next) => {
-      console.log("error", err);
-      next(err);
    }
 });
 const fileFilter = async (req, file, cb) => {

@@ -41,5 +41,5 @@ app.use("/api/deliveries", deliveriesRoute);
 
 // rota quando uma rota não existe
 app.use(function (req, res, next) {
-   res.status(404).json({ "error": "Ah não! A página não foi encontrada!" });
+   res.status(404).json({ "error": "Oh! A página não foi encontrada." });
 });

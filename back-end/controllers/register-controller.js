@@ -28,7 +28,7 @@ module.exports = {
 
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          var data = {
             id: this.lastID,
@@ -72,7 +72,7 @@ module.exports = {
       db.run(sql, params, function (err) {
          if (err) {
             removeFile(req.file.path);
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
          }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
@@ -107,7 +107,7 @@ module.exports = {
       db.run(sql, params, function (err) {
          if (err) {
             removeFile(req.file.path);
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
          }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
@@ -139,7 +139,7 @@ module.exports = {
 
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
       });
@@ -155,7 +155,7 @@ function checkFields(req, typeUser) {
    switch (typeUser) {
       case 1:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -179,7 +179,7 @@ function checkFields(req, typeUser) {
             return { "exist": false };
       case 2:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -215,7 +215,7 @@ function checkFields(req, typeUser) {
             return { "exist": false };
       case 3:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -249,7 +249,7 @@ function checkFields(req, typeUser) {
             return { "exist": false };
       case 4:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -288,9 +288,9 @@ function checkUsernameOrEmailAlreadyExist(db, req) {
 
       db.each(sql, params, (err, row) => {
          if (err)
-            return userExist = { "exist": false, "message": err.message };
+            return userExist = { "exist": false, "message": "Oh! " + err.message };
 
-         return userExist = { "exist": true, "message": "Nome de utilizador ou email já existem. Coloque outro por favor." };
+         return userExist = { "exist": true, "message": "Ups! Nome de utilizador ou email já existem. Tente novamente por favor." };
       }, () => {
          resolve(userExist);
       });

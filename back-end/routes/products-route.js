@@ -21,10 +21,6 @@ const storage = multer.diskStorage({
       var formatDate = currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear() + "_" + currentDate.getHours() + "_" + currentDate.getMinutes() + "_" + currentDate.getSeconds();
 
       cb(null, formatDate + fileExtension);
-   },
-   onError: (err, next) => {
-      console.log("error", err);
-      next(err);
    }
 });
 const fileFilter = async (req, file, cb) => {
@@ -42,7 +38,7 @@ router.get("/", productsController.getAll);
 router.get("/:id", productsController.getById);
 router.get("/:filter/:name", productsController.getByName);
 router.post("/create", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.create);
-router.patch("/edit/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.edit);
-router.patch("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.delete);
+router.patch("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.edit);
+router.delete("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.delete);
 
 module.exports = router;
