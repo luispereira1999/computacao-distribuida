@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
       createFolderIfNotExists(uploadsPath);
       createFolderIfNotExists(photosPath);
 
-      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" && req.route.path == "/create")
+      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg")
          cb(null, photosPath);
       else
          cb(null, "");
@@ -47,7 +47,8 @@ router.get("/", productsController.getAll);
 router.get("/:id", productsController.getById);
 router.get("/:filter/:name", productsController.getByName);
 router.post("/create", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.create);
-router.patch("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.edit);
+router.patch("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.editData);
+router.patch("/edit-photo/:id", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.editPhoto);
 router.delete("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.delete);
 
 module.exports = router;
