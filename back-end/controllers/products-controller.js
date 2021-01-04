@@ -80,7 +80,7 @@ module.exports = {
       if (errors.exist)
          return res.status(400).json({ "message": errors.message.join(" | ") });
 
-      var allData = Object.assign(req.body, { "url_photo": req.file.path });
+      var allData = Object.assign(req.body, { "url_photo": req.file.filename });
       var product = new Product(allData);
       var user = new User(req.user);
 
@@ -152,10 +152,10 @@ module.exports = {
 
 
 function checkFields(req, operation) {
-   var errors = []
+   var errors = [];
 
    switch (operation) {
-      case 1:
+      case "create":
          if (!req.body.name)
             errors.push("Ups! O nome do produto não foi preenchido.");
          if (!req.body.stock)
@@ -166,16 +166,18 @@ function checkFields(req, operation) {
             errors.push("A descrição não foi preenchida.");
          if (!req.file)
             errors.push("A foto do produto não foi preenchida.");
-
-         if (errors.length)
-            return { "exist": true, "message": errors };
-         else return { "exist": false };
+         else {
+            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg" && req.route.path == "/create") {
+               removeFile(req.file.path);
+               errors.push("O foto do produto foi inserida incorretamente.");
+            }
+         }
 
          if (errors.length)
             return { "exist": true, "message": errors };
          else
             return { "exist": false };
-      case 2:
+      case "edit-photo":
          if (!req.body.name)
             errors.push("Ups! O nome do produto não foi preenchido.");
          if (!req.body.stock)
