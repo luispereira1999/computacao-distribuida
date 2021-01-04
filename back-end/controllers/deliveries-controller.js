@@ -7,7 +7,7 @@ module.exports = {
    accept: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 1);
+      var errors = await checkInvalidFields(req, 1);
       if (errors.exist)
          return res.status(400).json({ "message": errors.message.join(" | ") });
 
@@ -24,6 +24,16 @@ module.exports = {
       db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
+
+         var order = new Order({ "id": req.body.order_id });
+
+         // atualizar entrega na base de dados
+         var sql = "UPDATE Orders SET accepted = 1 WHERE id = ? AND user_id = ?";
+         var params = [order.id, delivery.user_id];
+         db.run(sql, params, function (err) {
+            if (err)
+               return res.status(500).json({ "message": "Oh! " + err.message });
+         });
 
          res.status(201).json({ "message": "Entrega aceite com sucesso!" });
       });
@@ -56,7 +66,7 @@ module.exports = {
 };
 
 
-function checkFields(req) {
+function checkInvalidFields(req) {
    var errors = [];
 
    if (!req.body.order_id)
@@ -75,9 +85,12 @@ function checkOrderExist(db, orderId) {
       var params = order.id;
       var orderExist = { "exist": false, "message": "Ups! A encomenda não existe ou foi cancelada." };
 
-      db.each(sql, params, (err) => {
+      db.each(sql, params, (err, row) => {
          if (err)
             return orderExist = { "exist": false, "message": "Oh! " + err.message };
+
+         if (row.accepted == 1)
+            return orderExist = { "exist": false, "message": "Ups! A encomenda já foi aceitada." };
 
          return orderExist = { "exist": true };
       }, () => {
