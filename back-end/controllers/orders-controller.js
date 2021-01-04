@@ -7,7 +7,7 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req);
+      var errors = await checkInvalidFields(req);
       if (errors.exist)
          return res.status(400).json({ "message": errors.message.join(" | ") });
 
@@ -23,6 +23,14 @@ module.exports = {
       db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
+
+         // atualizar entrega na base de dados
+         var sql = "UPDATE Products SET stock = stock - 1 WHERE id = ?";
+         var params = [order.product_id];
+         db.run(sql, params, function (err) {
+            if (err)
+               return res.status(500).json({ "message": "Oh! " + err.message });
+         });
 
          res.status(201).json({ "message": "Encomenda criada com sucesso!" });
       });
@@ -65,7 +73,7 @@ module.exports = {
 };
 
 
-function checkFields(req) {
+function checkInvalidFields(req) {
    var errors = [];
 
    if (!req.body.product_id)

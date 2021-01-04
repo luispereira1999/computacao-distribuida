@@ -11,13 +11,13 @@ const fs = require("fs");
 const storage = multer.diskStorage({
    destination: async (req, file, cb) => {
       const uploadsPath = "./back-end/uploads/";
-      const photosPath = "./back-end/uploads/photos/";
+      const productsPath = "./back-end/uploads/products/";
 
       createFolderIfNotExists(uploadsPath);
-      createFolderIfNotExists(photosPath);
+      createFolderIfNotExists(productsPath);
 
       if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg")
-         cb(null, photosPath);
+         cb(null, productsPath);
       else
          cb(null, "");
    },

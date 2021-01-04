@@ -76,7 +76,7 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, "create");
+      var errors = await checkInvalidFields(req, "create");
       if (errors.exist)
          return res.status(400).json({ "message": errors.message.join(" | ") });
 
@@ -103,7 +103,7 @@ module.exports = {
    editData: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, "edit");
+      var errors = await checkInvalidFields(req, "edit");
       if (errors.exist)
          return res.status(400).json({ "message": errors.message.join(" | ") });
 
@@ -130,7 +130,7 @@ module.exports = {
    editPhoto: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, "edit-photo");
+      var errors = await checkInvalidFields(req, "edit-photo");
       if (errors.exist)
          return res.status(400).json({ "message": errors.message.join(" | ") });
 
@@ -178,7 +178,7 @@ module.exports = {
 };
 
 
-function checkFields(req, operation) {
+function checkInvalidFields(req, operation) {
    var errors = [];
 
    switch (operation) {
