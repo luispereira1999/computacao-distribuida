@@ -8,15 +8,15 @@ const fs = require("fs");
 const storage = multer.diskStorage({
    destination: async (req, file, cb) => {
       const uploadsPath = "./back-end/uploads/";
-      const logosPath = "./back-end/uploads/logos/";
+      const photosPath = "./back-end/uploads/photos/";
       const drivingLicensesPath = "./back-end/uploads/driving-licenses/";
 
       createFolderIfNotExists(uploadsPath);
-      createFolderIfNotExists(logosPath);
+      createFolderIfNotExists(photosPath);
       createFolderIfNotExists(drivingLicensesPath);
 
       if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" && req.route.path == "/merchant")
-         cb(null, logosPath);
+         cb(null, photosPath);
       else if (file.mimetype == "application/pdf" && req.route.path == "/driver")
          cb(null, drivingLicensesPath);
       else 

@@ -8,7 +8,7 @@ module.exports = {
    login: async (req, res) => {
       const db = database.connect();
 
-      if (errors = checkFields(req))
+      if (errors = checkInvalidFields(req))
          return res.status(400).json({ "message": errors.join(" | ") });
 
       var user = new User(req.body);
@@ -52,7 +52,7 @@ module.exports = {
 };
 
 
-function checkFields(req) {
+function checkInvalidFields(req) {
    var errors = [];
 
    if (!req.body.username)
