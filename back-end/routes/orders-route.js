@@ -5,6 +5,6 @@ const validateLogin = require("../middlewares/authenticate");
 const validateUser = require("../middlewares/active");
 
 router.post("/create", [validateLogin, validateUser], ordersController.create);
-router.patch("/cancel", [validateLogin, validateUser], ordersController.cancel);
+router.delete("/cancel", [validateLogin, validateUser], ordersController.cancel);
 
 module.exports = router;

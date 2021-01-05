@@ -10,44 +10,37 @@ module.exports = {
    registerClient: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 1);
+      var errors = await checkInvalidFields(req, 1);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
-      if (userExist.exist) {
-         removeFile(req.file.path);
-         return res.status(400).json({ "error": userExist.message });
-      }
+      if (userExist.exist)
+         return res.status(400).json({ "message": userExist.message });
 
       var user = new User(req.body);
       var typeUser = new TypeUser({ "id": 1 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, 1, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err) {
-            removeFile(req.file.path);
-            return res.status(500).json({ "error": err.message });
-         }
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
-         // dados ao criar sessão
-         const token = jwt.sign({
+         var data = {
             id: this.lastID,
             username: this.username,
             name: user.name,
             email: user.email,
             type: 1
-         }, "hard-secret", { expiresIn: "24h" });
+         };
 
-         res.status(201).json({
-            "message": "Cliente registado com sucesso!",
-            "message2": "O utilizador '" + user.username + "' efetuou login com sucesso!",
-            "session": token
-         });
+         const token = generateToken(data);
+
+         res.status(201).json({ "message": "Cliente registado com sucesso!", "data": data, "token": token });
       });
 
       db.close();
@@ -57,14 +50,14 @@ module.exports = {
    registerMerchant: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 2);
+      var errors = await checkInvalidFields(req, 2);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
          removeFile(req.file.path);
-         return res.status(400).json({ "error": userExist.message });
+         return res.status(400).json({ "message": userExist.message });
       }
 
       var allData = Object.assign(req.body, { "url_photo": req.file.filename });
@@ -79,7 +72,7 @@ module.exports = {
       db.run(sql, params, function (err) {
          if (err) {
             removeFile(req.file.path);
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
          }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
@@ -92,14 +85,14 @@ module.exports = {
    registerDriver: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 3);
+      var errors = await checkInvalidFields(req, 3);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
          removeFile(req.file.path);
-         return res.status(400).json({ "error": userExist.message });
+         return res.status(400).json({ "message": userExist.message });
       }
 
       var allData = Object.assign(req.body, { "url_driving_license": req.file.filename });
@@ -107,14 +100,14 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 3 });
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, url_driving_license, driving_license, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, url_driving_license, driving_license, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.url_photo, user.url_driving_license, user.driving_license, user.receive_advertising, typeUser.id, typeUser.id];
+      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.url_driving_license, user.driving_license, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
          if (err) {
             removeFile(req.file.path);
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
          }
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
@@ -127,29 +120,26 @@ module.exports = {
    registerAdmin: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 4);
+      var errors = await checkInvalidFields(req, 4);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
-         removeFile(req.file.path);
-         return res.status(400).json({ "error": userExist.message });
+         return res.status(400).json({ "message": userExist.message });
       }
 
       var user = new User(req.body);
       var typeUser = new TypeUser({ "id": 4 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, description, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, description, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.description, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
-         if (err) {
-            removeFile(req.file.path);
-            return res.status(500).json({ "error": err.message });
-         }
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          res.status(201).json({ "message": "O registo foi efetuado com sucesso! Aguarde por favor pela resposta." });
       });
@@ -159,13 +149,14 @@ module.exports = {
 };
 
 
-function checkFields(req, typeUser) {
+function checkInvalidFields(req, typeUser) {
    var errors = [];
 
    switch (typeUser) {
+      // cliente
       case 1:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -187,9 +178,10 @@ function checkFields(req, typeUser) {
             return { "exist": true, "message": errors };
          else
             return { "exist": false };
+      // empresa
       case 2:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -223,9 +215,10 @@ function checkFields(req, typeUser) {
             return { "exist": true, "message": errors };
          else
             return { "exist": false };
+      // condutor
       case 3:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -244,6 +237,8 @@ function checkFields(req, typeUser) {
             errors.push("O código postal não foi preenchido.");
          if (!req.body.driving_license)
             errors.push("O tipo de carta de condução não foi preenchida.");
+         else if (req.body.driving_license != 1 && req.body.driving_license != 2 && req.body.driving_license != 3)
+            errors.push("O tipo de carta de condução não é válido.");
          if (!req.file)
             errors.push("O PDF da carta de condução não foi preenchida.");
          else {
@@ -257,9 +252,10 @@ function checkFields(req, typeUser) {
             return { "exist": true, "message": errors };
          else
             return { "exist": false };
+      // admin
       case 4:
          if (!req.body.username)
-            errors.push("O nome de utilizador não foi preenchido.");
+            errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
             errors.push("A senha não foi preenchida.");
          if (!req.body.name)
@@ -298,9 +294,9 @@ function checkUsernameOrEmailAlreadyExist(db, req) {
 
       db.each(sql, params, (err, row) => {
          if (err)
-            return userExist = { "exist": false, "message": err.message };
+            return userExist = { "exist": false, "message": "Oh! " + err.message };
 
-         return userExist = { "exist": true, "message": "Nome de utilizador ou email já existem. Coloque outro por favor." };
+         return userExist = { "exist": true, "message": "Ups! Nome de utilizador ou email já existem. Tente novamente por favor." };
       }, () => {
          resolve(userExist);
       });
@@ -308,6 +304,17 @@ function checkUsernameOrEmailAlreadyExist(db, req) {
 }
 
 
-function removeFile(file) {
-   fs.unlinkSync(file);
+function generateToken(data) {
+   return jwt.sign({
+      id: data.id,
+      username: data.username,
+      name: data.name,
+      email: data.email,
+      type: data.type
+   }, "hard-secret", { expiresIn: "24h" });
+}
+
+
+function removeFile(path) {
+   fs.unlinkSync(path);
 }

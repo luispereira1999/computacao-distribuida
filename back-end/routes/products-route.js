@@ -7,26 +7,30 @@ const validateType = require("../middlewares/type");
 
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const storage = multer.diskStorage({
    destination: async (req, file, cb) => {
-      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" && req.route.path == "/create")
-         cb(null, "./back-end/uploads/products/");
-      else {
+      const uploadsPath = "./back-end/uploads/";
+      const productsPath = "./back-end/uploads/products/";
+
+      createFolderIfNotExists(uploadsPath);
+      createFolderIfNotExists(productsPath);
+
+      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg")
+         cb(null, productsPath);
+      else
          cb(null, "");
-      }
    },
+
    filename: async (req, file, cb) => {
       var fileExtension = path.extname(file.originalname)
       var currentDate = new Date();
       var formatDate = currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear() + "_" + currentDate.getHours() + "_" + currentDate.getMinutes() + "_" + currentDate.getSeconds();
 
       cb(null, formatDate + fileExtension);
-   },
-   onError: (err, next) => {
-      console.log("error", err);
-      next(err);
    }
 });
+
 const fileFilter = async (req, file, cb) => {
    if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg")
       cb(null, true);
@@ -38,11 +42,19 @@ const upload = multer({
    "fileFilter": fileFilter
 });
 
+
 router.get("/", productsController.getAll);
 router.get("/:id", productsController.getById);
 router.get("/:filter/:name", productsController.getByName);
 router.post("/create", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.create);
-router.patch("/edit/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.edit);
-router.patch("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.delete);
+router.patch("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.editData);
+router.patch("/edit-photo/:id", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.editPhoto);
+router.delete("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.delete);
 
 module.exports = router;
+
+
+function createFolderIfNotExists(path) {
+   if (!fs.existsSync(path))
+      fs.mkdirSync(path);
+}

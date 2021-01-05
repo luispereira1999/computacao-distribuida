@@ -7,13 +7,13 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req);
+      var errors = await checkInvalidFields(req);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var stock = await checkStockAvailable(db, req.body.product_id);
       if (!stock.available)
-         return res.status(400).json({ "error": stock.message });
+         return res.status(400).json({ "message": stock.message });
 
       var order = new Order({ "product_id": req.body.product_id, "user_id": req.user.id });
 
@@ -22,7 +22,15 @@ module.exports = {
       var params = [order.product_id, order.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         // atualizar entrega na base de dados
+         var sql = "UPDATE Products SET stock = stock - 1 WHERE id = ?";
+         var params = [order.product_id];
+         db.run(sql, params, function (err) {
+            if (err)
+               return res.status(500).json({ "message": "Oh! " + err.message });
+         });
 
          res.status(201).json({ "message": "Encomenda criada com sucesso!" });
       });
@@ -39,7 +47,7 @@ module.exports = {
 
       var stock = await getStock(db, product.id);
       if (stock.error)
-         return res.status(400).json({ "error": stock.message });
+         return res.status(400).json({ "message": stock.message });
       else
          product.stock = stock.value - 1;
 
@@ -48,16 +56,16 @@ module.exports = {
       var params = [order.id, order.product_id, order.user_id];
       db.run(sql, params, async function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! A encomenda não está disponível para cancelar." });
+            return res.status(400).json({ "message": "Ups! A encomenda não está disponível para cancelar." });
 
          var updatedStock = await updateStock(db, product);
          if (updatedStock.error)
-            return res.status(400).json({ "error": updatedStock.message });
+            return res.status(400).json({ "message": updatedStock.message });
 
-         res.status(200).json({ "message": "Encomenda excluída com sucesso!" });
+         res.status(200).json({ "message": "Encomenda cancelada com sucesso!" });
       });
 
       db.close();
@@ -65,11 +73,11 @@ module.exports = {
 };
 
 
-function checkFields(req) {
+function checkInvalidFields(req) {
    var errors = [];
 
    if (!req.body.product_id)
-      errors.push("O ID do produto não foi preenchido.");
+      errors.push("Ups! O ID do produto não foi preenchido.");
 
    if (errors.length)
       return { "exist": true, "message": errors };
@@ -83,14 +91,14 @@ function checkStockAvailable(db, productId) {
 
       var sql = "SELECT stock FROM Products WHERE id = ?";
       var params = product.id;
-      var stock = { "available": false, "message": "Oh! O produto não existe." };
+      var stock = { "available": false, "message": "Ups! O produto não existe." };
 
       db.each(sql, params, (err, row) => {
          if (err)
-            return stock = { "available": false, "message": err.message };
+            return stock = { "available": false, "message": "Oh! " + err.message };
 
          if (row.stock <= 0)
-            stock = { "available": false, "message": "Oh! O stock esgotou." };
+            stock = { "available": false, "message": "Ups! O stock esgotou." };
          else
             return stock = { "available": true };
       }, () => {
@@ -106,11 +114,11 @@ function getStock(db, productId) {
 
       var sql = "SELECT stock FROM Products WHERE id = ? AND deleted = 0";
       var params = product.id;
-      var stock = { "error": true, "message": "Oh! O produto não existe." };
+      var stock = { "error": true, "message": "Ups! O produto não existe." };
 
       db.each(sql, params, (err, row) => {
          if (err)
-            return stock = { "error": true, "message": err.message };
+            return stock = { "error": true, "message": "Oh! " + err.message };
 
          return stock = { "error": false, "value": row.stock };
       }, () => {
@@ -128,7 +136,7 @@ function updateStock(db, product) {
 
       db.run(sql, params, function (err) {
          if (err)
-            return stock = { "error": true, "message": err.message };
+            return stock = { "error": true, "message": "Oh! " + err.message };
 
          return stock = { "error": false };
       }, () => {

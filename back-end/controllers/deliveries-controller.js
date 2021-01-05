@@ -7,13 +7,13 @@ module.exports = {
    accept: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkFields(req, 1);
+      var errors = await checkInvalidFields(req, 1);
       if (errors.exist)
-         return res.status(400).json({ "error": errors.message.join(" | ") });
+         return res.status(400).json({ "message": errors.message.join(" | ") });
 
       var orderExist = await checkOrderExist(db, req.body.order_id);
       if (!orderExist.exist)
-         return res.status(400).json({ "error": orderExist.message });
+         return res.status(400).json({ "message": orderExist.message });
 
       var allData = Object.assign({ "order_id": req.body.order_id, "user_id": req.user.id });
       var delivery = new Delivery(allData);
@@ -23,7 +23,17 @@ module.exports = {
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         var order = new Order({ "id": req.body.order_id });
+
+         // atualizar entrega na base de dados
+         var sql = "UPDATE Orders SET accepted = 1 WHERE id = ? AND user_id = ?";
+         var params = [order.id, delivery.user_id];
+         db.run(sql, params, function (err) {
+            if (err)
+               return res.status(500).json({ "message": "Oh! " + err.message });
+         });
 
          res.status(201).json({ "message": "Entrega aceite com sucesso!" });
       });
@@ -43,10 +53,10 @@ module.exports = {
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, function (err) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Oh! A entrega não existe ou já foi entregue pelo condutor." });
+            return res.status(400).json({ "message": "Ups! A entrega não existe ou já foi entregue pelo condutor." });
 
          res.status(200).json({ "message": "Entrega concluída com sucesso!" });
       });
@@ -56,11 +66,11 @@ module.exports = {
 };
 
 
-function checkFields(req) {
+function checkInvalidFields(req) {
    var errors = [];
 
    if (!req.body.order_id)
-      errors.push("O ID da encomenda não foi preenchido.");
+      errors.push("Ups! O ID da encomenda não foi preenchido.");
 
    if (errors.length)
       return ({ "exist": true, "message": errors });
@@ -73,11 +83,14 @@ function checkOrderExist(db, orderId) {
       var order = new Order({ "id": orderId });
       var sql = "SELECT accepted FROM Orders WHERE id = ? AND canceled = 0";
       var params = order.id;
-      var orderExist = { "exist": false, "message": "Oh! A encomenda não existe ou foi cancelada." };
+      var orderExist = { "exist": false, "message": "Ups! A encomenda não existe ou foi cancelada." };
 
-      db.each(sql, params, (err) => {
+      db.each(sql, params, (err, row) => {
          if (err)
-            return orderExist = { "exist": false, "message": err.message };
+            return orderExist = { "exist": false, "message": "Oh! " + err.message };
+
+         if (row.accepted == 1)
+            return orderExist = { "exist": false, "message": "Ups! A encomenda já foi aceitada." };
 
          return orderExist = { "exist": true };
       }, () => {

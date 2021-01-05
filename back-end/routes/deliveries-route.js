@@ -6,6 +6,6 @@ const validateUser = require("../middlewares/active");
 const validateType = require("../middlewares/type");
 
 router.post("/accept", [validateLogin, validateUser, validateType.checkDriver], deliveriesController.accept);
-router.put("/complete", [validateLogin, validateUser, validateType.checkDriver], deliveriesController.complete);
+router.patch("/complete", [validateLogin, validateUser, validateType.checkDriver], deliveriesController.complete);
 
 module.exports = router;

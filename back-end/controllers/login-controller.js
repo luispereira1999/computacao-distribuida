@@ -8,8 +8,8 @@ module.exports = {
    login: async (req, res) => {
       const db = database.connect();
 
-      if (errors = checkFields(req))
-         return res.status(400).json({ "error": errors.join(" | ") });
+      if (errors = checkInvalidFields(req))
+         return res.status(400).json({ "message": errors.join(" | ") });
 
       var user = new User(req.body);
 
@@ -18,38 +18,32 @@ module.exports = {
       var params = user.username;
       db.get(sql, params, async function (err, row) {
          if (err)
-            return res.status(500).json({ "error": err.message });
+            return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (row) {
-            const checkPassword = await bcrypt.compareSync(user.password, row.password);
+            const isCorrectPassword = await bcrypt.compareSync(user.password, row.password);
 
-            if (checkPassword) {
-               // dados ao criar sessão
-               const token = jwt.sign({
+            if (isCorrectPassword) {
+               var error = checkActiveUser(row);
+               if (error.value)
+                  return res.status(400).json({ "message": error.message });
+
+               var data = {
                   id: row.id,
                   username: row.username,
                   name: row.name,
                   email: row.email,
                   type: row.type,
-               }, "hard-secret", { expiresIn: "24h" });
+               };
 
-               var error = checkRow(row);
-               if (error.value)
-                  return res.status(400).json({ "message": error.message });
+               const token = generateToken(data);
 
-               res.status(200).json({
-                  "message": "O utilizador efetuou login com sucesso!",
-                  "session": token
-               });
+               res.status(200).json({ "message": "O utilizador efetuou login com sucesso!", "data": data, "token": token });
             } else
-               return res.status(400).json({
-                  "message": "Nome de utilizador ou senha inválidos. Tente outro!"
-               });
+               return res.status(400).json({ "message": "Ups! Nome de utilizador ou senha inválidos. Tente novamente!" });
          }
          else {
-            return res.status(400).json({
-               "message": "O utilizador não existe. Tente novamente!"
-            });
+            return res.status(400).json({ "message": "Ups! O utilizador não existe. Tente novamente!" });
          }
       });
 
@@ -58,7 +52,7 @@ module.exports = {
 };
 
 
-function checkFields(req) {
+function checkInvalidFields(req) {
    var errors = [];
 
    if (!req.body.username)
@@ -72,13 +66,24 @@ function checkFields(req) {
 }
 
 
-function checkRow(row) {
+function checkActiveUser(row) {
    if (row.deleted == 1)
-      return { "value": true, "message": "O utilizador não existe. Tente outro por favor." }
+      return { "value": true, "message": "Ups! O utilizador não existe. Tente outro por favor." };
    if (row.locked == 1)
-      return { "value": true, "message": "Ups! O utilizador está bloqueado." }
+      return { "value": true, "message": "Ups! O utilizador está bloqueado." };
    if (row.accepted == 0)
-      return { "value": true, "message": "Ups! O utilizador não está ativado. Aguarde por favor pela resposta!" }
+      return { "value": true, "message": "Ups! O utilizador não está ativado. Aguarde por favor pela resposta!" };
 
    return { "value": false };
+}
+
+
+function generateToken(data) {
+   return jwt.sign({
+      id: data.id,
+      username: data.username,
+      name: data.name,
+      email: data.email,
+      type: data.type
+   }, "hard-secret", { expiresIn: "24h" });
 }
