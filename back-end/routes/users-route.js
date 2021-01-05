@@ -49,7 +49,7 @@ router.get("/not-accepted", [validateLogin, validateUser, validateType.checkAdmi
 router.patch("/accept/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.accept);
 router.patch("/set-admin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.setAdmin);
 router.patch("/remove-admin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.removeAdmin);
-router.delete("/delete/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.delete);
+router.delete("/delete", [validateLogin, validateUser], userController.delete);
 
 module.exports = router;
 

@@ -1,6 +1,6 @@
 const database = require("../utils/database");
-var User = require("../models/user");
 const fs = require("fs");
+var User = require("../models/user");
 var Product = require("../models/product");
 
 
@@ -163,12 +163,18 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
       var params = [product.id, user.id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, async function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
+
+         var urlPhoto = await getUrlPhoto(db, product.id);
+         if (urlPhoto.error)
+            return res.status(400).json({ "message": urlPhoto.message });
+         else
+            removeFile(urlPhoto.value);
 
          res.status(200).json({ "message": "Produto excluído com sucesso!" });
       });
@@ -232,6 +238,26 @@ function checkFilter(filter) {
 }
 
 
-function removeFile(file) {
-   fs.unlinkSync(file);
+function getUrlPhoto(db, productId) {
+   return new Promise((resolve) => {
+      var product = new Product({ "id": productId });
+
+      var sql = "SELECT url_photo FROM Products WHERE id = ?";
+      var params = product.id;
+      var urlPhoto = { "error": false, "value": "" };
+
+      db.each(sql, params, (err, row) => {
+         if (err)
+            return urlPhoto = { "error": true, "message": "Oh! " + err.message };
+
+         return urlPhoto = { "error": false, "value": "./back-end/uploads/products/" + row.url_photo };
+      }, () => {
+         resolve(urlPhoto);
+      });
+   });
+}
+
+
+function removeFile(path) {
+   fs.unlinkSync(path);
 }

@@ -22,7 +22,7 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 1 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default-photo.png', ?, ?, 1, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, 1, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.receive_advertising, typeUser.id, typeUser.id];
 
@@ -100,7 +100,7 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 3 });
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, url_driving_license, driving_license, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default-photo.png', ?, ?, ?, ?, 0, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, url_driving_license, driving_license, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.url_driving_license, user.driving_license, user.receive_advertising, typeUser.id, typeUser.id];
 
@@ -133,7 +133,7 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 4 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, description, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'default-photo.png', ?, ?, 0, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, description, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.description, user.receive_advertising, typeUser.id, typeUser.id];
 
@@ -315,6 +315,6 @@ function generateToken(data) {
 }
 
 
-function removeFile(file) {
-   fs.unlinkSync(file);
+function removeFile(path) {
+   fs.unlinkSync(path);
 }

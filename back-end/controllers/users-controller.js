@@ -1,4 +1,5 @@
 const database = require("../utils/database");
+const fs = require("fs");
 var User = require("../models/user");
 
 
@@ -168,21 +169,31 @@ module.exports = {
    delete: async (req, res, next) => {
       const db = database.connect();
 
-      var user = new User(req.params);
-      var userLogged = new User(req.user);
-
-      if (userLogged.id == user.id)
-         return res.status(201).json({ "message": "Ups! Não pode excluir o utilizador atual." });
+      var user = new User(req.user);
 
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET deleted = 1 WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, function (err) {
+      db.run(sql, params, async function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O utilizador não existe." });
+
+         var urlPhoto = await getUrlPhoto(db, user.id);
+         if (urlPhoto.error)
+            return res.status(400).json({ "message": urlPhoto.message });
+         else if (urlPhoto.value != "./back-end/uploads/photos/default.png")
+            removeFile(urlPhoto.value);
+
+         if (user.type == 3) {
+            var drivingLicense = await getDrivingLicense(db, user.id);
+            if (drivingLicense.error)
+               return res.status(400).json({ "message": drivingLicense.message });
+            else
+               removeFile(drivingLicense.value);
+         }
 
          res.status(200).json({ "message": "Utilizador excluído com sucesso!" });
       });
@@ -249,4 +260,49 @@ function checkInvalidFields(req, operation) {
       default:
          return { "exist": false };
    }
+}
+
+
+function getDrivingLicense(db, userId) {
+   return new Promise((resolve) => {
+      var user = new User({ "id": userId });
+
+      var sql = "SELECT url_driving_license FROM Users WHERE id = ?";
+      var params = user.id;
+      var drivingLicense = { "error": false, "value": "" };
+
+      db.each(sql, params, (err, row) => {
+         if (err)
+            return drivingLicense = { "error": true, "message": "Oh! " + err.message };
+
+         return drivingLicense = { "error": false, "value": "./back-end/uploads/driving-licenses/" + row.url_driving_license };
+      }, () => {
+         resolve(drivingLicense);
+      });
+   });
+}
+
+
+function getUrlPhoto(db, userId) {
+   return new Promise((resolve) => {
+      var user = new User({ "id": userId });
+
+      var sql = "SELECT url_photo FROM Users WHERE id = ?";
+      var params = user.id;
+      var urlPhoto = { "error": false, "value": "" };
+
+      db.each(sql, params, (err, row) => {
+         if (err)
+            return urlPhoto = { "error": true, "message": "Oh! " + err.message };
+
+         return urlPhoto = { "error": false, "value": "./back-end/uploads/photos/" + row.url_photo };
+      }, () => {
+         resolve(urlPhoto);
+      });
+   });
+}
+
+
+function removeFile(path) {
+   fs.unlinkSync(path);
 }
