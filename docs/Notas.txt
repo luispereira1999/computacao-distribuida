@@ -1,73 +1,39 @@
-REQUISITOS FUNCIONAIS
-Fazer registo
-Fazer login
-Users		Adicionar encomenda
-		Remover encomenda
-		Alterar encomenda
-		Cancelar encomenda
-Drivers		Transportar encomenda
-Merchants		Oferecer serviço
-Admins		Aceitar condutores e empresas
-		Nomear administradores
+O QUE MUDAR
+Adicionar		Listar utilizadores não aceites - administrador
+Adicionar		Remover utilizador como administrador
+Editar		Desbloquear utilizador
+Editar		Definir utilizador como administrador
+Remover		Editar encomenda
+Editar		O utilizador pode cancelar uma encomenda, caso ainda não seja aceite por um condutor
+Adicionar		[NF] Ao cancelar uma encomenda, o cliente não recebe o dinheiro da encomenda de volta
 
 
-
-BASE DE DADOS
-Users (id, username, password, name, email, nif, address, postal_code, city, type_id)
-User_Types (id, type)
-Products (id, name, type_id)
-Product_Types (id, type)
-Orders (id)
-Deliveries (id)
-Merchants (id, name)
+MÉTODOS DA API
+adicionar		fazer promoção do produto
+adicionar		funçao para verificar se produto existe
+atualizar		[NF] O condutor não pode criar encomendas enquanto está a fazer entregas
 
 
-
-FRONT-END - PASTAS & FICHEIROS
-css/
-	main.css
-	function.css
-js/
-	main.js
-	function.js
-index.html
-
-
-
-BACK-END - PASTAS & FICHEIROS
-models/
-	user.js
-	product.js
-	order.js
-	delivery.js
-controllers/
-	registers-controllers.js/register-controllers.js
-	logins-controllers.js
-	users-controllers.js
-	products-controllers.js
-	orders-controllers.js
-	deliveries-controllers.js
-utils/
-	picand-go.db
-
-
-
-DOCS - PASTAS & FICHEIROS
-notes.txt
-requirements.xlsx
-report.docx
-report.pdf
-
+NOTAS
+Mudar req ao checkFields
+Usar modelos em modelos (ex: user no product)
+Fazer backups no git actions
+Fazer registo de empresa deve aparecer para colocar a foto da empresa
+Verificar se um token antigo ainda e valido
+no postman
 
 
 IDEIAS
-Relatório (falar sobre logotipo, analise swot)
+Testes da release
+Fazer releases no github pages
+Requisitos de desenvolvimento (todo os requires devem ter o nome do módulo/ficheiro)
+Relatório (falar sobre logótipo, analise swot, tabelas bd, cores, métodos, ver templates no moodle)
 Proposta de sistema (Ambito, Objetivos, Metas, Justificação de existência)
 Backlog do Produto com Prioridades (Requisitos Funcionais, Requisitos Não Funcionais)
 Backlog do Sprint
 Gráfico de Burn Down
 Mapa de gantt
-#ED1C24
+
 
 
 
