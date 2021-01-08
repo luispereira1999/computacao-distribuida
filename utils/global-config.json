@@ -1,0 +1,6 @@
+{
+   "DB_SOURCE": "./utils/database.db",
+   "SECRET": "hard-secret",
+   "URL_API_DEV": "https://picandgo.azurewebsites.net/api/",
+   "URL_API_PROD": "http://localhost:4000/api/"
+}

@@ -1,5 +1,6 @@
 const sqlite3 = require("sqlite3");
-const dbSource = "./back-end/utils/database.db";
+const config = require("./global-config.json");
+const dbSource = config.DB_SOURCE;
 
 module.exports = {
    connect: () => {

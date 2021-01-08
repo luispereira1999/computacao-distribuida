@@ -12,7 +12,7 @@
    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 
    <!-- CSS -->
-   <link rel="stylesheet" href="./css/index.css">
+   <link rel="stylesheet" href="css/index.css">
 
    <!-- JQuery -->
    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -30,16 +30,6 @@
 
 <body>
    <h1>Página inicial</h1>
-   <p>Sem sessão iniciada</p>
-
-   <a href="./pages/create-product.html">Ir para criar produto</a>
-
-   <script>
-      if (sessionStorage.getItem("token"))
-         $("p").text("Utilizador está logado!");
-      else
-         $("p").text("Oh! Utilizador não está logado.");
-   </script>
 </body>
 
 </html>
