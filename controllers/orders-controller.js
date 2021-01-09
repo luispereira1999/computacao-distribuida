@@ -7,9 +7,9 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req);
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var stock = await checkStockAvailable(db, req.body.product_id);
       if (!stock.available)

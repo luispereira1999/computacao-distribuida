@@ -11,9 +11,9 @@ module.exports = {
    registerClient: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, 1);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, 1);
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist)
@@ -50,9 +50,11 @@ module.exports = {
    registerMerchant: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, 2);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, 2);
+      if (invalidFields.exist) {
+         removeFile(req.file.path);
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
+      }
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
@@ -85,9 +87,11 @@ module.exports = {
    registerDriver: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, 3);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, 3);
+      if (invalidFields.exist) {
+         removeFile(req.file.path);
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
+      }
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
@@ -120,9 +124,9 @@ module.exports = {
    registerAdmin: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, 4);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, 4);
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
@@ -206,7 +210,6 @@ function checkInvalidFields(req, typeUserId) {
             errors.push("O logótipo não foi preenchido.");
          else {
             if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
-               removeFile(req.file.path);
                errors.push("O logótipo foi inserido incorretamente.");
             }
          }
@@ -243,7 +246,6 @@ function checkInvalidFields(req, typeUserId) {
             errors.push("O PDF da carta de condução não foi preenchida.");
          else {
             if (req.file.mimetype != "application/pdf") {
-               removeFile(req.file.path);
                errors.push("O PDF da carta de condução foi inserido incorretamente.");
             }
          }

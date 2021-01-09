@@ -61,9 +61,9 @@ module.exports = {
    editPhoto: async (req, res, next) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, "edit-photo");
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, "edit-photo");
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var user = new User({ "id": req.user.id, "url_photo": req.file.filename });
 
@@ -75,6 +75,29 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          res.status(200).json({ "message": "Foto do utilizador editada com sucesso!" });
+      });
+
+      db.close();
+   },
+
+
+   editDrivingLicense: async (req, res, next) => {
+      const db = database.connect();
+
+      var invalidFields = await checkInvalidFields(req, "edit-driving-license");
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
+
+      var user = new User({ "id": req.user.id, "driving_license": req.body.driving_license, "url_driving_license": req.file.filename });
+
+      // atualizar utilizador na base de dados
+      var sql = "UPDATE Users SET driving_license = ?, url_driving_license = ? WHERE id = ?";
+      var params = [user.driving_license, user.url_driving_license, user.id];
+      db.run(sql, params, function (err) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         res.status(200).json({ "message": "Carta de condução editada com sucesso!" });
       });
 
       db.close();
@@ -327,7 +350,7 @@ function checkInvalidFields(req, route, typeUserId) {
          else {
             if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
                removeFile(req.file.path);
-               errors.push("O foto do utilizador foi inserida incorretamente.");
+               errors.push("A foto do utilizador foi inserida incorretamente.");
             }
          }
 
@@ -336,12 +359,16 @@ function checkInvalidFields(req, route, typeUserId) {
          else
             return { "exist": false };
       case "edit-driving-license":
+         if (!req.body.driving_license)
+            errors.push("O tipo de carta de condução não foi preenchida.");
+         else if (req.body.driving_license != 1 && req.body.driving_license != 2 && req.body.driving_license != 3)
+            errors.push("O tipo de carta de condução não é válido.");
          if (!req.file)
-            errors.push("A foto do produto não foi preenchida.");
+            errors.push("A carta de condução não foi preenchida.");
          else {
-            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
+            if (req.file.mimetype != "application/pdf") {
                removeFile(req.file.path);
-               errors.push("O foto do produto foi inserida incorretamente.");
+               errors.push("A carta de condução foi inserida incorretamente.");
             }
          }
 

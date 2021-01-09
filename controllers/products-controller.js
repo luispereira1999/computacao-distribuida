@@ -77,9 +77,9 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, "create");
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, "create");
+      if (erroinvalidFieldsrs.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "url_photo": req.file.filename });
       var product = new Product(allData);
@@ -104,9 +104,9 @@ module.exports = {
    editData: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, "edit");
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, "edit");
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "id": req.params.id, "user_id": req.user.id });
       var product = new Product(allData);
@@ -131,9 +131,9 @@ module.exports = {
    editPhoto: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, "edit-photo");
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, "edit-photo");
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "id": req.params.id, "url_photo": req.file.filename, "user_id": req.user.id });
       var product = new Product(allData);

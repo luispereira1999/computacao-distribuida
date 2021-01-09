@@ -7,9 +7,9 @@ module.exports = {
    accept: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, 1);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, 1);
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var orderExist = await checkOrderExist(db, req.body.order_id);
       if (!orderExist.exist)

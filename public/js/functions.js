@@ -7,7 +7,7 @@ function registerClient() {
       setSession(res);
       var redirectPage = "../index.html";
       showMessage(res.message, redirectPage);
-   }).fail((err) => {
+   }).fail(err => {
       console.log(err.responseJSON.message);
    });
 }
@@ -26,11 +26,11 @@ function registerMerchant() {
       type: "post",
       url: "http://localhost:4000/api/register/merchant/",
 
-      success: (res) => {
+      success: res => {
          var redirectPage = "../index.html";
          showMessage(res.message, redirectPage);
       },
-      error: (err) => {
+      error: err => {
          console.log(err.responseJSON.message);
       }
    });
@@ -50,11 +50,11 @@ function registerDriver() {
       type: "post",
       url: "http://localhost:4000/api/register/driver/",
 
-      success: (res) => {
+      success: res => {
          var redirectPage = "../index.html";
          showMessage(res.message, redirectPage);
       },
-      error: (err) => {
+      error: err => {
          console.log(err.responseJSON.message);
       }
    });
@@ -69,7 +69,7 @@ function registerAdmin() {
    $.post("http://localhost:4000/api/register/admin/", formData).done((res) => {
       var redirectPage = "../index.html";
       showMessage(res.message, redirectPage);
-   }).fail((err) => {
+   }).fail(err => {
       console.log(err.responseJSON.message);
    });
 }
@@ -84,7 +84,7 @@ function login() {
       setSession(res);
       var redirectPage = "../index.html";
       showMessage(res.message, redirectPage);
-   }).fail((err) => {
+   }).fail(err => {
       console.log(err.responseJSON.message);
    });
 }
@@ -94,7 +94,7 @@ function createProduct() {
    var form = $("#form-create-product")[0];
    var formData = new FormData(form);
    var token = sessionStorage.getItem("token");
-
+   console.log("aaa")
    // pedido ao servidor
    $.ajax({
       cache: false,
@@ -105,11 +105,11 @@ function createProduct() {
       type: "post",
       url: "http://localhost:4000/api/products/create/",
 
-      success: (res) => {
+      success: res => {
          var redirectPage = "../index.html";
          showMessage(res.message, redirectPage);
       },
-      error: (err) => {
+      error: err => {
          console.log(err.responseJSON.message);
       }
    });

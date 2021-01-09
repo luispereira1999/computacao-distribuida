@@ -8,8 +8,8 @@ module.exports = {
    login: async (req, res) => {
       const db = database.connect();
 
-      if (errors = checkInvalidFields(req))
-         return res.status(400).json({ "message": errors.join(" | ") });
+      if (invalidFields = checkInvalidFields(req))
+         return res.status(400).json({ "message": invalidFields.join(" | ") });
 
       var user = new User(req.body);
 

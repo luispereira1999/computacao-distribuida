@@ -13,12 +13,16 @@ const storage = multer.diskStorage({
    destination: async (req, file, cb) => {
       const uploadsPath = globalConfig.path.UPLOADS;
       const photosPath = globalConfig.path.UPLOADS + globalConfig.path.PHOTOS;
+      const drivingLicensesPath = globalConfig.path.UPLOADS + globalConfig.path.DRIVING_LICENSES;
 
       createFolderIfNotExists(uploadsPath);
       createFolderIfNotExists(photosPath);
+      createFolderIfNotExists(drivingLicensesPath);
 
       if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg")
          cb(null, photosPath);
+      else if (file.mimetype == "application/pdf")
+         cb(null, drivingLicensesPath);
       else
          cb(null, "");
    },
@@ -33,7 +37,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = async (req, file, cb) => {
-   if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg")
+   if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "application/pdf")
       cb(null, true);
    else
       cb(null, false);
@@ -47,6 +51,7 @@ const upload = multer({
 router.post("/account", [validateLogin, validateUser], userController.view);
 router.patch("/edit-data", [validateLogin, validateUser], userController.editData);
 router.put("/edit-photo", [upload.single("file"), validateLogin, validateUser], userController.editPhoto);
+router.put("/edit-driving-license", [upload.single("file"), validateLogin, validateUser, validateType.checkDriver], userController.editDrivingLicense);
 router.get("/not-accepted", [validateLogin, validateUser, validateType.checkAdmin], userController.getByNotAccepted);
 router.put("/accept/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.accept);
 router.put("/set-admin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.setAdmin);
