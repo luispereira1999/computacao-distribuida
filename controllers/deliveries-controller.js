@@ -79,7 +79,7 @@ function checkInvalidFields(req) {
 
 
 function checkOrderExist(db, orderId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var order = new Order({ "id": orderId });
       var sql = "SELECT accepted FROM Orders WHERE id = ? AND canceled = 0";
       var params = order.id;

@@ -35,7 +35,6 @@ module.exports = {
                   email: row.email,
                   type: row.type,
                };
-
                const token = generateToken(data);
 
                res.status(200).json({ "message": "O utilizador efetuou login com sucesso!", "data": data, "token": token });

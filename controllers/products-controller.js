@@ -1,5 +1,6 @@
 const database = require("../utils/database");
 const fs = require("fs");
+const globalConfig = require("../utils/global-config.json");
 var User = require("../models/user");
 var Product = require("../models/product");
 
@@ -141,11 +142,15 @@ module.exports = {
       var sql = "UPDATE Products SET url_photo = ? WHERE id = ? AND user_id = ?";
       var params = [product.url_photo, product.id, product.user_id];
       db.run(sql, params, function (err) {
-         if (err)
+         if (err) {
+            removeFile(req.file.path);
             return res.status(500).json({ "message": "Oh! " + err.message });
+         }
 
-         if (this.changes == 0)
+         if (this.changes == 0) {
+            removeFile(req.file.path);
             return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
+         }
 
          res.status(200).json({ "message": "Foto do produto editado com sucesso!" });
       });
@@ -239,7 +244,7 @@ function checkFilter(filter) {
 
 
 function getUrlPhoto(db, productId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
       var sql = "SELECT url_photo FROM Products WHERE id = ?";
@@ -250,7 +255,7 @@ function getUrlPhoto(db, productId) {
          if (err)
             return urlPhoto = { "error": true, "message": "Oh! " + err.message };
 
-         return urlPhoto = { "error": false, "value": "./back-end/uploads/products/" + row.url_photo };
+         return urlPhoto = { "error": false, "value": globalConfig.path.UPLOADS + globalConfig.path.PRODUCTS + row.url_photo };
       }, () => {
          resolve(urlPhoto);
       });

@@ -4,14 +4,15 @@ const productsController = require("../controllers/products-controller");
 const validateLogin = require("../middlewares/authenticate");
 const validateUser = require("../middlewares/active");
 const validateType = require("../middlewares/type");
+const globalConfig = require("../utils/global-config.json");
 
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const storage = multer.diskStorage({
    destination: async (req, file, cb) => {
-      const uploadsPath = "./back-end/uploads/";
-      const productsPath = "./back-end/uploads/products/";
+      const uploadsPath = globalConfig.path.UPLOADS;
+      const productsPath = globalConfig.path.UPLOADS + globalConfig.path.PRODUCTS;
 
       createFolderIfNotExists(uploadsPath);
       createFolderIfNotExists(productsPath);
@@ -48,7 +49,7 @@ router.get("/:id", productsController.getById);
 router.get("/:filter/:name", productsController.getByName);
 router.post("/create", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.create);
 router.patch("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.editData);
-router.patch("/edit-photo/:id", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.editPhoto);
+router.put("/edit-photo/:id", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.editPhoto);
 router.delete("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.delete);
 
 module.exports = router;

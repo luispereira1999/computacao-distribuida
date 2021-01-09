@@ -2,6 +2,7 @@ const database = require("../utils/database");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const globalConfig = require("../utils/global-config.json");
 var User = require("../models/user");
 var TypeUser = require("../models/type-user");
 
@@ -22,9 +23,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 1 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, 1, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.receive_advertising, typeUser.id, typeUser.id];
+      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, globalConfig.file.DEFAULT_PHOTO, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
          if (err)
@@ -32,12 +33,11 @@ module.exports = {
 
          var data = {
             id: this.lastID,
-            username: this.username,
+            username: user.username,
             name: user.name,
             email: user.email,
             type: 1
          };
-
          const token = generateToken(data);
 
          res.status(201).json({ "message": "Cliente registado com sucesso!", "data": data, "token": token });
@@ -100,9 +100,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 3 });
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, url_driving_license, driving_license, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, ?, ?, 0, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, url_driving_license, driving_license, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.url_driving_license, user.driving_license, user.receive_advertising, typeUser.id, typeUser.id];
+      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, globalConfig.file.DEFAULT_PHOTO, user.url_driving_license, user.driving_license, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
          if (err) {
@@ -133,9 +133,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 4 })
 
       // inserir na tabela utilizadores
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, description, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'default.png', ?, ?, 0, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, description, url_photo, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.description, user.receive_advertising, typeUser.id, typeUser.id];
+      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.description, globalConfig.file.DEFAULT_PHOTO, user.receive_advertising, typeUser.id, typeUser.id];
 
       db.run(sql, params, function (err) {
          if (err)
@@ -149,10 +149,10 @@ module.exports = {
 };
 
 
-function checkInvalidFields(req, typeUser) {
+function checkInvalidFields(req, typeUserId) {
    var errors = [];
 
-   switch (typeUser) {
+   switch (typeUserId) {
       // cliente
       case 1:
          if (!req.body.username)
@@ -286,7 +286,7 @@ function checkInvalidFields(req, typeUser) {
 
 
 function checkUsernameOrEmailAlreadyExist(db, req) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var user = new User(req.body);
       var sql = "SELECT id FROM Users WHERE (username = ? OR email = ?) AND deleted = 0 LIMIT 1";
       var params = [user.username, user.email];

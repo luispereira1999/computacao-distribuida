@@ -86,7 +86,7 @@ function checkInvalidFields(req) {
 
 
 function checkStockAvailable(db, productId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
       var sql = "SELECT stock FROM Products WHERE id = ?";
@@ -109,7 +109,7 @@ function checkStockAvailable(db, productId) {
 
 
 function getStock(db, productId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
       var sql = "SELECT stock FROM Products WHERE id = ? AND deleted = 0";
@@ -129,7 +129,7 @@ function getStock(db, productId) {
 
 
 function updateStock(db, product) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var sql = "UPDATE Products SET stock = ? WHERE id = ?";
       var params = [product.stock, product.id];
       var stock = { "error": false };
