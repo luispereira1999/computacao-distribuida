@@ -20,14 +20,14 @@ module.exports = {
       // inserir na tabela encomendas
       var sql = "INSERT INTO Orders (accepted, canceled, product_id, user_id) VALUES (0, 0, ?, ?)";
       var params = [order.product_id, order.user_id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          // atualizar entrega na base de dados
          var sql = "UPDATE Products SET stock = stock - 1 WHERE id = ?";
          var params = [order.product_id];
-         db.run(sql, params, function (err) {
+         db.run(sql, params, err => {
             if (err)
                return res.status(500).json({ "message": "Oh! " + err.message });
          });
@@ -54,7 +54,7 @@ module.exports = {
       // atualizar encomenda na base de dados
       var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND product_id = ? AND user_id = ? AND accepted = 0 AND canceled = 0";
       var params = [order.id, order.product_id, order.user_id];
-      db.run(sql, params, async function (err) {
+      db.run(sql, params, async err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -134,7 +134,7 @@ function updateStock(db, product) {
       var params = [product.stock, product.id];
       var stock = { "error": false };
 
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return stock = { "error": true, "message": "Oh! " + err.message };
 

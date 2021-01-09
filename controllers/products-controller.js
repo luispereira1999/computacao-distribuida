@@ -88,7 +88,7 @@ module.exports = {
       // inserir na tabela produtos
       var sql = "INSERT INTO Products (name, stock, price, description, url_photo, deleted, user_id) VALUES (?, ?, ?, ?, ?, 0, ?)";
       var params = [product.name, product.stock, product.price, product.description, product.url_photo, user.id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err) {
             removeFile(req.file.path);
             return res.status(500).json({ "message": "Oh! " + err.message });
@@ -114,7 +114,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET name = ?, stock = ?, price = ?, description = ? WHERE id = ? AND user_id = ?";
       var params = [product.name, product.stock, product.price, product.description, product.id, product.user_id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -141,7 +141,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET url_photo = ? WHERE id = ? AND user_id = ?";
       var params = [product.url_photo, product.id, product.user_id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err) {
             removeFile(req.file.path);
             return res.status(500).json({ "message": "Oh! " + err.message });
@@ -168,7 +168,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
       var params = [product.id, user.id];
-      db.run(sql, params, async function (err) {
+      db.run(sql, params, async err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 

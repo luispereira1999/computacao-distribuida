@@ -1,4 +1,5 @@
 const database = require("../utils/database");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const globalConfig = require("../utils/global-config.json");
@@ -36,9 +37,10 @@ module.exports = {
          return res.status(400).json({ "message": typeUserId.message });
 
       // atualizar utilizador na base de dados
-      var sql = "UPDATE Users SET name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ?, receive_advertising = ? WHERE id = ?";
-      var params = [user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.receive_advertising, user.id];
-      db.run(sql, params, function (err) {
+      var sql = "UPDATE Users SET username = ?, password = ?, name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ?, receive_advertising = ? WHERE id = ?";
+      const hash = await bcrypt.hashSync(user.password, 10);
+      var params = [user.username, hash   , user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.receive_advertising, user.id];
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -70,7 +72,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET url_photo = ? WHERE id = ?";
       var params = [user.url_photo, user.id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -93,7 +95,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET driving_license = ?, url_driving_license = ? WHERE id = ?";
       var params = [user.driving_license, user.url_driving_license, user.id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -132,7 +134,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET accepted = 1 WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -154,7 +156,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET type = 4 WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -189,7 +191,7 @@ module.exports = {
          // atualizar utilizador na base de dados
          var sql = "UPDATE Users SET type = ? WHERE id = ?";
          var params = [user.old_type, user.id];
-         db.run(sql, params, function (err) {
+         db.run(sql, params, err => {
             if (err)
                return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -212,7 +214,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET deleted = 1 WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, async function (err) {
+      db.run(sql, params, async err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -249,6 +251,10 @@ function checkInvalidFields(req, route, typeUserId) {
          switch (typeUserId) {
             // cliente
             case 1:
+               if (!req.body.username)
+                  errors.push("Ups! O nome de utilizador não foi preenchido.");
+               if (!req.body.password)
+                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.surname)
@@ -270,6 +276,10 @@ function checkInvalidFields(req, route, typeUserId) {
                   return { "exist": false };
             // empresa
             case 2:
+               if (!req.body.username)
+                  errors.push("Ups! O nome de utilizador não foi preenchido.");
+               if (!req.body.password)
+                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.email)
@@ -295,6 +305,10 @@ function checkInvalidFields(req, route, typeUserId) {
                   return { "exist": false };
             // condutor
             case 3:
+               if (!req.body.username)
+                  errors.push("Ups! O nome de utilizador não foi preenchido.");
+               if (!req.body.password)
+                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.surname)
@@ -320,6 +334,10 @@ function checkInvalidFields(req, route, typeUserId) {
                   return { "exist": false };
             // admin
             case 4:
+               if (!req.body.username)
+                  errors.push("Ups! O nome de utilizador não foi preenchido.");
+               if (!req.body.password)
+                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.surname)
