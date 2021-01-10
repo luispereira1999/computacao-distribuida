@@ -51,10 +51,8 @@ module.exports = {
       const db = database.connect();
 
       var invalidFields = await checkInvalidFields(req, 2);
-      if (invalidFields.exist) {
-         removeFile(req.file.path);
+      if (invalidFields.exist)
          return res.status(400).json({ "message": invalidFields.message.join(" | ") });
-      }
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
@@ -88,10 +86,8 @@ module.exports = {
       const db = database.connect();
 
       var invalidFields = await checkInvalidFields(req, 3);
-      if (invalidFields.exist) {
-         removeFile(req.file.path);
+      if (invalidFields.exist)
          return res.status(400).json({ "message": invalidFields.message.join(" | ") });
-      }
 
       var userExist = await checkUsernameOrEmailAlreadyExist(db, req);
       if (userExist.exist) {
@@ -209,9 +205,10 @@ function checkInvalidFields(req, typeUserId) {
          if (!req.file)
             errors.push("O logótipo não foi preenchido.");
          else {
-            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
+            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg")
                errors.push("O logótipo foi inserido incorretamente.");
-            }
+            if (errors.length > 0)
+               removeFile(req.file.path);
          }
 
          if (errors.length)
@@ -245,9 +242,10 @@ function checkInvalidFields(req, typeUserId) {
          if (!req.file)
             errors.push("O PDF da carta de condução não foi preenchida.");
          else {
-            if (req.file.mimetype != "application/pdf") {
+            if (req.file.mimetype != "application/pdf")
                errors.push("O PDF da carta de condução foi inserido incorretamente.");
-            }
+            if (errors.length > 0)
+               removeFile(req.file.path);
          }
 
          if (errors.length)

@@ -39,7 +39,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET username = ?, password = ?, name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ?, receive_advertising = ? WHERE id = ?";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash   , user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.receive_advertising, user.id];
+      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.receive_advertising, user.id];
       db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
@@ -366,10 +366,10 @@ function checkInvalidFields(req, route, typeUserId) {
          if (!req.file)
             errors.push("A foto do utilizador não foi preenchida.");
          else {
-            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
-               removeFile(req.file.path);
+            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg")
                errors.push("A foto do utilizador foi inserida incorretamente.");
-            }
+            if (errors.length > 0)
+               removeFile(req.file.path);
          }
 
          if (errors.length)
@@ -384,10 +384,10 @@ function checkInvalidFields(req, route, typeUserId) {
          if (!req.file)
             errors.push("A carta de condução não foi preenchida.");
          else {
-            if (req.file.mimetype != "application/pdf") {
-               removeFile(req.file.path);
+            if (req.file.mimetype != "application/pdf")
                errors.push("A carta de condução foi inserida incorretamente.");
-            }
+            if (errors.length > 0)
+               removeFile(req.file.path);
          }
 
          if (errors.length)

@@ -78,7 +78,7 @@ module.exports = {
       const db = database.connect();
 
       var invalidFields = await checkInvalidFields(req, "create");
-      if (erroinvalidFieldsrs.exist)
+      if (invalidFields.exist)
          return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "url_photo": req.file.filename });
@@ -205,10 +205,10 @@ function checkInvalidFields(req, operation) {
          if (!req.file)
             errors.push("A foto do produto não foi preenchida.");
          else {
-            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
-               removeFile(req.file.path);
+            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg")
                errors.push("O foto do produto foi inserida incorretamente.");
-            }
+            if (errors.length > 0)
+               removeFile(req.file.path);
          }
 
          if (errors.length)
@@ -219,10 +219,10 @@ function checkInvalidFields(req, operation) {
          if (!req.file)
             errors.push("A foto do produto não foi preenchida.");
          else {
-            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
-               removeFile(req.file.path);
+            if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg")
                errors.push("O foto do produto foi inserida incorretamente.");
-            }
+            if (errors.length > 0)
+               removeFile(req.file.path);
          }
 
          if (errors.length)

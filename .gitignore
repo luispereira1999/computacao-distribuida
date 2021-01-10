@@ -1,4 +1,7 @@
 node_modules
-uploads
+uploads/driving-licenses
+uploads/products
+uploads/photos/*
+!uploads/photos/default.png
 .vscode
 .deployment
