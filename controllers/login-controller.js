@@ -58,8 +58,6 @@ function checkInvalidFields(req) {
       errors.push("O nome de utilizador não foi preenchido.");
    if (!req.body.password)
       errors.push("A senha não foi preenchida.");
-   if (!req.body.password)
-      errors.push("A senha não foi preenchida.");
    if (errors.length)
       return errors;
 }
