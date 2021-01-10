@@ -1,9 +1,54 @@
 const database = require("../utils/database");
+var User = require("../models/user");
 var Product = require("../models/product");
 var Order = require("../models/order");
 
 
 module.exports = {
+   getFromUser: async (req, res) => {
+      const db = database.connect();
+
+      var user = new User(req.user);
+
+      // selecionar produtos na base de dados
+      var sql = "SELECT * FROM Orders WHERE user_id = ?";
+      var params = user.id;
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem encomendas." });
+         else
+            res.status(200).json({ "message": "Encomendas obtidas com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
+   getFromMerchant: async (req, res) => {
+      const db = database.connect();
+
+      var user = new User(req.user);
+
+      // selecionar produtos na base de dados
+      var sql = "SELECT Orders.id, Orders.accepted, Orders.canceled, Orders.user_id, Products.name FROM Orders INNER JOIN Products ON Orders.user_id = Products.id WHERE Orders.user_id = ?";
+      var params = user.id;
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem encomendas." });
+         else
+            res.status(200).json({ "message": "Encomendas obtidas com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
    create: async (req, res) => {
       const db = database.connect();
 
