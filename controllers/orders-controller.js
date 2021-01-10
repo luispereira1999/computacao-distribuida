@@ -7,9 +7,9 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req);
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var stock = await checkStockAvailable(db, req.body.product_id);
       if (!stock.available)
@@ -20,14 +20,14 @@ module.exports = {
       // inserir na tabela encomendas
       var sql = "INSERT INTO Orders (accepted, canceled, product_id, user_id) VALUES (0, 0, ?, ?)";
       var params = [order.product_id, order.user_id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          // atualizar entrega na base de dados
          var sql = "UPDATE Products SET stock = stock - 1 WHERE id = ?";
          var params = [order.product_id];
-         db.run(sql, params, function (err) {
+         db.run(sql, params, err => {
             if (err)
                return res.status(500).json({ "message": "Oh! " + err.message });
          });
@@ -54,7 +54,7 @@ module.exports = {
       // atualizar encomenda na base de dados
       var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND product_id = ? AND user_id = ? AND accepted = 0 AND canceled = 0";
       var params = [order.id, order.product_id, order.user_id];
-      db.run(sql, params, async function (err) {
+      db.run(sql, params, async err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -86,7 +86,7 @@ function checkInvalidFields(req) {
 
 
 function checkStockAvailable(db, productId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
       var sql = "SELECT stock FROM Products WHERE id = ?";
@@ -109,7 +109,7 @@ function checkStockAvailable(db, productId) {
 
 
 function getStock(db, productId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
       var sql = "SELECT stock FROM Products WHERE id = ? AND deleted = 0";
@@ -129,12 +129,12 @@ function getStock(db, productId) {
 
 
 function updateStock(db, product) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var sql = "UPDATE Products SET stock = ? WHERE id = ?";
       var params = [product.stock, product.id];
       var stock = { "error": false };
 
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return stock = { "error": true, "message": "Oh! " + err.message };
 

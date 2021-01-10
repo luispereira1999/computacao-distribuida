@@ -1,6 +1,18 @@
 {
-   "DB_SOURCE": "./utils/database.db",
    "SECRET": "hard-secret",
-   "URL_API_DEV": "https://picandgo.azurewebsites.net/api/",
-   "URL_API_PROD": "http://localhost:4000/api/"
+   "url": {
+      "API_DEVELOPMENT": "https://picandgo.azurewebsites.net/api/",
+      "API_PRODUCTION": "http://localhost:4000/api/"
+   },
+   "path": {
+      "DATABASE": "./utils/",
+      "UPLOADS": "./uploads/",
+      "PHOTOS": "photos/",
+      "DRIVING_LICENSES": "driving-licenses/",
+      "PRODUCTS": "products/"
+   },
+   "file": {
+      "DATABASE": "database.db",
+      "DEFAULT_PHOTO": "default.png"
+   }
 }

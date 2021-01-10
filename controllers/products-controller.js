@@ -1,5 +1,6 @@
 const database = require("../utils/database");
 const fs = require("fs");
+const globalConfig = require("../utils/global-config.json");
 var User = require("../models/user");
 var Product = require("../models/product");
 
@@ -76,9 +77,9 @@ module.exports = {
    create: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, "create");
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, "create");
+      if (erroinvalidFieldsrs.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "url_photo": req.file.filename });
       var product = new Product(allData);
@@ -87,7 +88,7 @@ module.exports = {
       // inserir na tabela produtos
       var sql = "INSERT INTO Products (name, stock, price, description, url_photo, deleted, user_id) VALUES (?, ?, ?, ?, ?, 0, ?)";
       var params = [product.name, product.stock, product.price, product.description, product.url_photo, user.id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err) {
             removeFile(req.file.path);
             return res.status(500).json({ "message": "Oh! " + err.message });
@@ -103,9 +104,9 @@ module.exports = {
    editData: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, "edit");
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, "edit");
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "id": req.params.id, "user_id": req.user.id });
       var product = new Product(allData);
@@ -113,7 +114,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET name = ?, stock = ?, price = ?, description = ? WHERE id = ? AND user_id = ?";
       var params = [product.name, product.stock, product.price, product.description, product.id, product.user_id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -130,9 +131,9 @@ module.exports = {
    editPhoto: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, "edit-photo");
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, "edit-photo");
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var allData = Object.assign(req.body, { "id": req.params.id, "url_photo": req.file.filename, "user_id": req.user.id });
       var product = new Product(allData);
@@ -140,12 +141,16 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET url_photo = ? WHERE id = ? AND user_id = ?";
       var params = [product.url_photo, product.id, product.user_id];
-      db.run(sql, params, function (err) {
-         if (err)
+      db.run(sql, params, err => {
+         if (err) {
+            removeFile(req.file.path);
             return res.status(500).json({ "message": "Oh! " + err.message });
+         }
 
-         if (this.changes == 0)
+         if (this.changes == 0) {
+            removeFile(req.file.path);
             return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
+         }
 
          res.status(200).json({ "message": "Foto do produto editado com sucesso!" });
       });
@@ -163,7 +168,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
       var params = [product.id, user.id];
-      db.run(sql, params, async function (err) {
+      db.run(sql, params, async err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -239,7 +244,7 @@ function checkFilter(filter) {
 
 
 function getUrlPhoto(db, productId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
       var sql = "SELECT url_photo FROM Products WHERE id = ?";
@@ -250,7 +255,7 @@ function getUrlPhoto(db, productId) {
          if (err)
             return urlPhoto = { "error": true, "message": "Oh! " + err.message };
 
-         return urlPhoto = { "error": false, "value": "./back-end/uploads/products/" + row.url_photo };
+         return urlPhoto = { "error": false, "value": globalConfig.path.UPLOADS + globalConfig.path.PRODUCTS + row.url_photo };
       }, () => {
          resolve(urlPhoto);
       });

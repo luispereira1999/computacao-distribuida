@@ -1,41 +1,41 @@
 $(window).ready(() => {
    // clicar no botão de registar cliente
-   $("#form-register-client").submit((e) => {
+   $("#form-register-client").submit(e => {
       e.preventDefault();
       registerClient();
    });
 
 
    // clicar no botão de registar empresa
-   $("#form-register-merchant").submit((e) => {
+   $("#form-register-merchant").submit(e => {
       e.preventDefault();
       registerMerchant();
    });
 
 
    // clicar no botão de registar condutor
-   $("#form-register-driver").submit((e) => {
+   $("#form-register-driver").submit(e => {
       e.preventDefault();
       registerDriver();
    });
 
 
    // clicar no botão de registar admin
-   $("#form-register-admin").submit((e) => {
+   $("#form-register-admin").submit(e => {
       e.preventDefault();
       registerAdmin();
    });
 
 
    // clicar no botão de fazer login
-   $("#form-login").submit((e) => {
+   $("#form-login").submit(e => {
       e.preventDefault();
       login();
    });
 
 
    // clicar no botão de criar produto
-   $("#form-create-product").submit((e) => {
+   $("#form-create-product").submit(e => {
       e.preventDefault();
       createProduct();
    });

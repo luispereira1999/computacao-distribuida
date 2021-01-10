@@ -1,2 +1,4 @@
 node_modules
-back-end/uploads
+uploads
+.vscode
+.deployment

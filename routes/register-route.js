@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const registerController = require("../controllers/register-controller");
+const globalConfig = require("../utils/global-config.json");
 
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const storage = multer.diskStorage({
    destination: async (req, file, cb) => {
-      const uploadsPath = "./back-end/uploads/";
-      const photosPath = "./back-end/uploads/photos/";
-      const drivingLicensesPath = "./back-end/uploads/driving-licenses/";
+      const uploadsPath = globalConfig.path.UPLOADS;
+      const photosPath = globalConfig.path.UPLOADS + globalConfig.path.PHOTOS;
+      const drivingLicensesPath = globalConfig.path.UPLOADS + globalConfig.path.DRIVING_LICENSES;
 
       createFolderIfNotExists(uploadsPath);
       createFolderIfNotExists(photosPath);
@@ -19,7 +20,7 @@ const storage = multer.diskStorage({
          cb(null, photosPath);
       else if (file.mimetype == "application/pdf" && req.route.path == "/driver")
          cb(null, drivingLicensesPath);
-      else 
+      else
          cb(null, "");
    },
    filename: async (req, file, cb) => {
@@ -53,5 +54,5 @@ module.exports = router;
 
 function createFolderIfNotExists(path) {
    if (!fs.existsSync(path))
-   fs.mkdirSync(folder);
+      fs.mkdirSync(path);
 }

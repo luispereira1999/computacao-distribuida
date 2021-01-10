@@ -7,9 +7,9 @@ module.exports = {
    accept: async (req, res) => {
       const db = database.connect();
 
-      var errors = await checkInvalidFields(req, 1);
-      if (errors.exist)
-         return res.status(400).json({ "message": errors.message.join(" | ") });
+      var invalidFields = await checkInvalidFields(req, 1);
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
       var orderExist = await checkOrderExist(db, req.body.order_id);
       if (!orderExist.exist)
@@ -21,7 +21,7 @@ module.exports = {
       // inserir na tabela encomendas
       var sql = "INSERT INTO Deliveries (order_id, user_id, pending, completed) VALUES (?, ?, 1, 0)";
       var params = [delivery.order_id, delivery.user_id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -30,7 +30,7 @@ module.exports = {
          // atualizar entrega na base de dados
          var sql = "UPDATE Orders SET accepted = 1 WHERE id = ? AND user_id = ?";
          var params = [order.id, delivery.user_id];
-         db.run(sql, params, function (err) {
+         db.run(sql, params, err => {
             if (err)
                return res.status(500).json({ "message": "Oh! " + err.message });
          });
@@ -51,7 +51,7 @@ module.exports = {
       // atualizar entrega na base de dados
       var sql = "UPDATE Deliveries SET pending = 0, completed = 1 WHERE order_id = ? AND user_id = ? AND pending = 1 AND completed = 0";
       var params = [delivery.order_id, delivery.user_id];
-      db.run(sql, params, function (err) {
+      db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -79,7 +79,7 @@ function checkInvalidFields(req) {
 
 
 function checkOrderExist(db, orderId) {
-   return new Promise((resolve) => {
+   return new Promise(resolve => {
       var order = new Order({ "id": orderId });
       var sql = "SELECT accepted FROM Orders WHERE id = ? AND canceled = 0";
       var params = order.id;
