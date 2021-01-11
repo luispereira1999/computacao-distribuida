@@ -10,6 +10,17 @@ function getFormData(form) {
 }
 
 
+function setFormData(data, element) {
+   var formData = "";
+
+   for (const [key, value] of Object.entries(data)) {
+      formData += $("input[name='" + key + "']").val(value);
+      if (key == "description")
+         formData += $("textarea").text(value);
+   }
+}
+
+
 function setSession(res) {
    sessionStorage.setItem("token", res.token);
    sessionStorage.setItem("id", res.data.id);

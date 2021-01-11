@@ -32,7 +32,7 @@ module.exports = {
       var product = new Product(req.params);
 
       // selecionar produto na base de dados
-      var sql = "SELECT * FROM Products WHERE id = ?";
+      var sql = "SELECT name, stock, price, description FROM Products WHERE id = ?";
       var params = [product.id];
       db.get(sql, params, function (err, row) {
          if (err)
