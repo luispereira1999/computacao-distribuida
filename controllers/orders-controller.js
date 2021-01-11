@@ -99,7 +99,7 @@ module.exports = {
       // atualizar encomenda na base de dados
       var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND product_id = ? AND user_id = ? AND accepted = 0 AND canceled = 0";
       var params = [order.id, order.product_id, order.user_id];
-      db.run(sql, params, async err => {
+      db.run(sql, params, async function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 

@@ -110,7 +110,7 @@ module.exports = {
       const db = database.connect();
 
       // selecionar utilizador na base de dados
-      var sql = "SELECT username, name, email, type FROM Users WHERE accepted = 0";
+      var sql = "SELECT id, username, name, email, type FROM Users WHERE accepted = 0";
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
@@ -134,7 +134,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET accepted = 1 WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, err => {
+      db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -156,7 +156,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET type = 4 WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, err => {
+      db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -191,7 +191,7 @@ module.exports = {
          // atualizar utilizador na base de dados
          var sql = "UPDATE Users SET type = ? WHERE id = ?";
          var params = [user.old_type, user.id];
-         db.run(sql, params, err => {
+         db.run(sql, params, function (err) {
             if (err)
                return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -214,7 +214,7 @@ module.exports = {
       // atualizar utilizador na base de dados
       var sql = "UPDATE Users SET deleted = 1 WHERE id = ?";
       var params = user.id;
-      db.run(sql, params, async err => {
+      db.run(sql, params, async function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 

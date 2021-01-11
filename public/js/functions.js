@@ -1,121 +1,3 @@
-function registerClient() {
-   var form = $("#form-register-client");
-   var formData = getFormData(form);
-
-   // pedido ao servidor
-   $.post("http://localhost:4000/api/register/client/", formData).done((res) => {
-      setSession(res);
-      var redirectPage = "../index.html";
-      showMessage(res.message, redirectPage);
-   }).fail(err => {
-      console.log(err.responseJSON.message);
-   });
-}
-
-
-function registerMerchant() {
-   var form = $("#form-register-merchant")[0];
-   var formData = new FormData(form);
-
-   // pedido ao servidor
-   $.ajax({
-      cache: false,
-      contentType: false,
-      data: formData,
-      processData: false,
-      type: "post",
-      url: "http://localhost:4000/api/register/merchant/",
-
-      success: res => {
-         var redirectPage = "../index.html";
-         showMessage(res.message, redirectPage);
-      },
-      error: err => {
-         console.log(err.responseJSON.message);
-      }
-   });
-}
-
-
-function registerDriver() {
-   var form = $("#form-register-driver")[0];
-   var formData = new FormData(form);
-
-   // pedido ao servidor
-   $.ajax({
-      cache: false,
-      contentType: false,
-      data: formData,
-      processData: false,
-      type: "post",
-      url: "http://localhost:4000/api/register/driver/",
-
-      success: res => {
-         var redirectPage = "../index.html";
-         showMessage(res.message, redirectPage);
-      },
-      error: err => {
-         console.log(err.responseJSON.message);
-      }
-   });
-}
-
-
-function registerAdmin() {
-   var form = $("#form-register-admin");
-   var formData = getFormData(form);
-
-   // pedido ao servidor
-   $.post("http://localhost:4000/api/register/admin/", formData).done((res) => {
-      var redirectPage = "../index.html";
-      showMessage(res.message, redirectPage);
-   }).fail(err => {
-      console.log(err.responseJSON.message);
-   });
-}
-
-
-function login() {
-   var form = $("#form-login");
-   var formData = getFormData(form);
-
-   // pedido ao servidor
-   $.post("http://localhost:4000/api/login/", formData).done((res) => {
-      setSession(res);
-      var redirectPage = "../index.html";
-      showMessage(res.message, redirectPage);
-   }).fail(err => {
-      console.log(err.responseJSON.message);
-   });
-}
-
-
-function createProduct() {
-   var form = $("#form-create-product")[0];
-   var formData = new FormData(form);
-   var token = sessionStorage.getItem("token");
-   console.log("aaa")
-   // pedido ao servidor
-   $.ajax({
-      cache: false,
-      contentType: false,
-      data: formData,
-      headers: { Authorization: "Bearer " + token },
-      processData: false,
-      type: "post",
-      url: "http://localhost:4000/api/products/create/",
-
-      success: res => {
-         var redirectPage = "../index.html";
-         showMessage(res.message, redirectPage);
-      },
-      error: err => {
-         console.log(err.responseJSON.message);
-      }
-   });
-}
-
-
 function getFormData(form) {
    var unindexedData = form.serializeArray();
    var indexedData = {};
@@ -127,6 +9,15 @@ function getFormData(form) {
    return indexedData;
 }
 
+function setFormData(data) {
+   var formData = "";
+
+   for (const [key, value] of Object.entries(data)) {
+      formData += $("input[name='" + key + "']").val(value);
+      if (key == "description")
+         formData += $("textarea").text(value);
+   }
+}
 
 function setSession(res) {
    sessionStorage.setItem("token", res.token);
@@ -137,17 +28,129 @@ function setSession(res) {
    sessionStorage.setItem("type", res.data.type);
 }
 
+function getToken() {
+   return sessionStorage.getItem("token");
+}
 
-function showMessage(message, page) {
-   alertify.alert().setting({
-      "title": "Sucesso",
-      "label": "Confirmar",
-      "message": message,
-      "onok": () => redirectPage(page)
-   }).show();
+function getStatus(err) {
+   return err.status;
 }
 
 
-function redirectPage(page) {
-   location.href = page;
+function redirectPage(url) {
+   location.href = url;
+}
+
+function openModal(text) {
+   alertify.alert().setting({
+      "title": "Sucesso",
+      "label": "Confirmar",
+      "message": text
+   }).show();
+}
+
+function showModalAndRedirect(text, url) {
+   alertify.alert().setting({
+      "title": "Sucesso",
+      "label": "Confirmar",
+      "message": text,
+      "onok": () => redirectPage(url)
+   }).show();
+}
+
+function showSuccessAlert(text) {
+   alertify.set("notifier", "position", "top-center");
+   alertify.notify(text, "success");
+}
+
+function showErrorAlert(text) {
+   alertify.set("notifier", "position", "top-center");
+   alertify.notify(text, "error");
+}
+
+function startModal(element) {
+   window.onclick = function (event) {
+      if (event.target == element) {
+         element.style.display = "none";
+      }
+   }
+}
+
+function closeModal(element) {
+   element.css("display", "none")
+}
+
+
+function createTableWithData(data, element) {
+   var header = getDataToTableHeader(data);
+   var body = getDataToTableBody(data);
+
+   element.children("thead").append(header);
+   element.children("tbody").append(body);
+}
+
+function getDataToTableHeader(data) {
+   var header;
+
+   for (i = 0; i < data.length; i++) {
+      header = "<tr>";
+      for (const [key, value] of Object.entries(data[i]))
+         header += " <th>" + key + "</th>";
+      header += "</tr>";
+   }
+
+   return header;
+}
+
+function getDataToTableBody(data) {
+   var body = "";
+   var content = "";
+
+   for (i = 0; i < data.length; i++) {
+      var body = "<tr>";
+      for (const [key, value] of Object.entries(data[i])) {
+         body += "<td class='td-" + key + "'>" + value + "</td>";
+      }
+      body += "</tr>";
+      content += body;
+   }
+
+   return content;
+}
+
+function destroyElement(element) {
+   element.remove();
+}
+
+function addButtonColumnsToTable(element) {
+   var thAccept = $("<th>Aceitar</th>");
+   var thDecline = $("<th>Recusar</th>");
+   var tdAccept = $("<td class='td-accept'></td>");
+   var tdDecline = $("<td class='td-decline'></td>");
+   var buttonAccept = $("<button class='button-accept-user'>Aceitar</button>")
+   var buttonDecline = $("<button class='button-decline-user'>Recusar</button>");
+
+   element.children("thead").children("tr").append(thAccept);
+   element.children("thead").children("tr").append(thDecline);
+   element.children("tbody").children("tr").append(tdAccept);
+   element.children("tbody").children("tr").append(tdDecline);
+
+   $(".td-accept").append(buttonAccept);
+   $(".td-decline").append(buttonDecline);
+}
+
+
+function checkHtmlExists(html) {
+   if (html == "")
+      return false;
+   else
+      return true;
+}
+
+function clearFormData(element) {
+   element.reset();
+}
+
+function clearTextOfElement(element) {
+   element.text("");
 }
