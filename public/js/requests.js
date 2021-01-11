@@ -185,3 +185,35 @@ function getUsersNotAccepted() {
       }
    });
 }
+
+
+function createProduct() {
+   var form = $("#form-create-product")[0];
+   var formData = new FormData(form);
+   var token = sessionStorage.getItem("token");
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      headers: { Authorization: "Bearer " + token },
+      processData: false,
+      type: "post",
+      url: urlApi + "products/create/",
+
+      success: res => {
+         showSuccessMessage(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorMessage(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
