@@ -13,6 +13,7 @@
 
    <!-- CSS -->
    <link rel="stylesheet" href="css/index.css">
+   <link rel="stylesheet" href="css/create-product.css">
 
    <!-- JQuery -->
    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -32,6 +33,55 @@
 
 <body>
    <h1>Página inicial</h1>
+
+
+   <button id="button-get-users-not-accepted">Obter registos de empresas por aceitar</button>
+   <table id="table-users-not-accepted">
+      <thead></thead>
+      <tbody></tbody>
+   </table>
+
+
+   <button id="button-get-user-data">Obter dados do utilizador</button>
+   <div id="user-data"></div>
+
+
+   <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Criar produto</button>
+   <div id="id01" class="modal">
+      <div class="box">
+         <div class="title">Criar produto</div>
+
+         <form id="form-create-product" class="form modal-content animate">
+            <div class="topico">
+               <label>Nome</label>
+               <input type="text" class="input" name="name">
+            </div>
+            <div class="topico">
+               <label>Stock</label>
+               <input type="text" class="input" name="stock">
+            </div>
+            <div class="topico">
+               <label>Preço</label>
+               <input type="text" class="input" name="price">
+            </div>
+            <div class="topico">
+               <label>Descrição</label>
+               <textarea class="textarea" name="description"></textarea>
+            </div>
+            <div class="topico">
+               <label>Imagem</label>
+               <input type="file" class="input" name="file">
+            </div>
+
+            <div class="topico">
+               <input type="submit" class="btn">
+            </div>
+         </form>
+      </div>
+   </div>
+
+
+
 </body>
 
 </html>

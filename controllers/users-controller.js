@@ -110,7 +110,7 @@ module.exports = {
       const db = database.connect();
 
       // selecionar utilizador na base de dados
-      var sql = "SELECT username, name, email, type FROM Users WHERE accepted = 0";
+      var sql = "SELECT id, username, name, email, type FROM Users WHERE accepted = 0";
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
