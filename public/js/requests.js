@@ -216,6 +216,53 @@ function acceptUser(currentButtonClicked) {
 }
 
 
+function getUserData() {
+   var div = $("#user-data");
+
+   var contentInsideDiv = checkContentInsideTable(div.html());
+   if (contentInsideDiv) {
+      destroyElement(div.find("label"));
+      destroyElement(div.find("input"));
+   }
+
+   var token = sessionStorage.getItem("token");
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "post",
+      url: urlApi + "users/account/",
+
+      success: res => {
+         var i = -1;
+         for (const [key, value] of Object.entries(res.data)) {
+            var label = $("<label>" + key + "</label>");
+            var input = $("<input type='text' value='" + value + "' />");
+            div.append(label);
+            div.append(input);
+
+            if (i % 2 == 0) {
+               var br = $("<br />");
+               div.append(br);
+            }
+            i++;
+         }
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorMessage(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function createProduct() {
    var form = $("#form-create-product")[0];
    var formData = new FormData(form);
