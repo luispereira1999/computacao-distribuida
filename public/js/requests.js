@@ -13,13 +13,13 @@ function registerClient() {
       success: res => {
          setSession(res);
          var url = "./index.html";
-         showMessageAndRedirect(res.message, url);
+         showModalAndRedirect(res.message, url);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -43,13 +43,13 @@ function registerMerchant() {
 
       success: res => {
          var url = "./index.html";
-         showMessageAndRedirect(res.message, url);
+         showModalAndRedirect(res.message, url);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -73,13 +73,13 @@ function registerDriver() {
 
       success: res => {
          var url = "./index.html";
-         showMessageAndRedirect(res.message, url);
+         showModalAndRedirect(res.message, url);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -101,13 +101,13 @@ function registerAdmin() {
 
       success: res => {
          var url = "./index.html";
-         showMessageAndRedirect(res.message, url);
+         showModalAndRedirect(res.message, url);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -132,13 +132,13 @@ function login() {
       success: res => {
          setSession(res);
          var url = "./index.html";
-         showMessageAndRedirect(res.message, url);
+         showModalAndRedirect(res.message, url);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -152,13 +152,14 @@ function login() {
 function getUserData() {
    var div = $("#user-data");
 
-   var contentInsideDiv = checkContentInsideTable(div.html());
-   if (contentInsideDiv) {
+   var htmlExists = checkHtmlExists(div.html());
+   if (htmlExists) {
       destroyElement(div.find("label"));
       destroyElement(div.find("input"));
+      destroyElement(div.find("br"));
    }
 
-   var token = sessionStorage.getItem("token");
+   var token = getToken();
 
    // pedido ao servidor
    $.ajax({
@@ -186,7 +187,7 @@ function getUserData() {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -199,13 +200,13 @@ function getUsersNotAccepted() {
    var thead = $("#table-users-not-accepted thead");
    var tbody = $("#table-users-not-accepted tbody");
 
-   var contentInsideTable = checkContentInsideTable(tbody.html());
-   if (contentInsideTable) {
+   var htmlExists = checkHtmlExists(tbody.html());
+   if (htmlExists) {
       destroyElement(thead.find("tr"));
       destroyElement(tbody.find("tr"));
    }
 
-   var token = sessionStorage.getItem("token");
+   var token = getToken();
 
    // pedido ao servidor
    $.ajax({
@@ -223,7 +224,7 @@ function getUsersNotAccepted() {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -233,7 +234,7 @@ function getUsersNotAccepted() {
 }
 
 function acceptUser(currentButtonClicked) {
-   var token = sessionStorage.getItem("token");
+   var token = getToken();
    var userId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    // pedido ao servidor
@@ -244,14 +245,23 @@ function acceptUser(currentButtonClicked) {
       url: urlApi + "users/accept/" + userId,
 
       success: res => {
-         $("#button-get-users-not-accepted").trigger("click");
-         showSuccessMessage(res.message);
+         openModal(res.message);
+
+         var rowCount = $("tbody tr").length;
+         if (rowCount > 1) {
+            var currentRow = $("tbody tr .td-id:contains('" + userId + "')").parent();
+            destroyElement(currentRow);
+         }
+         else {
+            destroyElement($("thead").find("tr"));
+            destroyElement($("tbody").find("tr"));
+         }
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -263,7 +273,7 @@ function acceptUser(currentButtonClicked) {
 
 // PRODUCTS
 function getProduct() {
-   var token = sessionStorage.getItem("token");
+   var token = getToken();
 
    // pedido ao servidor
    $.ajax({
@@ -273,14 +283,13 @@ function getProduct() {
       url: urlApi + "products/" + 1,
 
       success: res => {
-         var form = $("#form-edit-product-data");
-         setFormData(res.data, form);
+         setFormData(res.data);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -292,26 +301,28 @@ function getProduct() {
 function createProduct() {
    var form = $("#form-create-product")[0];
    var formData = new FormData(form);
-   var token = sessionStorage.getItem("token");
+   var token = getToken();
 
    // pedido ao servidor
    $.ajax({
       cache: false,
       contentType: false,
       data: formData,
-      headers: { Authorization: "Bearer " + token },
       processData: false,
+      headers: { Authorization: "Bearer " + token },
       type: "post",
       url: urlApi + "products/create/",
 
       success: res => {
-         showSuccessMessage(res.message);
+         var modal = $("#id1");
+         closeModal(modal);
+         openModal(res.message);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);
@@ -323,23 +334,26 @@ function createProduct() {
 function editProductData() {
    var form = $("#form-edit-product-data");
    var formData = getFormData(form);
+   var token = getToken();
 
    // pedido ao servidor
    $.ajax({
       cache: false,
       data: formData,
+      headers: { Authorization: "Bearer " + token },
       type: "patch",
-      url: urlApi + "products/edit-data/2",
+      url: urlApi + "products/edit-data/1",
 
       success: res => {
-         var url = "./index.html";
-         showMessageAndRedirect(res.message, url);
+         var modal = $("#id2");
+         closeModal(modal);
+         openModal(res.message);
       },
       error: err => {
          var status = getStatus(err);
 
          if (status >= 400 && status <= 599 != 404)
-            showErrorMessage(err.responseJSON.message);
+            showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
             var url = "./404.html";
             redirectPage(url);

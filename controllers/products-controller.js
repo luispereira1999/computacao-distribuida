@@ -104,7 +104,7 @@ module.exports = {
    editData: async (req, res) => {
       const db = database.connect();
 
-      var invalidFields = await checkInvalidFields(req, "edit");
+      var invalidFields = await checkInvalidFields(req, "edit-data");
       if (invalidFields.exist)
          return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
@@ -114,7 +114,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET name = ?, stock = ?, price = ?, description = ? WHERE id = ? AND user_id = ?";
       var params = [product.name, product.stock, product.price, product.description, product.id, product.user_id];
-      db.run(sql, params, err => {
+      db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -141,7 +141,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET url_photo = ? WHERE id = ? AND user_id = ?";
       var params = [product.url_photo, product.id, product.user_id];
-      db.run(sql, params, err => {
+      db.run(sql, params, function (err) {
          if (err) {
             removeFile(req.file.path);
             return res.status(500).json({ "message": "Oh! " + err.message });
@@ -168,7 +168,7 @@ module.exports = {
       // atualizar produto na base de dados
       var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
       var params = [product.id, user.id];
-      db.run(sql, params, async err => {
+      db.run(sql, params, async function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -210,6 +210,20 @@ function checkInvalidFields(req, operation) {
             if (errors.length > 0)
                removeFile(req.file.path);
          }
+
+         if (errors.length)
+            return { "exist": true, "message": errors };
+         else
+            return { "exist": false };
+      case "edit-data":
+         if (!req.body.name)
+            errors.push("Ups! O nome do produto não foi preenchido.");
+         if (!req.body.stock)
+            errors.push("O stock não foi preenchida.");
+         if (!req.body.price)
+            errors.push("O preço não foi preenchido.");
+         if (!req.body.description)
+            errors.push("A descrição não foi preenchida.");
 
          if (errors.length)
             return { "exist": true, "message": errors };

@@ -1,18 +1,7 @@
 $(window).ready(() => {
-   // GERAL
-   var modal = document.getElementById("id1");
-   window.onclick = function (event) {
-      if (event.target == modal) {
-         modal.style.display = "none";
-      }
-   }
-
-   var modal = document.getElementById("id2");
-   window.onclick = function (event) {
-      if (event.target == modal) {
-         modal.style.display = "none";
-      }
-   }
+   // GENERAL
+   startModal($("id1"));
+   startModal($("id2"));
 
 
    // REGISTER
