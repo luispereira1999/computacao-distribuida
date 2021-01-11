@@ -187,6 +187,35 @@ function getUsersNotAccepted() {
 }
 
 
+function acceptUser(currentButtonClicked) {
+   var token = sessionStorage.getItem("token");
+   var userId = currentButtonClicked.parent().parent().children(".td-id").text();
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "users/accept/" + userId,
+
+      success: res => {
+         $("#button-get-users-not-accepted").trigger("click");
+         showSuccessMessage(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorMessage(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function createProduct() {
    var form = $("#form-create-product")[0];
    var formData = new FormData(form);
