@@ -429,3 +429,40 @@ function editProductData() {
       }
    });
 }
+
+function deleteProduct(currentButtonClicked) {
+   var token = getToken();
+   var productId = currentButtonClicked.parent().parent().children(".td-id").text();
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "delete",
+      url: urlApi + "products/delete/" + productId,
+
+      success: res => {
+         openModal(res.message);
+
+         var rowCount = $("tbody tr").length;
+         if (rowCount > 1) {
+            var currentRow = $("tbody tr .td-id:contains('" + productId + "')").parent();
+            destroyElement(currentRow);
+         }
+         else {
+            destroyElement($("thead").find("tr"));
+            destroyElement($("tbody").find("tr"));
+         }
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
