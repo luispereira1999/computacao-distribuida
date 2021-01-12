@@ -536,3 +536,34 @@ function createOrder(currentButtonClicked) {
       }
    });
 }
+
+function cancelOrder(currentButtonClicked) {
+   var token = getToken();
+   var orderId = currentButtonClicked.parent().parent().children(".td-id").text();
+   var productId = currentButtonClicked.parent().parent().children(".td-product_id").text();
+   var data = { "order_id": orderId, "product_id": productId };
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      data: data,
+      headers: { Authorization: "Bearer " + token },
+      type: "delete",
+      url: urlApi + "orders/cancel/",
+
+      success: res => {
+         openModal(res.message);
+         $("#button-get-orders-from-user").trigger("click");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
