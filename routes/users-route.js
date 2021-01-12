@@ -48,7 +48,7 @@ const upload = multer({
 });
 
 
-router.post("/account", [validateLogin, validateUser], userController.view);
+router.get("/account", [validateLogin, validateUser], userController.view);
 router.patch("/edit-data", [validateLogin, validateUser], userController.editData);
 router.put("/edit-photo", [upload.single("file"), validateLogin, validateUser], userController.editPhoto);
 router.put("/edit-driving-license", [upload.single("file"), validateLogin, validateUser, validateType.checkDriver], userController.editDrivingLicense);

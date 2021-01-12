@@ -3,7 +3,6 @@ function registerClient() {
    var form = $("#form-register-client");
    var formData = getFormData(form);
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       data: formData,
@@ -32,7 +31,6 @@ function registerMerchant() {
    var form = $("#form-register-merchant")[0];
    var formData = new FormData(form);
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       contentType: false,
@@ -62,7 +60,6 @@ function registerDriver() {
    var form = $("#form-register-driver")[0];
    var formData = new FormData(form);
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       contentType: false,
@@ -92,7 +89,6 @@ function registerAdmin() {
    var form = $("#form-register-admin");
    var formData = getFormData(form);
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       data: formData,
@@ -122,7 +118,6 @@ function login() {
    var form = $("#form-login");
    var formData = getFormData(form);
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       data: formData,
@@ -161,11 +156,10 @@ function getUserData() {
 
    var token = getToken();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
-      type: "post",
+      type: "get",
       url: urlApi + "users/account/",
 
       success: res => {
@@ -208,7 +202,6 @@ function getUsersNotAccepted() {
 
    var token = getToken();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
@@ -251,7 +244,6 @@ function acceptUser(currentButtonClicked) {
    var token = getToken();
    var userId = currentButtonClicked.parent().parent().children(".td-id").text();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
@@ -298,7 +290,6 @@ function getProducts() {
 
    var token = getToken();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
@@ -310,6 +301,24 @@ function getProducts() {
          createTableWithData(res.data, table);
 
          var elements = [{
+            "selector": ".td-get-by-id",
+            "table": table,
+            "th": $("<th>Obter pelo ID</th>"),
+            "td": $("<td class='td-get-by-id'></td>"),
+            "button": $("<button class='button-get-by-id'>Obter pelo ID</button>"),
+         }, {
+            "selector": ".td-edit-data",
+            "table": table,
+            "th": $("<th>Editar dados</th>"),
+            "td": $("<td class='td-edit-data'></td>"),
+            "button": $("<button class='button-edit-data'>Editar dados</button>"),
+         }, {
+            "selector": ".td-edit-photo",
+            "table": table,
+            "th": $("<th>Editar foto</th>"),
+            "td": $("<td class='td-edit-photo'></td>"),
+            "button": $("<button class='button-edit-photo'>Editar foto</button>"),
+         }, {
             "selector": ".td-delete",
             "table": table,
             "th": $("<th>Remover</th>"),
@@ -337,15 +346,16 @@ function getProducts() {
    });
 }
 
-function getProduct() {
-   // pedido ao servidor
+function getProductById(currentButtonClicked) {
+   var productId = currentButtonClicked.parent().parent().children(".td-id").text();
+
    $.ajax({
       cache: false,
       type: "get",
-      url: urlApi + "products/" + 1,
+      url: urlApi + "products/" + productId,
 
       success: res => {
-         setFormData(res.data);
+         console.log(res.data)
       },
       error: err => {
          var status = getStatus(err);
@@ -365,7 +375,6 @@ function createProduct() {
    var formData = new FormData(form);
    var token = getToken();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       contentType: false,
@@ -376,7 +385,7 @@ function createProduct() {
       url: urlApi + "products/create/",
 
       success: res => {
-         var modal = $("#id1");
+         var modal = $("#div-create-product");
          closeModal(modal);
          openModal(res.message);
       },
@@ -398,18 +407,51 @@ function editProductData() {
    var formData = getFormData(form);
    var token = getToken();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       data: formData,
       headers: { Authorization: "Bearer " + token },
       type: "patch",
-      url: urlApi + "products/edit-data/1",
+      url: urlApi + "products/edit-data/" + formData.id,
 
       success: res => {
-         var modal = $("#id2");
+         var modal = $("#div-edit-product-data");
          closeModal(modal);
          openModal(res.message);
+         $("#button-get-products").trigger("click");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function editProductPhoto() {
+   var form = $("#form-edit-product-photo")[0];
+   var formData = new FormData(form);
+   var token = getToken();
+
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      processData: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "products/edit-photo/" + formData.get("id"),
+
+      success: res => {
+         var modal = $("#div-edit-product-photo");
+         closeModal(modal);
+         openModal(res.message);
+         $("#button-get-products").trigger("click");
       },
       error: err => {
          var status = getStatus(err);
@@ -428,7 +470,6 @@ function deleteProduct(currentButtonClicked) {
    var token = getToken();
    var productId = currentButtonClicked.parent().parent().children(".td-id").text();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
@@ -475,7 +516,6 @@ function getOrdersFromUser() {
 
    var token = getToken();
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
@@ -513,7 +553,6 @@ function createOrder(currentButtonClicked) {
    var token = getToken();
    var data = { "product_id": currentButtonClicked.parent().parent().children(".td-id").text() };
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       data: data,
@@ -543,7 +582,6 @@ function cancelOrder(currentButtonClicked) {
    var productId = currentButtonClicked.parent().parent().children(".td-product_id").text();
    var data = { "order_id": orderId, "product_id": productId };
 
-   // pedido ao servidor
    $.ajax({
       cache: false,
       data: data,

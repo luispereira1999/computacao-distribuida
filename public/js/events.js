@@ -1,7 +1,8 @@
 $(window).ready(() => {
    // GENERAL
-   startModal($("id1"));
-   startModal($("id2"));
+   startModal($("div-create-product"));
+   startModal($("div-edit-product-data"));
+   startModal($("div-edit-product-photo"));
 
 
    // REGISTER
@@ -53,8 +54,7 @@ $(window).ready(() => {
       getUsersNotAccepted();
    });
 
-   $("#table-users-not-accepted").on("click", ".td-accept .button-accept-user", function (e) {
-      e.preventDefault();
+   $("#table-users-not-accepted").on("click", ".td-accept .button-accept-user", function () {
       acceptUser($(this));
    });
 
@@ -64,9 +64,8 @@ $(window).ready(() => {
       getProducts();
    });
 
-   $("#button-get-product").click(() => {
-      document.getElementById('id2').style.display = "block";
-      getProduct();
+   $("#table-products").on("click", ".td-get-by-id .button-get-by-id", function () {
+      getProductById($(this));
    });
 
    $("#form-create-product").submit(e => {
@@ -74,9 +73,42 @@ $(window).ready(() => {
       createProduct();
    });
 
+   $("#table-products").on("click", ".td-edit-data .button-edit-data", function () {
+      document.getElementById("div-edit-product-data").style.display = "block";
+
+      var data = {
+         "id": $(this).parent().parent().children(".td-id").text(),
+         "name": $(this).parent().parent().children(".td-name").text(),
+         "stock": $(this).parent().parent().children(".td-stock").text(),
+         "price": $(this).parent().parent().children(".td-price").text(),
+         "description": $(this).parent().parent().children(".td-description").text()
+      };
+
+      setFormData(data);
+   });
+
+   $("#table-products").on("click", ".td-edit-photo .button-edit-photo", function () {
+      document.getElementById("div-edit-product-photo").style.display = "block";
+
+      var data = {
+         "id": $(this).parent().parent().children(".td-id").text(),
+         "name": $(this).parent().parent().children(".td-name").text(),
+         "stock": $(this).parent().parent().children(".td-stock").text(),
+         "price": $(this).parent().parent().children(".td-price").text(),
+         "description": $(this).parent().parent().children(".td-description").text()
+      };
+
+      setFormData(data);
+   });
+
    $("#form-edit-product-data").submit(e => {
       e.preventDefault();
       editProductData();
+   });
+
+   $("#form-edit-product-photo").submit(e => {
+      e.preventDefault();
+      editProductPhoto();
    });
 
    $("#table-products").on("click", ".td-delete .button-delete-product", function (e) {
