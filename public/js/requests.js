@@ -218,7 +218,21 @@ function getUsersNotAccepted() {
       success: res => {
          var table = $("#table-users-not-accepted");
          createTableWithData(res.data, table);
-         addButtonColumnsToTable(table);
+
+         var elements = [{
+            "selector": ".td-accept",
+            "table": table,
+            "th": $("<th>Aceitar</th>"),
+            "td": $("<td class='td-accept'></td>"),
+            "button": $("<button class='button-accept-user'>Aceitar</button>"),
+         }, {
+            "selector": ".td-decline",
+            "table": table,
+            "th": $("<th>Recusar</th>"),
+            "td": $("<td class='td-decline'></td>"),
+            "button": $("<button class='button-decline-user'>Recusar</button>"),
+         }];
+         addButtonColumnToTable(elements);
       },
       error: err => {
          var status = getStatus(err);
@@ -272,13 +286,67 @@ function acceptUser(currentButtonClicked) {
 
 
 // PRODUCTS
-function getProduct() {
+function getProducts() {
+   var thead = $("#table-products thead");
+   var tbody = $("#table-products tbody");
+
+   var htmlExists = checkHtmlExists(tbody.html());
+   if (htmlExists) {
+      destroyElement(thead.find("tr"));
+      destroyElement(tbody.find("tr"));
+   }
+
    var token = getToken();
 
    // pedido ao servidor
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "products/",
+
+      success: res => {
+         var table = $("#table-products");
+         createTableWithData(res.data, table);
+
+         var elements = [{
+            "selector": ".td-delete",
+            "table": table,
+            "th": $("<th>Remover</th>"),
+            "td": $("<td class='td-delete'></td>"),
+            "button": $("<button class='button-delete-product'>Remover</button>"),
+         }, {
+            "selector": ".td-create-order",
+            "table": table,
+            "th": $("<th>Encomendar</th>"),
+            "td": $("<td class='td-create-order'></td>"),
+            "button": $("<button class='button-create-order'>Encomendar</button>"),
+         }, {
+            "selector": ".td-cancel-order",
+            "table": table,
+            "th": $("<th>Cancelar</th>"),
+            "td": $("<td class='td-cancel-order'></td>"),
+            "button": $("<button class='button-cancel-order'>Cancelar</button>"),
+         }];
+         addButtonColumnToTable(elements);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getProduct() {
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
       type: "get",
       url: urlApi + "products/" + 1,
 

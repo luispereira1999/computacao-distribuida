@@ -10,7 +10,7 @@ module.exports = {
       const db = database.connect();
 
       // selecionar produtos na base de dados
-      var sql = "SELECT * FROM Products";
+      var sql = "SELECT id, name, stock, price, description, url_photo FROM Products WHERE deleted = 0";
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
@@ -32,7 +32,7 @@ module.exports = {
       var product = new Product(req.params);
 
       // selecionar produto na base de dados
-      var sql = "SELECT name, stock, price, description FROM Products WHERE id = ?";
+      var sql = "SELECT name, stock, price, description FROM Products WHERE id = ? AND deleted = 0";
       var params = [product.id];
       db.get(sql, params, function (err, row) {
          if (err)

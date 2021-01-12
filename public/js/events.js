@@ -60,6 +60,10 @@ $(window).ready(() => {
 
 
    // PRODUCTS
+   $("#button-get-products").click(() => {
+      getProducts();
+   });
+
    $("#button-get-product").click(() => {
       document.getElementById('id2').style.display = "block";
       getProduct();
@@ -73,5 +77,20 @@ $(window).ready(() => {
    $("#form-edit-product-data").submit(e => {
       e.preventDefault();
       editProductData();
+   });
+
+   $("#table-products").on("click", ".td-delete .button-delete-product", function (e) {
+      e.preventDefault();
+      deleteProduct($(this));
+   });
+
+   $("#table-products").on("click", ".td-create-order .button-create-order", function (e) {
+      e.preventDefault();
+      createOrder($(this));
+   });
+
+   $("#table-products").on("click", ".td-cancel-order .button-cancel-order", function (e) {
+      e.preventDefault();
+      cancelOrder($(this));
    });
 });
