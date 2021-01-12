@@ -466,3 +466,34 @@ function deleteProduct(currentButtonClicked) {
       }
    });
 }
+
+
+// ORDERS
+function createOrder(currentButtonClicked) {
+   // var data = { "product_id":  };
+   var token = getToken();
+   var data = { "product_id": currentButtonClicked.parent().parent().children(".td-id").text() };
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      data: data,
+      headers: { Authorization: "Bearer " + token },
+      type: "post",
+      url: urlApi + "orders/create/",
+
+      success: res => {
+         openModal(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
