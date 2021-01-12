@@ -84,12 +84,18 @@ $(window).ready(() => {
       deleteProduct($(this));
    });
 
+
+   // ORDERS
+   $("#button-get-orders-from-user").click(() => {
+      getOrdersFromUser();
+   });
+
    $("#table-products").on("click", ".td-create-order .button-create-order", function (e) {
       e.preventDefault();
       createOrder($(this));
    });
 
-   $("#table-products").on("click", ".td-cancel-order .button-cancel-order", function (e) {
+   $("#table-orders-from-user").on("click", ".td-cancel .button-cancel", function (e) {
       e.preventDefault();
       cancelOrder($(this));
    });

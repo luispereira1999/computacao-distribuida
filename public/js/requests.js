@@ -321,12 +321,6 @@ function getProducts() {
             "th": $("<th>Encomendar</th>"),
             "td": $("<td class='td-create-order'></td>"),
             "button": $("<button class='button-create-order'>Encomendar</button>"),
-         }, {
-            "selector": ".td-cancel-order",
-            "table": table,
-            "th": $("<th>Cancelar</th>"),
-            "td": $("<td class='td-cancel-order'></td>"),
-            "button": $("<button class='button-cancel-order'>Cancelar</button>"),
          }];
          addButtonColumnToTable(elements);
       },
@@ -469,6 +463,51 @@ function deleteProduct(currentButtonClicked) {
 
 
 // ORDERS
+function getOrdersFromUser() {
+   var thead = $("#table-orders-from-user thead");
+   var tbody = $("#table-orders-from-user tbody");
+
+   var htmlExists = checkHtmlExists(tbody.html());
+   if (htmlExists) {
+      destroyElement(thead.find("tr"));
+      destroyElement(tbody.find("tr"));
+   }
+
+   var token = getToken();
+
+   // pedido ao servidor
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "orders/",
+
+      success: res => {
+         var table = $("#table-orders-from-user");
+         createTableWithData(res.data, table);
+
+         var elements = [{
+            "selector": ".td-cancel",
+            "table": table,
+            "th": $("<th>Cancelar</th>"),
+            "td": $("<td class='td-cancel'></td>"),
+            "button": $("<button class='button-cancel'>Cancelar</button>"),
+         }];
+         addButtonColumnToTable(elements);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
    var token = getToken();
