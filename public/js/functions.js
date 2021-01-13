@@ -122,21 +122,12 @@ function destroyElement(element) {
    element.remove();
 }
 
-function addButtonColumnsToTable(element) {
-   var thAccept = $("<th>Aceitar</th>");
-   var thDecline = $("<th>Recusar</th>");
-   var tdAccept = $("<td class='td-accept'></td>");
-   var tdDecline = $("<td class='td-decline'></td>");
-   var buttonAccept = $("<button class='button-accept-user'>Aceitar</button>")
-   var buttonDecline = $("<button class='button-decline-user'>Recusar</button>");
-
-   element.children("thead").children("tr").append(thAccept);
-   element.children("thead").children("tr").append(thDecline);
-   element.children("tbody").children("tr").append(tdAccept);
-   element.children("tbody").children("tr").append(tdDecline);
-
-   $(".td-accept").append(buttonAccept);
-   $(".td-decline").append(buttonDecline);
+function addButtonColumnToTable(elements) {
+   elements.forEach(function(elem) {
+      elem.table.children("thead").children("tr").append(elem.th);
+      elem.table.children("tbody").children("tr").append(elem.td);
+      $(elem.selector).append(elem.button);
+    }); 
 }
 
 

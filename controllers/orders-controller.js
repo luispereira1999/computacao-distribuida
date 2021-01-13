@@ -95,7 +95,7 @@ module.exports = {
          return res.status(400).json({ "message": stock.message });
       else
          product.stock = stock.value - 1;
-
+z
       // atualizar encomenda na base de dados
       var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND product_id = ? AND user_id = ? AND accepted = 0 AND canceled = 0";
       var params = [order.id, order.product_id, order.user_id];
@@ -157,7 +157,7 @@ function getStock(db, productId) {
    return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
-      var sql = "SELECT stock FROM Products WHERE id = ? AND deleted = 0";
+      var sql = "SELECT stock FROM Products WHERE id = ?";
       var params = product.id;
       var stock = { "error": true, "message": "Ups! O produto não existe." };
 
