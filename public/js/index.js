@@ -7,6 +7,7 @@ $(window).ready(() => {
    else {
       $("#header-user-logged").hide();
       $("#header-user-not-logged").show();
+      return;
    }
 
    var html = getHtmlUserInfoOnHeader();
