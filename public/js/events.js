@@ -4,16 +4,6 @@ $(window).ready(() => {
    startModal($("div-edit-product-data"));
    startModal($("div-edit-product-photo"));
 
-   var userLogged = checkUserLogged();
-   if (userLogged) {
-      $("#header-user-logged").show();
-      $("#header-user-not-logged").hide();
-   }
-   else {
-      $("#header-user-logged").hide();
-      $("#header-user-not-logged").show();
-   }
-
    
    // REGISTER
    $("#form-register-client").submit(e => {
