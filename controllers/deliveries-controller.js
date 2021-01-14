@@ -18,7 +18,7 @@ module.exports = {
       var allData = Object.assign({ "order_id": req.body.order_id, "user_id": req.user.id });
       var delivery = new Delivery(allData);
 
-      // inserir na tabela encomendas
+      // inserir entrega na base de dados
       var sql = "INSERT INTO Deliveries (order_id, user_id, pending, completed) VALUES (?, ?, 1, 0)";
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, err => {
@@ -27,7 +27,7 @@ module.exports = {
 
          var order = new Order({ "id": req.body.order_id });
 
-         // atualizar entrega na base de dados
+         // atualizar estado da encomenda na base de dados
          var sql = "UPDATE Orders SET accepted = 1 WHERE id = ? AND user_id = ?";
          var params = [order.id, delivery.user_id];
          db.run(sql, params, err => {
@@ -48,7 +48,7 @@ module.exports = {
       var allData = Object.assign({ "order_id": req.body.order_id, "user_id": req.user.id });
       var delivery = new Delivery(allData);
 
-      // atualizar entrega na base de dados
+      // atualizar estado da entrega na base de dados
       var sql = "UPDATE Deliveries SET pending = 0, completed = 1 WHERE order_id = ? AND user_id = ? AND pending = 1 AND completed = 0";
       var params = [delivery.order_id, delivery.user_id];
       db.run(sql, params, function (err) {
@@ -81,6 +81,8 @@ function checkInvalidFields(req) {
 function checkOrderExist(db, orderId) {
    return new Promise(resolve => {
       var order = new Order({ "id": orderId });
+
+      // selecionar estado da encomenda na base de dados
       var sql = "SELECT accepted FROM Orders WHERE id = ? AND canceled = 0";
       var params = order.id;
       var orderExist = { "exist": false, "message": "Ups! A encomenda não existe ou foi cancelada." };

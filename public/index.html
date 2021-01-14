@@ -32,6 +32,13 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
    <script src="assets/js/modernizr.js"></script>
    <script src="assets/js/bootstrap.js"></script>
+
+   <script type="text/javascript" defer src="js/environment.js"></script>
+   <script type="text/javascript" defer src="js/events.js"></script>
+   <script type="text/javascript" defer src="js/requests.js"></script>
+   <script type="text/javascript" defer src="js/functions.js"></script>
+   <script type="text/javascript" defer src="js/view.js"></script>
+   <script type="text/javascript" defer src="js/index.js"></script>
 </head>
 
 <body>
@@ -61,10 +68,36 @@
                         </nav>
                      </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <div id="header-user-not-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                      <div class="login-option">
                         <a class="cs-color cs-popup-joinus-btn login-popup" href="login.html">Login</a>
                         <a class="get-start-btn" href="type-register.html">Registo</a>
+                     </div>
+                  </div>
+                  <div id="header-user-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     <div class="login-option">
+                        <div class="user-dashboard-menu">
+                           <ul>
+                              <li class="user-dashboard-menu-children">
+                                 <a href="javascript:void(0);" id="header-user-info"></a>
+                                 <ul>
+                                    <li><a href="buyer-dashboard.html"><i class="icon-dashboard3"></i>Dashboard</a></li>
+                                    <li><a href="buyer-bookings.html" class="btn-edit-profile"><i
+                                             class="icon-file-text2"></i>My Bookings</a></li>
+                                    <li><a href="buyer-reviews.html" class="btn-edit-profile"><i
+                                             class="icon-comment2"></i>My Reviews</a></li>
+                                    <li><a href="buyer-orders.html" class="btn-edit-profile"><i
+                                             class="icon-add_shopping_cart"></i>My Orders</a></li>
+                                    <li><a href="buyer-shortlists.html"><i class="icon-heart"></i>Shortlists</a></li>
+                                    <li><a href="buyer-statement.html"><i class="icon-file-text22"></i>Statement</a>
+                                    </li>
+                                    <li class="active"><a href="buyer-account-setting.html"><i
+                                             class="icon-build"></i>Account Settings</a></li>
+                                    <li><a href="registration.html"><i class="icon-log-out"></i>Sign out</a></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -93,75 +126,13 @@
                      <div class="main-search fancy bg-holder">
                         <form>
                            <div class="row">
-                              <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                 <div class="field-holder">
-                                    <input type="text" placeholder="Nome do Restaurante">
-                                 </div>
-                              </div>
-                              <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
-                                 <div class="field-holder">
-                                    <ul>
-                                       <li class="select-location">
-                                          <div class="foodbakery-locations-fields-group foodbakery-focus-out">
-                                             <span class="foodbakery-search-location-icon"><i
-                                                   class="icon-location"></i></span>
-                                             <span id="foodbakery_radius_location_open333"
-                                                class="foodbakery-radius-location"><i class="icon-target5"></i></span>
-                                             <input type="text" class="location-field-text filter"
-                                                placeholder="Localização">
-                                          </div>
-                                          <div class="select-location" id="foodbakery-radius-range333"
-                                             style="display: none;">
-                                             <div class="select-popup popup-open">
-                                                <a id="location_close_popup333" href="javascript:0;"
-                                                   class="location-close-popup">
-                                                   <i class="icon-times"></i></a>
-                                                <input type="hidden" class="foodbakery-radius" name="foodbakery_radius"
-                                                   value="10">
-                                                <p>Mostra-me</p>
-                                                <input id="ex16b333" type="text" data-value="10" value="10"
-                                                   style="display: none;">
-                                                <script>
-                                                   jQuery(document).ready(function () {
-                                                      var elem = jQuery("#ex16b333");
-                                                      if (elem.length != "") {
-                                                         elem.slider({
-                                                            step: 1,
-                                                            min: 0,
-                                                            max: 500,
-                                                            value: 10,
-                                                         });
-                                                         elem.on("slideStop", function () {
-                                                            var rang_slider_val = elem.val();
-                                                            jQuery("#ex16b333CurrentSliderValLabel").html(rang_slider_val);
-                                                            jQuery("#range-hidden-foodbakery-radius333").val(rang_slider_val);
-                                                            //foodbakery_restaurant_content("333");
-                                                         });
-                                                         elem.on("slide", function () {
-                                                            jQuery("#ex16b333CurrentSliderValLabel").html(elem.val());
-                                                         });
-                                                      }
 
-                                                      $("#foodbakery_radius_location_open333").click(function () {
-                                                         $("#foodbakery-radius-range333").show();
-                                                      });
-                                                      $("#location_close_popup333").click(function () {
-                                                         $("#foodbakery-radius-range333").hide();
-                                                      });
-                                                   });
-                                                </script>
-                                                <span>Miles: <span
-                                                      id="ex16b333CurrentSliderValLabel">10</span></span><br>
-                                                <p class="my-location">of <i class="cs-color icon-location-arrow"></i><a
-                                                      id="foodbakery-geo-location-all"
-                                                      class="cs-color foodbakery-geo-location313324"
-                                                      href="javascript:void(0)">Minha Localização</a></p>
-                                             </div>
-                                          </div>
-                                       </li>
-                                    </ul>
+                              <div class="col-lg-10 col-md-10 col-sm-5 col-xs-12">
+                                 <div class="field-holder">
+                                    <input type="text" placeholder="Nome do produto">
                                  </div>
                               </div>
+
                               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                  <div class="field-holder">
                                     <input type="submit" value="Procurar">
@@ -291,274 +262,7 @@
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="listing fancy">
-                        <ul class="row">
-                           <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                              <div class="list-post featured">
-                                 <div class="img-holder">
-                                    <figure><a href="#"><img src="assets/extra-images/listing-logo18.png"
-                                             class="img-thumb wp-post-image" alt=""></a></figure>
-                                    <span class="restaurant-status close">
-                                       <em class="bookmarkRibbon"></em>Fechado
-                                    </span>
-                                 </div>
-                                 <div class="text-holder">
-                                    <div class="list-rating">
-                                       <div class="rating-star">
-                                          <span class="rating-box" style="width: 100%;"></span>
-                                       </div>
-                                       <span class="reviews">(1)</span>
-                                    </div>
-                                    <div class="post-title">
-                                       <h5>
-                                          <a href="#">Restaurante Demo</a>
-                                          <span class="sponsored text-color">Sponsored</span>
-                                       </h5>
-                                    </div>
-                                    <address> <span>Tipo de comida : </span> Pizzaria</address>
-                                    <div class="delivery-potions">
-                                       <div class="post-time">
-                                          <i class="icon-motorcycle"></i>
-                                          <div class="time-tooltip">
-                                             <div class="time-tooltip-holder"> <b class="tooltip-label">Tempo de
-                                                   entrega</b>
-                                                <b class="tooltip-info">O seu pedido será entregue em 10 minutos</b>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <span>Famalicão</span>
-                                    </div>
-                                 </div>
-                                 <div class="list-option">
-                                    <a href="javascript:void(0);" class="shortlist-btn" data-toggle="modal"
-                                       data-target="#sign-in">
-                                       <i class="icon-heart-o"></i>
-                                    </a>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                              <div class="list-post featured">
-                                 <div class="img-holder">
-                                    <figure><a href="#"><img src="assets/extra-images/fb-restaurant-01.jpg"
-                                             class="img-thumb wp-post-image" alt=""></a></figure>
-                                    <span class="restaurant-status close">
-                                       <em class="bookmarkRibbon"></em>Fechado
-                                    </span>
-                                 </div>
-                                 <div class="text-holder">
-                                    <div class="list-rating">
-                                       <div class="rating-star">
-                                          <span class="rating-box" style="width: 100%;"></span>
-                                       </div>
-                                       <span class="reviews">(1)</span>
-                                    </div>
-                                    <div class="post-title">
-                                       <h5>
-                                          <a href="#">Jet’s Kitchen</a>
-                                          <span class="sponsored text-color">Sponsored</span>
-                                       </h5>
-                                    </div>
-                                    <address> <span>Tipo de comida : </span> Frango de churrasco
-                                    </address>
-                                    <div class="delivery-potions">
-                                       <div class="post-time">
-                                          <i class="icon-motorcycle"></i>
-                                          <div class="time-tooltip">
-                                             <div class="time-tooltip-holder"> <b class="tooltip-label">Tempo de
-                                                   entrega</b>
-                                                <b class="tooltip-info">O seu pedido será entregue em 10 minutos</b>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <span>Famalicão</span>
-                                    </div>
-                                 </div>
-                                 <div class="list-option">
-                                    <a href="javascript:void(0);" class="shortlist-btn" data-toggle="modal"
-                                       data-target="#sign-in">
-                                       <i class="icon-heart-o"></i>
-                                    </a>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                              <div class="list-post featured">
-                                 <div class="img-holder">
-                                    <figure><a href="#"><img src="assets/extra-images/fb-restaurant-04.jpg"
-                                             class="img-thumb wp-post-image" alt=""></a></figure>
-                                    <span class="restaurant-status close">
-                                       <em class="bookmarkRibbon"></em>Fechado
-                                    </span>
-                                 </div>
-                                 <div class="text-holder">
-                                    <div class="list-rating">
-                                       <div class="rating-star">
-                                          <span class="rating-box" style="width: 100%;"></span>
-                                       </div>
-                                       <span class="reviews">(1)</span>
-                                    </div>
-                                    <div class="post-title">
-                                       <h5>
-                                          <a href="#">Golden Chick Fries</a>
-                                          <span class="sponsored text-color">Sponsored</span>
-                                       </h5>
-                                    </div>
-                                    <address> <span>Tipo de comida : </span> Cachorros, gelados
-                                    </address>
-                                    <div class="delivery-potions">
-                                       <div class="post-time">
-                                          <i class="icon-motorcycle"></i>
-                                          <div class="time-tooltip">
-                                             <div class="time-tooltip-holder"> <b class="tooltip-label">Tempo de
-                                                   entrega</b>
-                                                <b class="tooltip-info">O seu pedido será entregue em 10 minutos</b>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <span>Famalicão</span>
-                                    </div>
-                                 </div>
-                                 <div class="list-option">
-                                    <a href="javascript:void(0);" class="shortlist-btn" data-toggle="modal"
-                                       data-target="#sign-in">
-                                       <i class="icon-heart-o"></i>
-                                    </a>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                              <div class="list-post featured">
-                                 <div class="img-holder">
-                                    <figure><a href="#"><img src="assets/extra-images/fb-restaurant-06.jpg"
-                                             class="img-thumb wp-post-image" alt=""></a></figure>
-                                    <span class="restaurant-status open"><em class="bookmarkRibbon"></em>Aberto</span>
-                                 </div>
-                                 <div class="text-holder">
-                                    <div class="list-rating">
-                                       <div class="rating-star">
-                                          <span class="rating-box" style="width: 100%;"></span>
-                                       </div>
-                                       <span class="reviews">(1)</span>
-                                    </div>
-                                    <div class="post-title">
-                                       <h5>
-                                          <a href="#">Dragon Express</a>
-                                          <span class="sponsored text-color">Sponsored</span>
-                                       </h5>
-                                    </div>
-                                    <address> <span>Tipo de comida : </span> Comida chinesa, sushi
-                                    </address>
-                                    <div class="delivery-potions">
-                                       <div class="post-time">
-                                          <i class="icon-motorcycle"></i>
-                                          <div class="time-tooltip">
-                                             <div class="time-tooltip-holder"> <b class="tooltip-label">Tempo de
-                                                   entrega</b>
-                                                <b class="tooltip-info">O seu pedido será entregue em 10 minutos</b>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <span>Braga</span>
-                                    </div>
-                                 </div>
-                                 <div class="list-option">
-                                    <a href="javascript:void(0);" class="shortlist-btn" data-toggle="modal"
-                                       data-target="#sign-in">
-                                       <i class="icon-heart-o"></i>
-                                    </a>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                              <div class="list-post featured">
-                                 <div class="img-holder">
-                                    <figure><a href="#"><img
-                                             src="assets/extra-images/xlisting-logo03.png.pagespeed.ic_.aT-o9LinEJ.png"
-                                             class="img-thumb wp-post-image" alt=""></a></figure>
-                                    <span class="restaurant-status close">
-                                       <em class="bookmarkRibbon"></em>Fechado
-                                    </span>
-                                 </div>
-                                 <div class="text-holder">
-                                    <div class="list-rating">
-                                       <div class="rating-star">
-                                          <span class="rating-box" style="width: 100%;"></span>
-                                       </div>
-                                       <span class="reviews">(1)</span>
-                                    </div>
-                                    <div class="post-title">
-                                       <h5>
-                                          <a href="#">Nature Healthy Food</a>
-                                          <span class="sponsored text-color">Sponsored</span>
-                                       </h5>
-                                    </div>
-                                    <address> <span>Tipo de comida : </span> Comida vegetariana</address>
-                                    <div class="delivery-potions">
-                                       <div class="post-time">
-                                          <i class="icon-motorcycle"></i>
-                                          <div class="time-tooltip">
-                                             <div class="time-tooltip-holder"> <b class="tooltip-label">Tempo de
-                                                   entrega</b>
-                                                <b class="tooltip-info">O seu pedido será entregue em 10 minutos</b>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <span>Barcelos</span>
-                                    </div>
-                                 </div>
-                                 <div class="list-option">
-                                    <a href="javascript:void(0);" class="shortlist-btn" data-toggle="modal"
-                                       data-target="#sign-in">
-                                       <i class="icon-heart-o"></i>
-                                    </a>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                              <div class="list-post featured">
-                                 <div class="img-holder">
-                                    <figure><a href="#"><img src="assets/extra-images/listing-logo09.png"
-                                             class="img-thumb wp-post-image" alt=""></a></figure>
-                                    <span class="restaurant-status open">
-                                       <em class="bookmarkRibbon"></em>Aberto
-                                    </span>
-                                 </div>
-                                 <div class="text-holder">
-                                    <div class="list-rating">
-                                       <div class="rating-star">
-                                          <span class="rating-box" style="width: 100%;"></span>
-                                       </div>
-                                       <span class="reviews">(1)</span>
-                                    </div>
-                                    <div class="post-title">
-                                       <h5>
-                                          <a href="#">Menu & Drinks</a>
-                                          <span class="sponsored text-color">Sponsored</span>
-                                       </h5>
-                                    </div>
-                                    <address> <span>Tipo de comida : </span> Toda a variedade de comida</address>
-                                    <div class="delivery-potions">
-                                       <div class="post-time">
-                                          <i class="icon-motorcycle"></i>
-                                          <div class="time-tooltip">
-                                             <div class="time-tooltip-holder"> <b class="tooltip-label">Tempo de
-                                                   entrega</b>
-                                                <b class="tooltip-info">O seu pedido será entregue em 10 minutos</b>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <span>Famalicão</span>
-                                    </div>
-                                 </div>
-                                 <div class="list-option">
-                                    <a href="javascript:void(0);" class="shortlist-btn" data-toggle="modal"
-                                       data-target="#sign-in">
-                                       <i class="icon-heart-o"></i>
-                                    </a>
-                                 </div>
-                              </div>
-                           </li>
-                        </ul>
+                        <ul class="row" id="ul-get-products"></ul>
                      </div>
                   </div>
                </div>
@@ -572,7 +276,7 @@
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="element-title align-center">
-                        <h2>O feedback dos nossos clientes</h2>
+                        <h2>O Feedback de clientes</h2>
                      </div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -644,7 +348,8 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="widget widget-newsletter">
                         <div class="widget-title">
-                           <h5>Subscreve no nosso Newsletter</h5>
+                           <h5>Subscreva no nosso Newsletter</h5>
+                           <p style="margin-top: 10px;">Para obter as melhores promoções e novidades</p>
                         </div>
                         <div class="fieldset">
                            <form action="#">
@@ -661,7 +366,9 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                  <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                      <div class="widget widget_text">
                         <div class="widget-title">
                            <h5>Sobre nós</h5>
@@ -675,10 +382,10 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                      <div class="widget widget-top-cities">
                         <div class="widget-title">
-                           <h5>Cidades populares</h5>
+                           <h5>Cidades Populares</h5>
                         </div>
                         <ul>
                            <li><a href="listings.html">Famalicão</a></li>
@@ -688,20 +395,7 @@
                         </ul>
                      </div>
                   </div>
-                  <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                     <div class="widget widget-top-cities">
-                        <div class="widget-title">
-                           <h5>Restaurantes populares</h5>
-                        </div>
-                        <ul>
-                           <li><a href="listings.html">Burger King</a></li>
-                           <li><a href="listings.html">Dominos</a></li>
-                           <li><a href="listings.html">Kfc</a></li>
-                           <li><a href="listings.html">Italian Pizza</a></li>
-                        </ul>
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                      <div class="widget widget-connect">
                         <div class="widget-title">
                            <h5>Contacte-nos</h5>
@@ -730,9 +424,9 @@
                      <div class="copyright-inner">
                         <div class="copy-right">
                            <p>Trabalho realizado no âmbito das unidades curriculares de <br>
-                              Computação Distríbuida e Desenvolvimento Colaborativo de Software <br><br>
+                              Computação Distribuída e Desenvolvimento Colaborativo de Software <br><br>
 
-                              João Antunes | Luis Pereira | Rui Pinto
+                              João Antunes | Luís Pereira | Rui Pinto
                            </p>
                         </div>
                      </div>
