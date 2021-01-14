@@ -13,7 +13,7 @@ module.exports = {
 
       var user = new User(req.body);
 
-      // selecionar utilizador que pretende fazer login
+      // selecionar utilizador na base de dados
       var sql = "SELECT * FROM Users WHERE username = ?";
       var params = user.username;
       db.get(sql, params, async function (err, row) {
@@ -33,6 +33,7 @@ module.exports = {
                   username: row.username,
                   name: row.name,
                   email: row.email,
+                  url_photo: row.url_photo,
                   type: row.type,
                };
                const token = generateToken(data);
@@ -81,6 +82,7 @@ function generateToken(data) {
       username: data.username,
       name: data.name,
       email: data.email,
+      url_photo: data.url_photo,
       type: data.type
    }, "hard-secret", { expiresIn: "24h" });
 }

@@ -4,7 +4,7 @@ $(window).ready(() => {
    startModal($("div-edit-product-data"));
    startModal($("div-edit-product-photo"));
 
-
+   
    // REGISTER
    $("#form-register-client").submit(e => {
       e.preventDefault();

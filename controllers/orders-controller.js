@@ -10,7 +10,7 @@ module.exports = {
 
       var user = new User(req.user);
 
-      // selecionar produtos na base de dados
+      // selecionar encomendas do utilizador na base de dados
       var sql = "SELECT * FROM Orders WHERE user_id = ?";
       var params = user.id;
       db.all(sql, params, function (err, rows) {
@@ -32,8 +32,8 @@ module.exports = {
 
       var user = new User(req.user);
 
-      // selecionar produtos na base de dados
-      var sql = "SELECT Orders.id, Orders.accepted, Orders.canceled, Orders.user_id, Products.name FROM Orders INNER JOIN Products ON Orders.user_id = Products.id WHERE Orders.user_id = ?";
+      // selecionar encomendas da empresa feitas por utilizadores na base de dados
+      var sql = "SELECT Orders.id, Orders.accepted, Orders.canceled, Orders.user_id, Products.name FROM Orders INNER JOIN Products ON Orders.user_id = Products.id WHERE Products.user_id = ?";
       var params = user.id;
       db.all(sql, params, function (err, rows) {
          if (err)
@@ -62,14 +62,14 @@ module.exports = {
 
       var order = new Order({ "product_id": req.body.product_id, "user_id": req.user.id });
 
-      // inserir na tabela encomendas
+      // inserir encomenda na base de dados
       var sql = "INSERT INTO Orders (accepted, canceled, product_id, user_id) VALUES (0, 0, ?, ?)";
       var params = [order.product_id, order.user_id];
       db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
-         // atualizar entrega na base de dados
+         // atualizar stock do produto na base de dados
          var sql = "UPDATE Products SET stock = stock - 1 WHERE id = ?";
          var params = [order.product_id];
          db.run(sql, params, err => {
@@ -95,8 +95,8 @@ module.exports = {
          return res.status(400).json({ "message": stock.message });
       else
          product.stock = stock.value - 1;
-z
-      // atualizar encomenda na base de dados
+      
+      // atualizar estado da encomenda na base de dados
       var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND product_id = ? AND user_id = ? AND accepted = 0 AND canceled = 0";
       var params = [order.id, order.product_id, order.user_id];
       db.run(sql, params, async function (err) {
@@ -134,6 +134,7 @@ function checkStockAvailable(db, productId) {
    return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
+      // selecionar stock na base de dados
       var sql = "SELECT stock FROM Products WHERE id = ?";
       var params = product.id;
       var stock = { "available": false, "message": "Ups! O produto não existe." };
@@ -157,6 +158,7 @@ function getStock(db, productId) {
    return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
+      // selecionar stock do produto na base de dados
       var sql = "SELECT stock FROM Products WHERE id = ?";
       var params = product.id;
       var stock = { "error": true, "message": "Ups! O produto não existe." };
@@ -175,6 +177,7 @@ function getStock(db, productId) {
 
 function updateStock(db, product) {
    return new Promise(resolve => {
+      // atualizar stock do produto na base de dados
       var sql = "UPDATE Products SET stock = ? WHERE id = ?";
       var params = [product.stock, product.id];
       var stock = { "error": false };

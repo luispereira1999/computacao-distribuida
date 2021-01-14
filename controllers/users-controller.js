@@ -36,24 +36,34 @@ module.exports = {
       if (typeUserId.error)
          return res.status(400).json({ "message": typeUserId.message });
 
-      // atualizar utilizador na base de dados
+      // atualizar dados do utilizador na base de dados
       var sql = "UPDATE Users SET username = ?, password = ?, name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ?, receive_advertising = ? WHERE id = ?";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.receive_advertising, user.id];
+
       db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
-         var data = {
-            id: user.id,
-            username: user.username,
-            name: user.name,
-            email: user.email,
-            type: typeUserId.value
-         };
-         const token = generateToken(data);
+         // selecionar utilizador na base de dados
+         var sql = "SELECT * FROM Users WHERE id = ?";
+         var params = user.id;
+         db.get(sql, params, async function (err, row) {
+            if (err)
+               return res.status(500).json({ "message": "Oh! " + err.message });
 
-         res.status(200).json({ "message": "Utilizador editado com sucesso!", "data": data, "token": token });
+            var data = {
+               id: row.id,
+               username: row.username,
+               name: row.name,
+               email: row.email,
+               url_photo: row.url_photo,
+               type: row.type,
+            };
+            const token = generateToken(data);
+
+            res.status(200).json({ "message": "Utilizador editado com sucesso!", "data": data, "token": token });
+         });
       });
 
       db.close();
@@ -69,12 +79,32 @@ module.exports = {
 
       var user = new User({ "id": req.user.id, "url_photo": req.file.filename });
 
-      // atualizar utilizador na base de dados
+      // atualizar foto do utilizador na base de dados
       var sql = "UPDATE Users SET url_photo = ? WHERE id = ?";
       var params = [user.url_photo, user.id];
       db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
+
+         // selecionar utilizador na base de dados
+         var sql = "SELECT * FROM Users WHERE id = ?";
+         var params = user.id;
+         db.get(sql, params, async function (err, row) {
+            if (err)
+               return res.status(500).json({ "message": "Oh! " + err.message });
+
+            var data = {
+               id: row.id,
+               username: row.username,
+               name: row.name,
+               email: row.email,
+               url_photo: row.url_photo,
+               type: row.type,
+            };
+            const token = generateToken(data);
+
+            res.status(200).json({ "message": "Foto do utilizador editada com sucesso!", "data": data, "token": token });
+         });
 
          res.status(200).json({ "message": "Foto do utilizador editada com sucesso!" });
       });
@@ -92,7 +122,7 @@ module.exports = {
 
       var user = new User({ "id": req.user.id, "driving_license": req.body.driving_license, "url_driving_license": req.file.filename });
 
-      // atualizar utilizador na base de dados
+      // atualizar carta de condução do utilizador na base de dados
       var sql = "UPDATE Users SET driving_license = ?, url_driving_license = ? WHERE id = ?";
       var params = [user.driving_license, user.url_driving_license, user.id];
       db.run(sql, params, err => {
@@ -131,7 +161,7 @@ module.exports = {
 
       var user = new User(req.params);
 
-      // atualizar utilizador na base de dados
+      // atualizar estado do utilizador na base de dados
       var sql = "UPDATE Users SET accepted = 1 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, function (err) {
@@ -153,7 +183,7 @@ module.exports = {
 
       var user = new User(req.params);
 
-      // atualizar utilizador na base de dados
+      // atualizar tipo de utilizador na base de dados
       var sql = "UPDATE Users SET type = 4 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, function (err) {
@@ -179,7 +209,7 @@ module.exports = {
       if (userLogged.id == user.id)
          return res.status(201).json({ "message": "Oh! Não pode remover de administrador o utilizador atual." });
 
-      // selecionar utilizador que foi removido de utilizador na base de dados
+      // selecionar tipo de utilizador antigo na base de dados
       var sql = "SELECT old_type FROM Users WHERE id = ?";
       var params = user.id;
       db.get(sql, params, function (err, row) {
@@ -188,7 +218,7 @@ module.exports = {
 
          user.old_type = row.old_type;
 
-         // atualizar utilizador na base de dados
+         // atualizar tipo de utilizador na base de dados
          var sql = "UPDATE Users SET type = ? WHERE id = ?";
          var params = [user.old_type, user.id];
          db.run(sql, params, function (err) {
@@ -211,7 +241,7 @@ module.exports = {
 
       var user = new User(req.user);
 
-      // atualizar utilizador na base de dados
+      // atualizar estado do utilizador na base de dados
       var sql = "UPDATE Users SET deleted = 1 WHERE id = ?";
       var params = user.id;
       db.run(sql, params, async function (err) {
@@ -404,6 +434,7 @@ function getDrivingLicense(db, userId) {
    return new Promise(resolve => {
       var user = new User({ "id": userId });
 
+      // inserir pdf da carta de condução do utilizador na base de dados
       var sql = "SELECT url_driving_license FROM Users WHERE id = ?";
       var params = user.id;
       var drivingLicense = { "error": false, "value": "" };
@@ -424,6 +455,7 @@ function getUrlPhoto(db, userId) {
    return new Promise(resolve => {
       var user = new User({ "id": userId });
 
+      // selecionar foto do utilizador na base de dados
       var sql = "SELECT url_photo FROM Users WHERE id = ?";
       var params = user.id;
       var urlPhoto = { "error": false, "value": "" };
@@ -444,6 +476,7 @@ function getTypeUserId(db, userId) {
    return new Promise(resolve => {
       var user = new User({ "id": userId });
 
+      // selecionar tipo do utilizador na base de dados
       var sql = "SELECT type FROM Users WHERE id = ?";
       var params = user.id;
       var type = { "error": true, "message": "Ups! O utilizador não existe." };
@@ -466,6 +499,7 @@ function generateToken(data) {
       username: data.username,
       name: data.name,
       email: data.email,
+      url_photo: data.url_photo,
       type: data.type
    }, "hard-secret", { expiresIn: "24h" });
 }
