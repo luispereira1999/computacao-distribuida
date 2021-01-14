@@ -25,11 +25,23 @@ function setSession(res) {
    sessionStorage.setItem("username", res.data.username);
    sessionStorage.setItem("name", res.data.name);
    sessionStorage.setItem("email", res.data.email);
+   sessionStorage.setItem("url_photo", res.data.url_photo);
    sessionStorage.setItem("type", res.data.type);
+}
+
+function getSession(value) {
+   return sessionStorage.getItem(value);
 }
 
 function getToken() {
    return sessionStorage.getItem("token");
+}
+
+function checkUserLogged() {
+   if (sessionStorage.getItem("token"))
+      return true;
+   else
+      return false;
 }
 
 function getStatus(err) {
@@ -123,11 +135,11 @@ function destroyElement(element) {
 }
 
 function addButtonColumnToTable(elements) {
-   elements.forEach(function(elem) {
+   elements.forEach(function (elem) {
       elem.table.children("thead").children("tr").append(elem.th);
       elem.table.children("tbody").children("tr").append(elem.td);
       $(elem.selector).append(elem.button);
-    }); 
+   });
 }
 
 

@@ -10,7 +10,7 @@ module.exports = {
       const db = database.connect();
 
       // selecionar produtos na base de dados
-      var sql = "SELECT id, name, stock, price, description, url_photo FROM Products WHERE deleted = 0";
+      var sql = "SELECT p.id, p.name AS product_name, p.stock, p.price, p.description, p.url_photo, u.name AS user_name FROM Products AS p INNER JOIN Users AS u ON u.id = p.user_id WHERE p.deleted = 0";
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
@@ -85,7 +85,7 @@ module.exports = {
       var product = new Product(allData);
       var user = new User(req.user);
 
-      // inserir na tabela produtos
+      // inserir produto na base de dados
       var sql = "INSERT INTO Products (name, stock, price, description, url_photo, deleted, user_id) VALUES (?, ?, ?, ?, ?, 0, ?)";
       var params = [product.name, product.stock, product.price, product.description, product.url_photo, user.id];
       db.run(sql, params, err => {
@@ -111,7 +111,7 @@ module.exports = {
       var allData = Object.assign(req.body, { "id": req.params.id, "user_id": req.user.id });
       var product = new Product(allData);
 
-      // atualizar produto na base de dados
+      // atualizar dados do produto na base de dados
       var sql = "UPDATE Products SET name = ?, stock = ?, price = ?, description = ? WHERE id = ? AND user_id = ?";
       var params = [product.name, product.stock, product.price, product.description, product.id, product.user_id];
       db.run(sql, params, function (err) {
@@ -138,7 +138,7 @@ module.exports = {
       var allData = Object.assign(req.body, { "id": req.params.id, "url_photo": req.file.filename, "user_id": req.user.id });
       var product = new Product(allData);
 
-      // atualizar produto na base de dados
+      // atualizar foto do produto na base de dados
       var sql = "UPDATE Products SET url_photo = ? WHERE id = ? AND user_id = ?";
       var params = [product.url_photo, product.id, product.user_id];
       db.run(sql, params, function (err) {
@@ -165,7 +165,7 @@ module.exports = {
       var product = new Product(req.params);
       var user = new User(req.user);
 
-      // atualizar produto na base de dados
+      // atualizar estado do produto na base de dados
       var sql = "UPDATE Products SET deleted = 1 WHERE id = ? AND user_id = ?";
       var params = [product.id, user.id];
       db.run(sql, params, async function (err) {
@@ -261,6 +261,7 @@ function getUrlPhoto(db, productId) {
    return new Promise(resolve => {
       var product = new Product({ "id": productId });
 
+      // selecionar foto do produto na base de dados
       var sql = "SELECT url_photo FROM Products WHERE id = ?";
       var params = product.id;
       var urlPhoto = { "error": false, "value": "" };

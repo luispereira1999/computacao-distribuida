@@ -331,7 +331,39 @@ function getProducts() {
             "td": $("<td class='td-create-order'></td>"),
             "button": $("<button class='button-create-order'>Encomendar</button>"),
          }];
+
          addButtonColumnToTable(elements);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getProductsToIndex() {
+   var token = getToken();
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "products/",
+
+      success: res => {
+         for (var i = 0; i < 6; i++) {
+            var html = getHtmlProductsOnIndex(res.data[i]);
+            $("#ul-get-products").append(html);
+         }
+
+         $("#ul-get-products .restaurant-status:contains(' 0 ')").removeClass("open").addClass("close");
+         $("#ul-get-products .restaurant-status:contains(' 0 ')").text("Esgotado");
       },
       error: err => {
          var status = getStatus(err);

@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Configurações da Conta</title>
+	<title>Statement</title>
 	<!-- Google Font Family Link Start -->
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
@@ -167,229 +167,80 @@
 						<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 							<div class="user-dashboard loader-holder">
 								<div class="user-holder">
-									<div class="user-profile">
-										<div class="element-title has-border">
-											<h5>Configurações da Conta</h5>
-										</div>
-										<div class="row">
-											<form id="publisher_profile">
-												<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-													<div class="row">
-														<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-															<div class="field-holder">
-																<label>Nome Completo*</label>
-																<input type="text" class="foodbakery-dev-req-field" value="">
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-															<div class="field-holder">
-																<label>Email*</label>
-																<input type="text" class="foodbakery-dev-req-field" value="">
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-															<div class="field-holder">
-																<label>Telemóvel *</label>
-																<input type="text" class="foodbakery-dev-req-field" value="">
-															</div>
-														</div>
-													</div>
+									<div class="element-title has-border right-filters-row">
+										<h5>Transações</h5>
+										<div class="right-filters row">
+											<div class="col-lg-6 col-md-6 col-xs-6 pull-right">
+												<div class="input-field">
+													<i class="icon-angle-down"></i>
+													<input type="text" data-id="daterange223" id="daterange" value="" placeholder="Select Date Range">
+													<script>
+														$(function () {
+															$('input[data-id="daterange223"]').daterangepicker({
+																opens: 'left'
+															}, function (start, end, label) {
+																console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+															});
+														});
+													</script>
 												</div>
-												<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-													<div class="user-profile-images">
-														<div class="current-img">
-															<div class="row mt">
-																<div id="cropContainerModal" data-def-img="assets/extra-images/team-medium-img1.jpg" data-img-type="default">
-																	<figure>
-																		<a><img src="assets/extra-images/team-medium-img1.jpg" alt=""></a>
-																	</figure>
-																</div>
-															</div>
-															<span>Coloque uma Imagem sua</span>
-														</div>
-														<div class="upload-file">
-															<input id="file-1" type="file" class="hide">
-															<button type="button"><span>Upload Imagem</span></button>
-														</div>
-														<ul class="uploaded-img">
-															<li>
-																<figure>
-																	<img data-attachment_id="2570" src="assets/extra-images/icon1.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2571" src="assets/extra-images/icon2.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2572" src="assets/extra-images/icon3.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2573" src="assets/extra-images/icon4.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2574" src="assets/extra-images/icon5.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2575" src="assets/extra-images/icon6.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2576" src="assets/extra-images/icon7.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2577" src="assets/extra-images/icon8.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2578" src="assets/extra-images/icon9.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2579" src="assets/extra-images/icon10.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2580" src="assets/extra-images/icon11.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2581" src="assets/extra-images/icon12.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2582" src="assets/extra-images/icon13.png" alt="">
-																</figure>
-															</li>
-															<li>
-																<figure>
-																	<img data-attachment_id="2583" src="assets/extra-images/icon14.png" alt="">
-																</figure>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<div class="opt-conts">
-														<div class="row">
-															<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-																<div class="field-holder">
-																	<label>País *</label>
-																	<div class="select-holder">
-																		<select data-placeholder="Select Country" class="form-control chosen-select form-select-country dir-map-search foodbakery-dev-req-field" id="loc_country_publisher" name="foodbakery_post_loc_country_publisher">
-																			<option value="">Selecionar País</option>
-																			<option value="Portugal" data-name="">Portugal</option>
-																			<option value="Espanha" data-name="">Espanha</option>
-																			<option value="Inglaterra" data-name="">Inglaterra</option>
-																			<option value="França" data-name="">França</option>
-																			<option value="Italia" data-name="">Italia</option>
-																			<option value="Suiça" data-name="">Suiça</option>
-																			<option value="Bélgica" data-name="">Bélgica</option>
-																			<option value="Escócia" data-name="">Escócia</option>
-																			<option value="Alemanha" data-name="">Alemanha</option>
-																		</select>
-																	</div>
-																</div>
-															</div>
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-																<div class="field-holder">
-																	<label>Estado </label>
-																	<div class="select-holder">
-																		<select data-placeholder="Select State" class="chosen-select">
-																			<option value="">Escreva o seu Estado</option>
-																		</select>
-																	</div>
-																</div>
-															</div>
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-																<div class="field-holder">
-																	<label>CIdade *</label>
-																	<div class="select-holder">
-																		<select data-placeholder="Select City" class="chosen-select">
-																			<option value="">Escreva a sua Cidade</option>
-																		</select>
-																	</div>
-																</div>
-															</div>
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-																<div class="field-holder">
-																	<label>Latitude</label>
-																	<input type="text" placeholder="Latitude" class="form-control gllpLatitude" value="">
-																</div>
-															</div>
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-																<div class="field-holder">
-																	<label>Longitude</label>
-																	<input type="text" placeholder="Longitude" class="form-control gllpLongitude" value="">
-																</div>
-															</div>
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-																<div class="field-holder">
-																	<label>Encontrar no mapa</label>
-																	<input type="text" placeholder="Encontre a sua morada" class="foodbakery-search-location">
-																</div>
-															</div>
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-																<div class="field-holder"></div>
-																<div class="field-holder search-location-map input-button-loader">
-																	<input type="button" class="acc-submit cs-section-update cs-color gllpSearchButton" value="Pesquisar">
-																</div>
-															</div>
-															<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-																<div class="cs-map-section">
-																	<img style="width:100%;height: 100%;" src="assets/extra-images/map-location.png" alt="">
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<div class="element-title has-border">
-														<h5>Mudar Password</h5>
-													</div>
-												</div>
-												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<div class="field-holder">
-														<label> Password Atual*</label>
-														<input type="password">
-													</div>
-												</div>
-												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<div class="field-holder">
-														<label> Nova Password*</label>
-														<input type="password">
-													</div>
-												</div>
-												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<div class="field-holder">
-														<label> Confirmar Nova Password* </label>
-														<input type="password">
-													</div>
-												</div>
-												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<div class="field-holder">
-														<button name="button" type="button" class="btn-submit">Guardar</button>
-													</div>
-												</div>
-											</form>
+											</div>
 										</div>
 									</div>
+									<div class="responsive-table">
+										<ul class="table-generic">
+											<li class="order-heading-titles">
+												<div>Transação ID</div>
+												<div>Encomenda ID</div>
+												<div>Data</div>
+												<div>Detalhes</div>
+												<div>Total</div>
+											</li>
+											<li class="order-heading-titles">
+												<div>#11603355</div>
+												<div><a href="buyer-orders.html" class="orders-tab-link">22594</a></div>
+												<div>Jan 9,2021</div>
+												<div>Encomenda - Restaurante de Demonstração</div>
+												<div>37.86€</div>
+											</li>
+											<li class="order-heading-titles">
+												<div>#20204183</div>
+												<div><a href="buyer-orders.html" class="orders-tab-link">22589</a></div>
+												<div>Jan 6,2020</div>
+												<div>Encomenda - Restaurante de Demonstração</div>
+												<div>26.22€</div>
+											</li>
+											<li class="order-heading-titles">
+												<div>#21617248</div>
+												<div><a href="buyer-orders.html" class="orders-tab-link">22469</a></div>
+												<div>Dez 31,2020</div>
+												<div>Encomenda - Restaurante de Demonstração</div>
+												<div>£66.25</div>
+											</li>
+											<li class="order-heading-titles">
+												<div>#56656270</div>
+												<div><a href="buyer-orders.html" class="orders-tab-link">22413</a></div>
+												<div>Dez 27,2020</div>
+												<div>Encomenda - Restaurante de Demonstração</div>
+												<div>25.43€</div>
+											</li>
+											<li class="order-heading-titles">
+												<div>#40728501</div>
+												<div><a href="buyer-orders.html" class="orders-tab-link">22360</a></div>
+												<div>Dez 26,2020</div>
+												<div>Encomenda - Restaurante de Demonstração</div>
+												<div>29.38€</div>
+											</li>
+										</ul>
+									</div>
+									<ul class="pagination">
+										<li class="active"><a>1</a></li>
+										<li><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><span class="page-numbers dots">…</span></li>
+										<li><a href="#">15</a></li>
+										<li><a href="#">Próximo</a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -577,7 +428,7 @@
 	<script src="assets/js/jquery.growl.js"></script>
 	<script src="assets/js/jquery.matchHeight-min.js"></script>
 	<script src="assets/js/masonry.pkgd.js"></script>
-	<script src="assets/js/skills-progress.js"></script>
+	 <script src="assets/js/skills-progress.js"></script>
 	<script src="assets/js/bootstrap-slider.js"></script>
 	<script src="assets/js/wow.js"></script>
 	<script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
