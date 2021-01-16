@@ -79,6 +79,15 @@ function showModalAndRedirect(text, url) {
    }).show();
 }
 
+function showModalAndRefresh(text) {
+   alertify.alert().setting({
+      "title": "Sucesso",
+      "label": "Confirmar",
+      "message": text,
+      "onok": () => refreshPage()
+   }).show();
+}
+
 function showSuccessAlert(text) {
    alertify.set("notifier", "position", "top-center");
    alertify.notify(text, "success");

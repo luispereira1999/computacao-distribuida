@@ -150,7 +150,7 @@
                                  <h5>Configurações da Conta</h5>
                               </div>
                               <div class="row">
-                                 <form id="publisher_profile">
+                                 <form id="form-edit-user-data">
                                     <div id="user-data-1" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                        <div class="user-profile-images">
@@ -169,8 +169,10 @@
                                           <div class="upload-file">
                                              <form id="form-edit-user-photo">
                                                 <input id="file-photo" type="file" name="file" class="hide">
-                                                <input type="submit" id="submit-edit-user-photo" class="hide">
-                                                <button id="button-edit-user-photo" onclick="document.getElementById('file-photo').click();" type="button"><span>Upload
+                                                <input type="submit" id="submit-edit-user-photo" form="form-edit-user-photo" class="hide">
+                                                <button id="button-edit-user-photo"
+                                                   onclick="document.getElementById('file-photo').click();"
+                                                   type="button"><span>Upload
                                                       Foto</span></button>
                                              </form>
                                           </div>
@@ -187,12 +189,16 @@
                                     <div id="div-edit-password" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                        <div class="field-holder">
                                           <label>Nova palavra-pasee*</label>
-                                          <input type="password">
+                                          <input type="password" name="password">
                                        </div>
                                     </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="field-holder">
-                                          <button name="button" type="button" class="btn-submit">Guardar</button>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                       <div class="field-holder search-location-map input-button-loader">
+                                          <input type="submit" form="form-edit-password"
+                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
+                                             value="Alterar palavra-passe"
+                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
+                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
                                        </div>
                                     </div>
                                  </form>

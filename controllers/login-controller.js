@@ -40,7 +40,7 @@ module.exports = {
 
                res.status(200).json({ "message": "O utilizador efetuou login com sucesso!", "data": data, "token": token });
             } else
-               return res.status(400).json({ "message": "Ups! Nome de utilizador ou senha inválidos. Tente novamente!" });
+               return res.status(400).json({ "message": "Ups! Nome de utilizador ou palavra-passe inválidos. Tente novamente!" });
          }
          else {
             return res.status(400).json({ "message": "Ups! O utilizador não existe. Tente novamente!" });
@@ -58,7 +58,7 @@ function checkInvalidFields(req) {
    if (!req.body.username)
       errors.push("O nome de utilizador não foi preenchido.");
    if (!req.body.password)
-      errors.push("A senha não foi preenchida.");
+      errors.push("A palavra-passe não foi preenchida.");
    if (errors.length)
       return errors;
 }

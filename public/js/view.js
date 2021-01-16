@@ -77,25 +77,25 @@ function getHtmlUserDataInAccount1(data) {
          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">\
             <div class="field-holder">\
                <label>Nome*</label>\
-               <input type="text" class="foodbakery-dev-req-field" name="name" value="'+ data.name + '">\
+               <input type="text" class="foodbakery-dev-req-field" name="name" value="'+ data.name + '" form="form-edit-user-data">\
             </div>\
          </div>\
          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">\
             <div class="field-holder">\
                <label>Apelido*</label>\
-               <input type="text" class="foodbakery-dev-req-field" name="surname" value="'+ data.surname + '">\
+               <input type="text" class="foodbakery-dev-req-field" name="surname" value="'+ data.surname + '" form="form-edit-user-data">\
             </div>\
             </div>\
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
             <div class="field-holder">\
                <label>Email*</label>\
-               <input type="text" class="foodbakery-dev-req-field" name="email" value="'+ data.email + '">\
+               <input type="text" class="foodbakery-dev-req-field" name="email" value="'+ data.email + '" form="form-edit-user-data">\
             </div>\
          </div>\
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
             <div class="field-holder">\
                <label>Nome de Utilizador*</label>\
-               <input type="text" class="form-control gllpLongitude" name="username" value="'+ data.username + '">\
+               <input type="text" class="form-control gllpLongitude" name="username" value="'+ data.username + '" form="form-edit-user-data">\
             </div>\
          </div>\
       </div>\
@@ -110,25 +110,25 @@ function getHtmlUserDataInAccount2(data) {
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
                <div class="field-holder">\
                   <label>Nº Telemóvel*</label>\
-                  <input type="text" class="form-control gllpLongitude" name="phone_number" value="'+ data.phone_number + '">\
+                  <input type="text" class="form-control gllpLongitude" name="phone_number" value="'+ data.phone_number + '" form="form-edit-user-data">\
                </div>\
             </div>\
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
                <div class="field-holder">\
                   <label>Morada*</label>\
-                  <input type="text" class="form-control gllpLongitude" name="address" value="'+ data.address + '">\
+                  <input type="text" class="form-control gllpLongitude" name="address" value="'+ data.address + '" form="form-edit-user-data">\
                </div>\
             </div>\
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
                <div class="field-holder">\
                   <label>Código Postal*</label>\
-                  <input type="text" class="form-control gllpLongitude" name="zip_code" value="'+ data.zip_code + '">\
+                  <input type="text" class="form-control gllpLongitude" name="zip_code" value="'+ data.zip_code + '" form="form-edit-user-data">\
                </div>\
             </div>\
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
                <div class="field-holder"></div>\
                <div class="field-holder search-location-map input-button-loader">\
-                  <input type="button" class="acc-submit cs-section-update cs-color gllpSearchButton" value="Pesquisar">\
+                  <input type="submit" class="acc-submit cs-section-update cs-color gllpSearchButton" value="Alterar dados" form="form-edit-user-data">\
                </div>\
             </div>\
          </div>\

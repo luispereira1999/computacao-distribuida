@@ -18,6 +18,17 @@ $(window).ready(() => {
 
    $("input[name='file']").change(() => {
       $('#form-edit-user-photo').trigger('submit');
+      alert("d")
       editUserPhoto();
+   });
+
+   $("#form-edit-user-data").submit(e => {
+      e.preventDefault();
+      editUserData();
+   });
+
+   $("#form-edit-password").submit(e => {
+      e.preventDefault();
+      editPassword();
    });
 });

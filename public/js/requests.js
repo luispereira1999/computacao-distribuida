@@ -181,13 +181,75 @@ function getUserData() {
    });
 }
 
+function editUserData() {
+   var form = $("#form-edit-user-data");
+   var formData = getFormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      data: formData,
+      headers: { Authorization: "Bearer " + token },
+      type: "patch",
+      url: urlApi + "users/edit-data/",
+
+      success: res => {
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function editPassword() {
+   var form = $("#form-edit-password");
+   var formData = getFormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      data: formData,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "users/edit-password/",
+
+      success: res => {
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
 function editUserPhoto() {
    var form = $("#form-edit-user-photo")[0];
    var formData = new FormData(form);
-
    var file = $('#file-photo')[0].files[0];
    formData.append('file', file);
-
    var token = getCookie("token");
 
    $.ajax({
@@ -200,13 +262,11 @@ function editUserPhoto() {
       url: urlApi + "users/edit-photo/",
 
       success: res => {
-         setCookie("url_photo", res.data.url_photo, 3);
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
 
-         var modal = $("#div-edit-user-photo");
-         closeModal(modal);
-         openModal(res.message);
-
-         refreshPage();
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);

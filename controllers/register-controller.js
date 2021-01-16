@@ -159,7 +159,7 @@ function checkInvalidFields(req, typeUserId) {
          if (!req.body.username)
             errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
-            errors.push("A senha não foi preenchida.");
+            errors.push("A palavra-passe não foi preenchida.");
          if (!req.body.name)
             errors.push("O nome não foi preenchido.");
          if (!req.body.surname)
@@ -184,7 +184,7 @@ function checkInvalidFields(req, typeUserId) {
          if (!req.body.username)
             errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
-            errors.push("A senha não foi preenchida.");
+            errors.push("A palavra-passe não foi preenchida.");
          if (!req.body.name)
             errors.push("O nome não foi preenchido.");
          if (!req.body.email)
@@ -221,7 +221,7 @@ function checkInvalidFields(req, typeUserId) {
          if (!req.body.username)
             errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
-            errors.push("A senha não foi preenchida.");
+            errors.push("A palavra-passe não foi preenchida.");
          if (!req.body.name)
             errors.push("O nome não foi preenchido.");
          if (!req.body.surname)
@@ -258,7 +258,7 @@ function checkInvalidFields(req, typeUserId) {
          if (!req.body.username)
             errors.push("Ups! O nome de utilizador não foi preenchido.");
          if (!req.body.password)
-            errors.push("A senha não foi preenchida.");
+            errors.push("A palavra-passe não foi preenchida.");
          if (!req.body.name)
             errors.push("O nome não foi preenchido.");
          if (!req.body.surname)
