@@ -13,6 +13,12 @@
 
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
+
+   <!-- Alertify -->
+   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
    <link href="assets/css/bootstrap.css" rel="stylesheet">
    <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
    <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -34,8 +40,10 @@
    <script src="assets/js/modernizr.js"></script>
    <script src="assets/js/bootstrap.js"></script>
 
+   <link rel="stylesheet" href="css/index.css">
+   <link rel="stylesheet" href="css/create-product.css">
+
    <script type="text/javascript" defer src="js/environment.js"></script>
-   <script type="text/javascript" defer src="js/events.js"></script>
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
@@ -106,21 +114,7 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div class="company-info">
-                           <div class="img-holder">
-                              <figure>
-                                 <img src="assets/extra-images/team-medium-img1.jpg" alt="">
-                              </figure>
-                           </div>
-                           <div class="text-holder">
-                              <span class="restaurant-title">Cliente Demo</span>
-                              <ul class="user-info-contact">
-                                 <li class="cell"><i class="icon-phone"></i><a href="tel:912545988">912545988</a></li>
-                                 <li class="email"><i class="icon-mail5"></i><a
-                                       href="mail:josetomas@gmail.com">josetomas@gmail.com</a></li>
-                              </ul>
-                           </div>
-                        </div>
+                        <div id="title-info" class="company-info"></div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -157,38 +151,7 @@
                               </div>
                               <div class="row">
                                  <form id="publisher_profile">
-                                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                       <div class="row">
-                                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                             <div class="field-holder">
-                                                <label>Nome*</label>
-                                                <input type="text" class="foodbakery-dev-req-field" name="name"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                             <div class="field-holder">
-                                                <label>Apelido*</label>
-                                                <input type="text" class="foodbakery-dev-req-field" name="surname"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                             <div class="field-holder">
-                                                <label>Email*</label>
-                                                <input type="text" class="foodbakery-dev-req-field" name="email"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                             <div class="field-holder">
-                                                <label>Nome de Utilizador*</label>
-                                                <input type="text" class="form-control gllpLongitude" name="username"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
+                                    <div id="user-data-1" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                        <div class="user-profile-images">
                                           <div class="current-img">
@@ -197,58 +160,39 @@
                                                    data-def-img="assets/extra-images/team-medium-img1.jpg"
                                                    data-img-type="default">
                                                    <figure>
-                                                      <a><img src="assets/extra-images/team-medium-img1.jpg" alt=""></a>
+                                                      <a id="img-photo"></a>
                                                    </figure>
                                                 </div>
                                              </div>
                                              <span>Coloque uma foto nova</span>
                                           </div>
                                           <div class="upload-file">
-                                             <input id="file-1" type="file" class="hide">
-                                             <button type="button"><span>Upload Foto</span></button>
+                                             <form id="form-edit-user-photo">
+                                                <input id="file-photo" type="file" name="file" class="hide">
+                                                <input type="submit" id="submit-edit-user-photo" class="hide">
+                                                <button id="button-edit-user-photo" onclick="document.getElementById('file-photo').click();" type="button"><span>Upload
+                                                      Foto</span></button>
+                                             </form>
                                           </div>
                                        </div>
                                     </div>
+                                    <div id="user-data-2" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+                                 </form><br><br>
+                                 <form id="form-edit-password">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="opt-conts">
-                                          <div class="row">
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Palavra-Pass</label>
-                                                   <input type="text" class="form-control gllpLongitude" name="password"
-                                                      value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Nº Telemóvel</label>
-                                                   <input type="text" class="form-control gllpLongitude"
-                                                      name="phone_number" value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Morada</label>
-                                                   <input type="text" class="form-control gllpLongitude" name="address"
-                                                      value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Código Postal</label>
-                                                   <input type="text" class="form-control gllpLongitude" name="zip_code"
-                                                      value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder"></div>
-                                                <div class="field-holder search-location-map input-button-loader">
-                                                   <input type="button"
-                                                      class="acc-submit cs-section-update cs-color gllpSearchButton"
-                                                      value="Pesquisar">
-                                                </div>
-                                             </div>
-                                          </div>
+                                       <div class="element-title has-border" style="margin-bottom: 10px;">
+                                          <h5>Palavra-Passe</h5>
+                                       </div>
+                                    </div>
+                                    <div id="div-edit-password" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="field-holder">
+                                          <label>Nova palavra-pasee*</label>
+                                          <input type="password">
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="field-holder">
+                                          <button name="button" type="button" class="btn-submit">Guardar</button>
                                        </div>
                                     </div>
                                  </form>
@@ -424,6 +368,7 @@
          <a href="javascript:void(0);" id="id_falsebtn">No, Cancel</a>
       </div>
    </div>
+
    <!-- Modal Popup End -->
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>

@@ -6,7 +6,7 @@
    },
    "path": {
       "DATABASE": "./utils/",
-      "UPLOADS": "./uploads/",
+      "UPLOADS": "./public/uploads/",
       "PHOTOS": "photos/",
       "DRIVING_LICENSES": "driving-licenses/",
       "PRODUCTS": "products/"

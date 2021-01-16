@@ -27,7 +27,7 @@ module.exports = {
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, globalConfig.file.DEFAULT_PHOTO, user.receive_advertising, typeUser.id, typeUser.id];
 
-      db.run(sql, params, function (err) {
+      db.run(sql, params,  function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
@@ -65,7 +65,7 @@ module.exports = {
       var user = new User(allData);
       var typeUser = new TypeUser({ "id": 2 })
 
-           // inserir utilizador na base de dados
+      // inserir utilizador na base de dados
       var sql = "INSERT INTO Users (username, password, name, email, phone_number, address, zip_code, nif, url_photo, description, receive_advertising, old_type, accepted, locked, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.url_photo, user.description, user.receive_advertising, typeUser.id, typeUser.id];
@@ -290,7 +290,7 @@ function checkUsernameOrEmailAlreadyExist(db, req) {
    return new Promise(resolve => {
       var user = new User(req.body);
 
-            // selecionar id do utilizador na base de dados
+      // selecionar id do utilizador na base de dados
       var sql = "SELECT id FROM Users WHERE (username = ? OR email = ?) AND deleted = 0 LIMIT 1";
       var params = [user.username, user.email];
       var userExist = { "exist": false };

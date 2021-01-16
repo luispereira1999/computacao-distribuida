@@ -105,8 +105,6 @@ module.exports = {
 
             res.status(200).json({ "message": "Foto do utilizador editada com sucesso!", "data": data, "token": token });
          });
-
-         res.status(200).json({ "message": "Foto do utilizador editada com sucesso!" });
       });
 
       db.close();

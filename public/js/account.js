@@ -1,4 +1,4 @@
-$(document).ready(() => {
+$(window).ready(() => {
    var userLogged = checkUserLogged();
    if (userLogged) {
       $("#header-user-logged").show();
@@ -12,5 +12,12 @@ $(document).ready(() => {
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
+   var html = getHtmlImgEditPhoto();
+   $("#img-photo").append(html);
    getUserData();
+
+   $("input[name='file']").change(() => {
+      $('#form-edit-user-photo').trigger('submit');
+      editUserPhoto();
+   });
 });

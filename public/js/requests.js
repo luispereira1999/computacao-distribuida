@@ -10,7 +10,10 @@ function registerClient() {
       url: urlApi + "register/client/",
 
       success: res => {
-         setSession(res);
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
          var url = "./index.html";
          showModalAndRedirect(res.message, url);
       },
@@ -125,7 +128,10 @@ function login() {
       url: urlApi + "login/",
 
       success: res => {
-         setSession(res);
+         setCookie("token", res.token, 3);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
          var url = "./index.html";
          showModalAndRedirect(res.message, url);
       },
@@ -145,16 +151,7 @@ function login() {
 
 // USERS
 function getUserData() {
-   var div = $("#user-data");
-
-   var htmlExists = checkHtmlExists(div.html());
-   if (htmlExists) {
-      destroyElement(div.find("label"));
-      destroyElement(div.find("input"));
-      destroyElement(div.find("br"));
-   }
-
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -163,19 +160,53 @@ function getUserData() {
       url: urlApi + "users/account/",
 
       success: res => {
-         var i = -1;
-         for (const [key, value] of Object.entries(res.data)) {
-            var label = $("<label>" + key + "</label>");
-            var input = $("<input type='text' value='" + value + "' />");
-            div.append(label);
-            div.append(input);
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
 
-            if (i % 2 == 0) {
-               var br = $("<br />");
-               div.append(br);
-            }
-            i++;
+         var html = getHtmlUserDataInAccount1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlUserDataInAccount2(res.data);
+         $("#user-data-2").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
          }
+      }
+   });
+}
+
+function editUserPhoto() {
+   var form = $("#form-edit-user-photo")[0];
+   var formData = new FormData(form);
+
+   var file = $('#file-photo')[0].files[0];
+   formData.append('file', file);
+
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      processData: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "users/edit-photo/",
+
+      success: res => {
+         setCookie("url_photo", res.data.url_photo, 3);
+
+         var modal = $("#div-edit-user-photo");
+         closeModal(modal);
+         openModal(res.message);
+
+         refreshPage();
       },
       error: err => {
          var status = getStatus(err);
@@ -200,7 +231,7 @@ function getUsersNotAccepted() {
       destroyElement(tbody.find("tr"));
    }
 
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -241,7 +272,7 @@ function getUsersNotAccepted() {
 }
 
 function acceptUser(currentButtonClicked) {
-   var token = getToken();
+   var token = getCookie("token");
    var userId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    $.ajax({
@@ -288,7 +319,7 @@ function getProducts() {
       destroyElement(tbody.find("tr"));
    }
 
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -348,7 +379,7 @@ function getProducts() {
 }
 
 function getProductsToIndex() {
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -405,7 +436,7 @@ function getProductById(currentButtonClicked) {
 function createProduct() {
    var form = $("#form-create-product")[0];
    var formData = new FormData(form);
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -437,7 +468,7 @@ function createProduct() {
 function editProductData() {
    var form = $("#form-edit-product-data");
    var formData = getFormData(form);
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -468,7 +499,7 @@ function editProductData() {
 function editProductPhoto() {
    var form = $("#form-edit-product-photo")[0];
    var formData = new FormData(form);
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -499,7 +530,7 @@ function editProductPhoto() {
 }
 
 function deleteProduct(currentButtonClicked) {
-   var token = getToken();
+   var token = getCookie("token");
    var productId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    $.ajax({
@@ -546,7 +577,7 @@ function getOrdersFromUser() {
       destroyElement(tbody.find("tr"));
    }
 
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -582,7 +613,7 @@ function getOrdersFromUser() {
 
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
-   var token = getToken();
+   var token = getCookie("token");
    var data = { "product_id": currentButtonClicked.parent().parent().children(".td-id").text() };
 
    $.ajax({
@@ -609,7 +640,7 @@ function createOrder(currentButtonClicked) {
 }
 
 function cancelOrder(currentButtonClicked) {
-   var token = getToken();
+   var token = getCookie("token");
    var orderId = currentButtonClicked.parent().parent().children(".td-id").text();
    var productId = currentButtonClicked.parent().parent().children(".td-product_id").text();
    var data = { "order_id": orderId, "product_id": productId };
