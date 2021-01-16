@@ -42,6 +42,14 @@ function setCookie(cname, cvalue, exdays) {
    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
+function destroyCookies() {
+   var allCookies = document.cookie.split(';');
+
+   for (var i = 0; i < allCookies.length; i++)
+      document.cookie = allCookies[i] + "=;expires="
+         + new Date(0).toUTCString();
+}
+
 function checkUserLogged() {
    if (getCookie("token"))
       return true;
@@ -70,11 +78,11 @@ function openModal(text) {
    }).show();
 }
 
-function showModalAndRedirect(text, url) {
+function showModalAndRedirect(title, message, url) {
    alertify.alert().setting({
-      "title": "Sucesso",
+      "title": title,
       "label": "Confirmar",
-      "message": text,
+      "message": message,
       "onok": () => redirectPage(url)
    }).show();
 }
@@ -174,4 +182,10 @@ function clearFormData(element) {
 
 function clearTextOfElement(element) {
    element.text("");
+}
+
+function logout() {
+   destroyCookies();
+   var url = "./index.html";
+   showModalAndRedirect("Sucesso", "Sessão terminada com sucesso!", url);
 }

@@ -15,7 +15,7 @@ function registerClient() {
             setCookie(key, value, 3);
 
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -44,7 +44,7 @@ function registerMerchant() {
 
       success: res => {
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -73,7 +73,7 @@ function registerDriver() {
 
       success: res => {
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -100,7 +100,7 @@ function registerAdmin() {
 
       success: res => {
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -133,7 +133,7 @@ function login() {
             setCookie(key, value, 3);
 
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);

@@ -17,9 +17,12 @@ $(window).ready(() => {
    getUserData();
 
    $("input[name='file']").change(() => {
-      $('#form-edit-user-photo').trigger('submit');
-      alert("d")
+      $("#form-edit-user-photo").trigger("submit");
       editUserPhoto();
+   });
+
+   $(".a-logout").click(() => {
+      logout();
    });
 
    $("#form-edit-user-data").submit(e => {
