@@ -21,6 +21,10 @@ $(window).ready(() => {
       editUserPhoto();
    });
 
+   $("#id_truebtn").click(() => {
+      deleteUser();
+   });
+
    $(".a-logout").click(() => {
       logout();
    });

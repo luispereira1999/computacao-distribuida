@@ -281,6 +281,31 @@ function editUserPhoto() {
    });
 }
 
+function deleteUser() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "delete",
+      url: urlApi + "users/delete/",
+
+      success: () => {
+         logout();
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
 function getUsersNotAccepted() {
    var thead = $("#table-users-not-accepted thead");
    var tbody = $("#table-users-not-accepted tbody");
