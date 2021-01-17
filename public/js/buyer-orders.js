@@ -1,6 +1,4 @@
 $(window).ready(() => {
-   getMerchantsToIndex();
-
    var userLogged = checkUserLogged();
    if (userLogged) {
       $("#header-user-logged").show();
@@ -14,6 +12,15 @@ $(window).ready(() => {
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
+   var html = getHtmlImgEditPhoto();
+   $("#img-photo").append(html);
+   getUserData();
+
+   getUserOrders();
+
+   $("#id_truebtn").click(() => {
+      deleteUser();
+   });
 
    $(".a-logout").click(() => {
       logout();

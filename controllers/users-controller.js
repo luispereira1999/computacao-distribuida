@@ -37,8 +37,8 @@ module.exports = {
       var user = new User(allData);
 
       // atualizar dados do utilizador na base de dados
-      var sql = "UPDATE Users SET username = ?, name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ?, receive_advertising = ? WHERE id = ?";
-      var params = [user.username, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.receive_advertising, user.id];
+      var sql = "UPDATE Users SET username = ?, name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ? WHERE id = ?";
+      var params = [user.username, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.id];
 
       db.run(sql, params, err => {
          if (err)
@@ -311,21 +311,7 @@ module.exports = {
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O utilizador não existe." });
-
-         var urlPhoto = await getUrlPhoto(db, user.id);
-         if (urlPhoto.error)
-            return res.status(400).json({ "message": urlPhoto.message });
-         else if (urlPhoto.value != globalConfig.path.UPLOADS + globalConfig.path.PHOTOS + globalConfig.file.DEFAULT_PHOTO)
-            removeFile(urlPhoto.value);
-
-         if (user.type == 3) {
-            var drivingLicense = await getDrivingLicense(db, user.id);
-            if (drivingLicense.error)
-               return res.status(400).json({ "message": drivingLicense.message });
-            else
-               removeFile(drivingLicense.value);
-         }
-
+ 
          res.status(200).json({ "message": "Utilizador excluído com sucesso!" });
       });
 
@@ -455,10 +441,10 @@ function checkInvalidFields(req, route, typeUserId) {
             return { "exist": false };
       case "edit-photo":
          if (!req.file)
-            errors.push("A foto do utilizador não foi preenchida.");
+            errors.push("Ups! A foto do utilizador não foi preenchida.");
          else {
             if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg")
-               errors.push("A foto do utilizador foi inserida incorretamente.");
+               errors.push("Ups! A foto do utilizador foi inserida incorretamente.");
             if (errors.length > 0)
                removeFile(req.file.path);
          }
@@ -469,7 +455,7 @@ function checkInvalidFields(req, route, typeUserId) {
             return { "exist": false };
       case "edit-driving-license":
          if (!req.body.driving_license)
-            errors.push("O tipo de carta de condução não foi preenchida.");
+            errors.push("Ups! O tipo de carta de condução não foi preenchida.");
          else if (req.body.driving_license != 1 && req.body.driving_license != 2 && req.body.driving_license != 3)
             errors.push("O tipo de carta de condução não é válido.");
          if (!req.file)

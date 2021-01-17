@@ -14,10 +14,8 @@ module.exports = class {
       this.url_photo = data.url_photo ? data.url_photo : null;
       this.url_driving_license = data.url_driving_license ? data.url_driving_license : null;
       this.driving_license = data.driving_license ? data.driving_license : null;
-      this.receive_advertising = data.receive_advertising ? data.receive_advertising : 0;
       this.old_type = data.old_type ? data.old_type : null;
       this.accepted = data.accepted ? data.accepted : null;
-      this.locked = data.locked ? data.locked : null;
       this.deleted = data.deleted ? data.deleted : null;
       this.type = data.type ? data.type : null;
    }

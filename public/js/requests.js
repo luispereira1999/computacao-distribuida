@@ -188,7 +188,6 @@ function getMerchantsToIndex() {
       url: urlApi + "users/get-merchants/8",
 
       success: res => {
-         console.log(res.data)
          for (var i = 0; i < 8; i++) {
             var html = getHtmlMerchantsInIndex(res.data[i]);
             $("#ul-get-merchants").append(html);
@@ -678,16 +677,7 @@ function deleteProduct(currentButtonClicked) {
 
 
 // ORDERS
-function getOrdersFromUser() {
-   var thead = $("#table-orders-from-user thead");
-   var tbody = $("#table-orders-from-user tbody");
-
-   var htmlExists = checkHtmlExists(tbody.html());
-   if (htmlExists) {
-      destroyElement(thead.find("tr"));
-      destroyElement(tbody.find("tr"));
-   }
-
+function getUserOrders() {
    var token = getCookie("token");
 
    $.ajax({
@@ -697,17 +687,18 @@ function getOrdersFromUser() {
       url: urlApi + "orders/",
 
       success: res => {
-         var table = $("#table-orders-from-user");
-         createTableWithData(res.data, table);
+         console.log(res.data)
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlUserOrders(res.data[i]);
+            $("#get-user-orders").append(html);
+         }
 
-         var elements = [{
-            "selector": ".td-cancel",
-            "table": table,
-            "th": $("<th>Cancelar</th>"),
-            "td": $("<td class='td-cancel'></td>"),
-            "button": $("<button class='button-cancel'>Cancelar</button>"),
-         }];
-         addButtonColumnToTable(elements);
+         $("span[data-accepted~='0']").css("background-color", "#1e73be");
+         $("span[data-accepted~='0']").text("Pendente");
+         $("span[data-accepted~='1']").css("background-color", "#047a06");
+         $("span[data-accepted~='1']").text("Entregue");
+         $("span[data-canceled~='1']").css("background-color", "#c33332");
+         $("span[data-canceled~='1']").text("Cancelada");
       },
       error: err => {
          var status = getStatus(err);
