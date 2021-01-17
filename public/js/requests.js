@@ -181,6 +181,32 @@ function getUserData() {
    });
 }
 
+function getMerchantsToIndex() {
+   $.ajax({
+      cache: false,
+      type: "get",
+      url: urlApi + "users/get-merchants/8",
+
+      success: res => {
+         console.log(res.data)
+         for (var i = 0; i < 8; i++) {
+            var html = getHtmlMerchantsInIndex(res.data[i]);
+            $("#ul-get-merchants").append(html);
+         }
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
 function editUserData() {
    var form = $("#form-edit-user-data");
    var formData = getFormData(form);
@@ -474,7 +500,7 @@ function getProductsToIndex() {
 
       success: res => {
          for (var i = 0; i < 6; i++) {
-            var html = getHtmlProductsOnIndex(res.data[i]);
+            var html = getHtmlProductsInIndex(res.data[i]);
             $("#ul-get-products").append(html);
          }
 

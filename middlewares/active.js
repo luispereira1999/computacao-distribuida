@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
    var user = new User(req.user);
 
    // selecionar utilizador atual da sessão
-   var sql = "SELECT accepted, locked, deleted FROM Users WHERE id = ?";
+   var sql = "SELECT accepted, deleted FROM Users WHERE id = ?";
    var params = user.id;
    db.get(sql, params, async function (err, row) {
       if (err)
@@ -33,8 +33,6 @@ module.exports = (req, res, next) => {
 function checkRow(row) {
    if (row.deleted == 1)
       return { "value": true, "message": "Ups! O utilizador atual já não existe." }
-   if (row.locked == 1)
-      return { "value": true, "message": "Ups! O utilizador atual está bloqueado." }
    if (row.accepted == 0)
       return { "value": true, "message": "Ups! O utilizador atual não está ativado." }
 

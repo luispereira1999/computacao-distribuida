@@ -1,4 +1,15 @@
-function getHtmlProductsOnIndex(data) {
+function getHtmlMerchantsInIndex(data) {
+   return $('\
+      <li class="has-border">\
+         <figure>\
+            <a href="#"><img src="./uploads/photos/'+ data.url_photo + '" class="attachment-full size-full wp-post-image" alt=""></a>\
+         </figure>\
+      </li>\
+   ');
+}
+
+
+function getHtmlProductsInIndex(data) {
    return $('\
       <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
          <div class="list-post featured">\

@@ -1,4 +1,6 @@
 $(window).ready(() => {
+   getMerchantsToIndex();
+
    var userLogged = checkUserLogged();
    if (userLogged) {
       $("#header-user-logged").show();
@@ -12,5 +14,4 @@ $(window).ready(() => {
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
-   getProductsToIndex();
 });

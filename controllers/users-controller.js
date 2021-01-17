@@ -32,7 +32,7 @@ module.exports = {
       var invalidFields = await checkInvalidFields(req, "edit-data", req.user.type);
       if (invalidFields.exist)
          return res.status(400).json({ "message": invalidFields.message.join(" | ") });
-      
+
       var allData = Object.assign(req.body, { "id": req.user.id });
       var user = new User(allData);
 
@@ -171,6 +171,26 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          res.status(200).json({ "message": "Carta de condução editada com sucesso!" });
+      });
+
+      db.close();
+   },
+
+
+   getMerchants: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT id, username, name, email, url_photo, type FROM Users WHERE accepted = 1 AND deleted = 0 AND type = 2 LIMIT ?";
+      var params = [req.params.quantity];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem empresas." });
+         else
+            res.status(200).json({ "message": "Empresas obtidas com sucesso!", "data": rows });
       });
 
       db.close();

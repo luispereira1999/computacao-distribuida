@@ -67,8 +67,6 @@ function checkInvalidFields(req) {
 function checkActiveUser(row) {
    if (row.deleted == 1)
       return { "value": true, "message": "Ups! O utilizador não existe. Tente outro por favor." };
-   if (row.locked == 1)
-      return { "value": true, "message": "Ups! O utilizador está bloqueado." };
    if (row.accepted == 0)
       return { "value": true, "message": "Ups! O utilizador não está ativado. Aguarde por favor pela resposta!" };
 
