@@ -1,6 +1,6 @@
 $(window).ready(() => {
    var userLogged = checkUserLogged();
-   if (userLogged || getCookie("type") == 1) {
+   if (userLogged && getCookie("type") == 2) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
@@ -14,12 +14,9 @@ $(window).ready(() => {
    $("#header-user-info").append(html);
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
-   getClientData();
+   getMerchantData();
 
-   $("#form-edit-user-photo input[name='file']").change(() => {
-      $("#form-edit-user-photo").trigger("submit");
-      editUserPhoto();
-   });
+   getUserOrders();
 
    $("#id_truebtn").click(() => {
       deleteUser();
@@ -27,15 +24,5 @@ $(window).ready(() => {
 
    $(".a-logout").click(() => {
       logout();
-   });
-
-   $("#form-edit-user-data").submit(e => {
-      e.preventDefault();
-      editUserData();
-   });
-
-   $("#form-edit-password").submit(e => {
-      e.preventDefault();
-      editPassword();
    });
 });

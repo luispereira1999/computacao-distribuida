@@ -1,6 +1,6 @@
 $(window).ready(() => {
    var userLogged = checkUserLogged();
-   if (userLogged || getCookie("type") == 1) {
+   if (userLogged || getCookie("type") == 4) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
@@ -14,7 +14,7 @@ $(window).ready(() => {
    $("#header-user-info").append(html);
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
-   getClientData();
+   getAdminData();
 
    $("#form-edit-user-photo input[name='file']").change(() => {
       $("#form-edit-user-photo").trigger("submit");
@@ -31,6 +31,7 @@ $(window).ready(() => {
 
    $("#form-edit-user-data").submit(e => {
       e.preventDefault();
+      $("input[name='description']").val($("textarea").val());
       editUserData();
    });
 

@@ -348,7 +348,7 @@ function editDrivingLicense() {
       url: urlApi + "users/edit-driving-license/",
 
       success: res => {
-          showModalAndRefresh(res.message);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -812,7 +812,6 @@ function getUserOrders() {
       url: urlApi + "orders/",
 
       success: res => {
-         console.log(res.data)
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlUserOrders(res.data[i]);
             $("#get-user-orders").append(html);
