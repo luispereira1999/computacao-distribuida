@@ -1,6 +1,6 @@
 $(window).ready(() => {
    var userLogged = checkUserLogged();
-   if (userLogged) {
+   if (userLogged && getCookie("type") == 1) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
@@ -14,9 +14,9 @@ $(window).ready(() => {
    $("#header-user-info").append(html);
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
-   getUserData();
+   getClientData();
 
-   $("input[name='file']").change(() => {
+   $("#form-edit-user-photo input[name='file']").change(() => {
       $("#form-edit-user-photo").trigger("submit");
       editUserPhoto();
    });

@@ -150,7 +150,7 @@ function login() {
 
 
 // USERS
-function getUserData() {
+function getClientData() {
    var token = getCookie("token");
 
    $.ajax({
@@ -163,9 +163,104 @@ function getUserData() {
          var html = getHtmlTitle(res.data);
          $("#title-info").append(html);
 
-         var html = getHtmlUserDataInAccount1(res.data);
+         var html = getHtmlClientData1(res.data);
          $("#user-data-1").append(html);
-         var html = getHtmlUserDataInAccount2(res.data);
+         var html = getHtmlClientData2(res.data);
+         $("#user-data-2").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getMerchantData() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/account/",
+
+      success: res => {
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
+
+         var html = getHtmlMerchantData1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlMerchantData2(res.data);
+         $("#user-data-2").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getDriverData() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/account/",
+
+      success: res => {
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
+
+         var html = getHtmlDriverData1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlDriverData2(res.data);
+         $("#user-data-2").append(html);
+
+         $("select").val(res.data.driving_license);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getAdminData() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/account/",
+
+      success: res => {
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
+
+         var html = getHtmlAdminData1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlAdminData2(res.data);
          $("#user-data-2").append(html);
       },
       error: err => {
@@ -224,6 +319,36 @@ function editUserData() {
             setCookie(key, value, 3);
 
          showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function editDrivingLicense() {
+   var form = $("#form-edit-driving-license")[0];
+   var formData = new FormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      processData: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "users/edit-driving-license/",
+
+      success: res => {
+          showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
