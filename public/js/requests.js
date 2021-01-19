@@ -10,9 +10,12 @@ function registerClient() {
       url: urlApi + "register/client/",
 
       success: res => {
-         setSession(res);
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -41,7 +44,7 @@ function registerMerchant() {
 
       success: res => {
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -70,7 +73,7 @@ function registerDriver() {
 
       success: res => {
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -97,7 +100,7 @@ function registerAdmin() {
 
       success: res => {
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -125,9 +128,12 @@ function login() {
       url: urlApi + "login/",
 
       success: res => {
-         setSession(res);
+         setCookie("token", res.token, 3);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
          var url = "./index.html";
-         showModalAndRedirect(res.message, url);
+         showModalAndRedirect("Sucesso", res.message, url);
       },
       error: err => {
          var status = getStatus(err);
@@ -144,17 +150,8 @@ function login() {
 
 
 // USERS
-function getUserData() {
-   var div = $("#user-data");
-
-   var htmlExists = checkHtmlExists(div.html());
-   if (htmlExists) {
-      destroyElement(div.find("label"));
-      destroyElement(div.find("input"));
-      destroyElement(div.find("br"));
-   }
-
-   var token = getToken();
+function getClientData() {
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -163,19 +160,288 @@ function getUserData() {
       url: urlApi + "users/account/",
 
       success: res => {
-         var i = -1;
-         for (const [key, value] of Object.entries(res.data)) {
-            var label = $("<label>" + key + "</label>");
-            var input = $("<input type='text' value='" + value + "' />");
-            div.append(label);
-            div.append(input);
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
 
-            if (i % 2 == 0) {
-               var br = $("<br />");
-               div.append(br);
-            }
-            i++;
+         var html = getHtmlClientData1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlClientData2(res.data);
+         $("#user-data-2").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
          }
+      }
+   });
+}
+
+function getMerchantData() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/account/",
+
+      success: res => {
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
+
+         var html = getHtmlMerchantData1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlMerchantData2(res.data);
+         $("#user-data-2").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getDriverData() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/account/",
+
+      success: res => {
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
+
+         var html = getHtmlDriverData1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlDriverData2(res.data);
+         $("#user-data-2").append(html);
+
+         $("select").val(res.data.driving_license);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getAdminData() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/account/",
+
+      success: res => {
+         var html = getHtmlTitle(res.data);
+         $("#title-info").append(html);
+
+         var html = getHtmlAdminData1(res.data);
+         $("#user-data-1").append(html);
+         var html = getHtmlAdminData2(res.data);
+         $("#user-data-2").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getMerchantsToIndex() {
+   $.ajax({
+      cache: false,
+      type: "get",
+      url: urlApi + "users/get-merchants/8",
+
+      success: res => {
+         for (var i = 0; i < 8; i++) {
+            var html = getHtmlMerchantsInIndex(res.data[i]);
+            $("#ul-get-merchants").append(html);
+         }
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function editUserData() {
+   var form = $("#form-edit-user-data");
+   var formData = getFormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      data: formData,
+      headers: { Authorization: "Bearer " + token },
+      type: "patch",
+      url: urlApi + "users/edit-data/",
+
+      success: res => {
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function editDrivingLicense() {
+   var form = $("#form-edit-driving-license")[0];
+   var formData = new FormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      processData: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "users/edit-driving-license/",
+
+      success: res => {
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function editPassword() {
+   var form = $("#form-edit-password");
+   var formData = getFormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      data: formData,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "users/edit-password/",
+
+      success: res => {
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function editUserPhoto() {
+   var form = $("#form-edit-user-photo")[0];
+   var formData = new FormData(form);
+   var file = $('#file-photo')[0].files[0];
+   formData.append('file', file);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      processData: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "users/edit-photo/",
+
+      success: res => {
+         setCookie(res.token);
+         for (const [key, value] of Object.entries(res.data))
+            setCookie(key, value, 3);
+
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function deleteUser() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "delete",
+      url: urlApi + "users/delete/",
+
+      success: (res) => {
+         logout(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -200,7 +466,7 @@ function getUsersNotAccepted() {
       destroyElement(tbody.find("tr"));
    }
 
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -241,7 +507,7 @@ function getUsersNotAccepted() {
 }
 
 function acceptUser(currentButtonClicked) {
-   var token = getToken();
+   var token = getCookie("token");
    var userId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    $.ajax({
@@ -288,7 +554,7 @@ function getProducts() {
       destroyElement(tbody.find("tr"));
    }
 
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -348,7 +614,7 @@ function getProducts() {
 }
 
 function getProductsToIndex() {
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -358,7 +624,7 @@ function getProductsToIndex() {
 
       success: res => {
          for (var i = 0; i < 6; i++) {
-            var html = getHtmlProductsOnIndex(res.data[i]);
+            var html = getHtmlProductsInIndex(res.data[i]);
             $("#ul-get-products").append(html);
          }
 
@@ -405,7 +671,7 @@ function getProductById(currentButtonClicked) {
 function createProduct() {
    var form = $("#form-create-product")[0];
    var formData = new FormData(form);
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -437,7 +703,7 @@ function createProduct() {
 function editProductData() {
    var form = $("#form-edit-product-data");
    var formData = getFormData(form);
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -468,7 +734,7 @@ function editProductData() {
 function editProductPhoto() {
    var form = $("#form-edit-product-photo")[0];
    var formData = new FormData(form);
-   var token = getToken();
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -499,7 +765,7 @@ function editProductPhoto() {
 }
 
 function deleteProduct(currentButtonClicked) {
-   var token = getToken();
+   var token = getCookie("token");
    var productId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    $.ajax({
@@ -536,17 +802,8 @@ function deleteProduct(currentButtonClicked) {
 
 
 // ORDERS
-function getOrdersFromUser() {
-   var thead = $("#table-orders-from-user thead");
-   var tbody = $("#table-orders-from-user tbody");
-
-   var htmlExists = checkHtmlExists(tbody.html());
-   if (htmlExists) {
-      destroyElement(thead.find("tr"));
-      destroyElement(tbody.find("tr"));
-   }
-
-   var token = getToken();
+function getUserOrders() {
+   var token = getCookie("token");
 
    $.ajax({
       cache: false,
@@ -555,17 +812,17 @@ function getOrdersFromUser() {
       url: urlApi + "orders/",
 
       success: res => {
-         var table = $("#table-orders-from-user");
-         createTableWithData(res.data, table);
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlUserOrders(res.data[i]);
+            $("#get-user-orders").append(html);
+         }
 
-         var elements = [{
-            "selector": ".td-cancel",
-            "table": table,
-            "th": $("<th>Cancelar</th>"),
-            "td": $("<td class='td-cancel'></td>"),
-            "button": $("<button class='button-cancel'>Cancelar</button>"),
-         }];
-         addButtonColumnToTable(elements);
+         $("span[data-accepted~='0']").css("background-color", "#1e73be");
+         $("span[data-accepted~='0']").text("Pendente");
+         $("span[data-accepted~='1']").css("background-color", "#047a06");
+         $("span[data-accepted~='1']").text("Entregue");
+         $("span[data-canceled~='1']").css("background-color", "#c33332");
+         $("span[data-canceled~='1']").text("Cancelada");
       },
       error: err => {
          var status = getStatus(err);
@@ -582,7 +839,7 @@ function getOrdersFromUser() {
 
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
-   var token = getToken();
+   var token = getCookie("token");
    var data = { "product_id": currentButtonClicked.parent().parent().children(".td-id").text() };
 
    $.ajax({
@@ -609,7 +866,7 @@ function createOrder(currentButtonClicked) {
 }
 
 function cancelOrder(currentButtonClicked) {
-   var token = getToken();
+   var token = getCookie("token");
    var orderId = currentButtonClicked.parent().parent().children(".td-id").text();
    var productId = currentButtonClicked.parent().parent().children(".td-product_id").text();
    var data = { "order_id": orderId, "product_id": productId };

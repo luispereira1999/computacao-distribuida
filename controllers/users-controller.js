@@ -29,17 +29,16 @@ module.exports = {
    editData: async (req, res, next) => {
       const db = database.connect();
 
+      var invalidFields = await checkInvalidFields(req, "edit-data", req.user.type);
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
+
       var allData = Object.assign(req.body, { "id": req.user.id });
       var user = new User(allData);
 
-      var typeUserId = await getTypeUserId(db, user.id);
-      if (typeUserId.error)
-         return res.status(400).json({ "message": typeUserId.message });
-
       // atualizar dados do utilizador na base de dados
-      var sql = "UPDATE Users SET username = ?, password = ?, name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ?, receive_advertising = ? WHERE id = ?";
-      const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.receive_advertising, user.id];
+      var sql = "UPDATE Users SET username = ?, name = ?, surname = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, nif = ?, description = ? WHERE id = ?";
+      var params = [user.username, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, user.description, user.id];
 
       db.run(sql, params, err => {
          if (err)
@@ -63,6 +62,50 @@ module.exports = {
             const token = generateToken(data);
 
             res.status(200).json({ "message": "Utilizador editado com sucesso!", "data": data, "token": token });
+         });
+      });
+
+      db.close();
+   },
+
+
+   editPassword: async (req, res, next) => {
+      const db = database.connect();
+
+      var invalidFields = await checkInvalidFields(req, "edit-password");
+      if (invalidFields.exist)
+         return res.status(400).json({ "message": invalidFields.message.join(" | ") });
+
+      var allData = Object.assign(req.body, { "id": req.user.id });
+      var user = new User(allData);
+
+      // atualizar dados do utilizador na base de dados
+      var sql = "UPDATE Users SET password = ? WHERE id = ?";
+      const hash = await bcrypt.hashSync(user.password, 10);
+      var params = [hash, user.id];
+
+      db.run(sql, params, err => {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         // selecionar utilizador na base de dados
+         var sql = "SELECT * FROM Users WHERE id = ?";
+         var params = user.id;
+         db.get(sql, params, async function (err, row) {
+            if (err)
+               return res.status(500).json({ "message": "Oh! " + err.message });
+
+            var data = {
+               id: row.id,
+               username: row.username,
+               name: row.name,
+               email: row.email,
+               url_photo: row.url_photo,
+               type: row.type,
+            };
+            const token = generateToken(data);
+
+            res.status(200).json({ "message": "Palavra-passe editada com sucesso!", "data": data, "token": token });
          });
       });
 
@@ -105,8 +148,6 @@ module.exports = {
 
             res.status(200).json({ "message": "Foto do utilizador editada com sucesso!", "data": data, "token": token });
          });
-
-         res.status(200).json({ "message": "Foto do utilizador editada com sucesso!" });
       });
 
       db.close();
@@ -130,6 +171,26 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          res.status(200).json({ "message": "Carta de condução editada com sucesso!" });
+      });
+
+      db.close();
+   },
+
+
+   getMerchants: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT id, username, name, email, url_photo, type FROM Users WHERE accepted = 1 AND deleted = 0 AND type = 2 LIMIT ?";
+      var params = [req.params.quantity];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem empresas." });
+         else
+            res.status(200).json({ "message": "Empresas obtidas com sucesso!", "data": rows });
       });
 
       db.close();
@@ -250,21 +311,7 @@ module.exports = {
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O utilizador não existe." });
-
-         var urlPhoto = await getUrlPhoto(db, user.id);
-         if (urlPhoto.error)
-            return res.status(400).json({ "message": urlPhoto.message });
-         else if (urlPhoto.value != globalConfig.path.UPLOADS + globalConfig.path.PHOTOS + globalConfig.file.DEFAULT_PHOTO)
-            removeFile(urlPhoto.value);
-
-         if (user.type == 3) {
-            var drivingLicense = await getDrivingLicense(db, user.id);
-            if (drivingLicense.error)
-               return res.status(400).json({ "message": drivingLicense.message });
-            else
-               removeFile(drivingLicense.value);
-         }
-
+ 
          res.status(200).json({ "message": "Utilizador excluído com sucesso!" });
       });
 
@@ -283,8 +330,6 @@ function checkInvalidFields(req, route, typeUserId) {
             case 1:
                if (!req.body.username)
                   errors.push("Ups! O nome de utilizador não foi preenchido.");
-               if (!req.body.password)
-                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.surname)
@@ -308,8 +353,6 @@ function checkInvalidFields(req, route, typeUserId) {
             case 2:
                if (!req.body.username)
                   errors.push("Ups! O nome de utilizador não foi preenchido.");
-               if (!req.body.password)
-                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.email)
@@ -337,8 +380,6 @@ function checkInvalidFields(req, route, typeUserId) {
             case 3:
                if (!req.body.username)
                   errors.push("Ups! O nome de utilizador não foi preenchido.");
-               if (!req.body.password)
-                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.surname)
@@ -366,8 +407,6 @@ function checkInvalidFields(req, route, typeUserId) {
             case 4:
                if (!req.body.username)
                   errors.push("Ups! O nome de utilizador não foi preenchido.");
-               if (!req.body.password)
-                  errors.push("A senha não foi preenchida.");
                if (!req.body.name)
                   errors.push("O nome não foi preenchido.");
                if (!req.body.surname)
@@ -392,12 +431,20 @@ function checkInvalidFields(req, route, typeUserId) {
             default:
                return { "exist": false };
          }
+      case "edit-password":
+         if (!req.body.password)
+            errors.push("A palavra-passe não foi preenchida.");
+
+         if (errors.length)
+            return { "exist": true, "message": errors };
+         else
+            return { "exist": false };
       case "edit-photo":
          if (!req.file)
-            errors.push("A foto do utilizador não foi preenchida.");
+            errors.push("Ups! A foto do utilizador não foi preenchida.");
          else {
             if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg")
-               errors.push("A foto do utilizador foi inserida incorretamente.");
+               errors.push("Ups! A foto do utilizador foi inserida incorretamente.");
             if (errors.length > 0)
                removeFile(req.file.path);
          }
@@ -408,7 +455,7 @@ function checkInvalidFields(req, route, typeUserId) {
             return { "exist": false };
       case "edit-driving-license":
          if (!req.body.driving_license)
-            errors.push("O tipo de carta de condução não foi preenchida.");
+            errors.push("Ups! O tipo de carta de condução não foi preenchida.");
          else if (req.body.driving_license != 1 && req.body.driving_license != 2 && req.body.driving_license != 3)
             errors.push("O tipo de carta de condução não é válido.");
          if (!req.file)

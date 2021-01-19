@@ -19,38 +19,55 @@ function setFormData(data) {
    }
 }
 
-function setSession(res) {
-   sessionStorage.setItem("token", res.token);
-   sessionStorage.setItem("id", res.data.id);
-   sessionStorage.setItem("username", res.data.username);
-   sessionStorage.setItem("name", res.data.name);
-   sessionStorage.setItem("email", res.data.email);
-   sessionStorage.setItem("url_photo", res.data.url_photo);
-   sessionStorage.setItem("type", res.data.type);
+function getCookie(cname) {
+   var name = cname + "=";
+   var decodedCookie = decodeURIComponent(document.cookie);
+   var ca = decodedCookie.split(';');
+   for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+         c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+         return c.substring(name.length, c.length);
+      }
+   }
+   return "";
 }
 
-function getSession(value) {
-   return sessionStorage.getItem(value);
+function setCookie(cname, cvalue, exdays) {
+   var d = new Date();
+   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+   var expires = "expires=" + d.toUTCString();
+   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-function getToken() {
-   return sessionStorage.getItem("token");
+function destroyCookies() {
+   var allCookies = document.cookie.split(';');
+
+   for (var i = 0; i < allCookies.length; i++)
+      document.cookie = allCookies[i] + "=;expires="
+         + new Date(0).toUTCString();
 }
 
 function checkUserLogged() {
-   if (sessionStorage.getItem("token"))
+   if (getCookie("token"))
       return true;
    else
       return false;
 }
 
+
 function getStatus(err) {
    return err.status;
 }
 
-
 function redirectPage(url) {
    location.href = url;
+}
+
+function refreshPage() {
+   location.reload();
 }
 
 function openModal(text) {
@@ -61,12 +78,21 @@ function openModal(text) {
    }).show();
 }
 
-function showModalAndRedirect(text, url) {
+function showModalAndRedirect(title, message, url) {
+   alertify.alert().setting({
+      "title": title,
+      "label": "Confirmar",
+      "message": message,
+      "onok": () => redirectPage(url)
+   }).show();
+}
+
+function showModalAndRefresh(text) {
    alertify.alert().setting({
       "title": "Sucesso",
       "label": "Confirmar",
       "message": text,
-      "onok": () => redirectPage(url)
+      "onok": () => refreshPage()
    }).show();
 }
 
@@ -156,4 +182,10 @@ function clearFormData(element) {
 
 function clearTextOfElement(element) {
    element.text("");
+}
+
+function logout(message) {
+   destroyCookies();
+   var url = "./index.html";
+   showModalAndRedirect("Sucesso", message, url);
 }

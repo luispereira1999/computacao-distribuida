@@ -11,7 +11,18 @@ module.exports = {
       var user = new User(req.user);
 
       // selecionar encomendas do utilizador na base de dados
-      var sql = "SELECT * FROM Orders WHERE user_id = ?";
+      var sql = "\
+         SELECT\
+            Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Products.name as product_name, Products.price, Products.description, Products.urL_photo as url_photo,\
+            Merchants.name as merchant_name,\
+            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
+         FROM Orders\
+         INNER JOIN Products ON Orders.product_id = Products.id\
+         INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
+         INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
+         WHERE Orders.user_id = ?\
+      ";
       var params = user.id;
       db.all(sql, params, function (err, rows) {
          if (err)
@@ -60,11 +71,22 @@ module.exports = {
       if (!stock.available)
          return res.status(400).json({ "message": stock.message });
 
-      var order = new Order({ "product_id": req.body.product_id, "user_id": req.user.id });
+      var subtotal = await getPrice(db, req.body.product_id);
+      if (subtotal.error)
+         return res.status(400).json({ "message": subtotal.message });
+
+      var date = new Date();
+      var currentDate = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes();
+      const vat = 0.23;
+      const pickUpFee = 3.5;
+      var total = calculateTotal(subtotal.value, vat, pickUpFee);
+
+      var allData = Object.assign(req.body, { "user_id": req.user.id, "date": currentDate, "vat": vat, "pick_up_fee": pickUpFee, "total": total });
+      var order = new Order(allData);
 
       // inserir encomenda na base de dados
-      var sql = "INSERT INTO Orders (accepted, canceled, product_id, user_id) VALUES (0, 0, ?, ?)";
-      var params = [order.product_id, order.user_id];
+      var sql = "INSERT INTO Orders (address, zip_code, date, vat, pick_up_fee, total, accepted, canceled, product_id, user_id) VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?)";
+      var params = [order.address, order.zip_code, order.date, vat, pickUpFee, total, order.product_id, order.user_id];
       db.run(sql, params, err => {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
@@ -95,7 +117,7 @@ module.exports = {
          return res.status(400).json({ "message": stock.message });
       else
          product.stock = stock.value - 1;
-      
+
       // atualizar estado da encomenda na base de dados
       var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND product_id = ? AND user_id = ? AND accepted = 0 AND canceled = 0";
       var params = [order.id, order.product_id, order.user_id];
@@ -121,6 +143,10 @@ module.exports = {
 function checkInvalidFields(req) {
    var errors = [];
 
+   if (!req.body.address)
+      errors.push("Ups! A morada não foi preenchida.");
+   if (!req.body.zip_code)
+      errors.push("Ups! O código postal não foi preenchido.");
    if (!req.body.product_id)
       errors.push("Ups! O ID do produto não foi preenchido.");
 
@@ -175,6 +201,27 @@ function getStock(db, productId) {
 }
 
 
+function getPrice(db, productId) {
+   return new Promise(resolve => {
+      var product = new Product({ "id": productId });
+
+      // selecionar preço do produto na base de dados
+      var sql = "SELECT price FROM Products WHERE id = ?";
+      var params = product.id;
+      var price = { "error": true, "message": "Ups! O produto não existe." };
+
+      db.each(sql, params, (err, row) => {
+         if (err)
+            return price = { "error": true, "message": "Oh! " + err.message };
+
+         return price = { "error": false, "value": row.price };
+      }, () => {
+         resolve(price);
+      });
+   });
+}
+
+
 function updateStock(db, product) {
    return new Promise(resolve => {
       // atualizar stock do produto na base de dados
@@ -191,4 +238,9 @@ function updateStock(db, product) {
          resolve(stock);
       });
    });
+}
+
+
+function calculateTotal(subtotal, vat, pick_up_fee) {
+   return (subtotal + pick_up_fee) * (1 + vat);
 }

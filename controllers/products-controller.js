@@ -152,7 +152,7 @@ module.exports = {
             return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
          }
 
-         res.status(200).json({ "message": "Foto do produto editado com sucesso!" });
+         res.status(200).json({ "message": "Foto do produto editada com sucesso!" });
       });
 
       db.close();
@@ -174,13 +174,7 @@ module.exports = {
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
-
-         var urlPhoto = await getUrlPhoto(db, product.id);
-         if (urlPhoto.error)
-            return res.status(400).json({ "message": urlPhoto.message });
-         else
-            removeFile(urlPhoto.value);
-
+ 
          res.status(200).json({ "message": "Produto excluído com sucesso!" });
       });
 

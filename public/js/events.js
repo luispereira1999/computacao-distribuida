@@ -4,7 +4,7 @@ $(window).ready(() => {
    startModal($("div-edit-product-data"));
    startModal($("div-edit-product-photo"));
 
-   
+
    // REGISTER
    $("#form-register-client").submit(e => {
       e.preventDefault();
@@ -46,6 +46,21 @@ $(window).ready(() => {
 
 
    // USERS
+   $("#button-edit-user-photo").click(e => {
+      e.preventDefault();
+      document.getElementById("div-edit-user-photo").style.display = "block";
+
+      var data = {
+         "id": $(this).parent().parent().children(".td-id").text(),
+         "name": $(this).parent().parent().children(".td-name").text(),
+         "stock": $(this).parent().parent().children(".td-stock").text(),
+         "price": $(this).parent().parent().children(".td-price").text(),
+         "description": $(this).parent().parent().children(".td-description").text()
+      };
+
+      setFormData(data);
+   })
+
    $("#button-get-user-data").click(() => {
       getUserData();
    });

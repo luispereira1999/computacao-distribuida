@@ -1,16 +1,15 @@
-$(document).ready(() => {
+$(window).ready(() => {
    var userLogged = checkUserLogged();
    if (userLogged) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
    else {
-      var url = "./index.html";
-      redirectPage(url);
+      $("#header-user-logged").hide();
+      $("#header-user-not-logged").show();
       return;
    }
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
-   getUserData();
 });

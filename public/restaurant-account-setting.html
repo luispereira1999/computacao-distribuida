@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
    <!-- metadados -->
@@ -13,6 +13,12 @@
 
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
+
+   <!-- Alertify -->
+   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
    <link href="assets/css/bootstrap.css" rel="stylesheet">
    <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
    <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -35,15 +41,14 @@
    <script src="assets/js/bootstrap.js"></script>
 
    <script type="text/javascript" defer src="js/environment.js"></script>
-   <script type="text/javascript" defer src="js/events.js"></script>
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/account.js"></script>
+   <script type="text/javascript" defer src="js/restaurant-account-setting.js"></script>
 </head>
 
 <body>
-   <!--Main Wrapper-->
+   <!-- Main Wrapper -->
    <div class="wrapper">
       <!-- Header Start -->
       <header id="header">
@@ -69,22 +74,19 @@
                         </nav>
                      </div>
                   </div>
+                  <div id="header-user-not-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     <div class="login-option">
+                        <a class="cs-color cs-popup-joinus-btn login-popup" href="login.html">Login</a>
+                        <a class="get-start-btn" href="type-register.html">Registo</a>
+                     </div>
+                  </div>
                   <div id="header-user-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                      <div class="login-option">
                         <div class="user-dashboard-menu">
                            <ul>
                               <li class="user-dashboard-menu-children">
                                  <a href="javascript:void(0);" id="header-user-info"></a>
-                                 <ul>
-                                    <li><a href="buyer-dashboard.html"><i class="icon-dashboard3"></i>Dashboard</a></li>
-                                    <li><a href="buyer-orders.html" class="btn-edit-profile"><i
-                                             class="icon-add_shopping_cart"></i>Minhas Encomendas</a></li>
-                                    <li><a href="buyer-statement.html"><i class="icon-file-text22"></i>Transações</a>
-                                    </li>
-                                    <li class="active"><a href="account.html"><i
-                                             class="icon-build"></i>Configurações</a></li>
-                                    <li><a href="index.html"><i class="icon-log-out"></i>Sair</a></li>
-                                 </ul>
+                                 <ul id="header-menu"></ul>
                               </li>
                            </ul>
                         </div>
@@ -95,10 +97,12 @@
          </div>
       </header>
       <!-- Header End -->
+
+
       <!-- Main Section Start -->
       <div class="main-section">
          <div class="page-section restaurant-detail-image-section"
-            style=" background: url(assets/extra-images/banner-img-2.jpg) no-repeat scroll 0 0 / cover;">
+            style=" background: url(assets/extra-images/cover-photo01.jpg) no-repeat scroll 0 0 / cover;">
             <!-- Container Start -->
             <div class="container">
                <!-- Row Start -->
@@ -106,21 +110,7 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div class="company-info">
-                           <div class="img-holder">
-                              <figure>
-                                 <img src="assets/extra-images/team-medium-img1.jpg" alt="">
-                              </figure>
-                           </div>
-                           <div class="text-holder">
-                              <span class="restaurant-title">Cliente Demo</span>
-                              <ul class="user-info-contact">
-                                 <li class="cell"><i class="icon-phone"></i><a href="tel:912545988">912545988</a></li>
-                                 <li class="email"><i class="icon-mail5"></i><a
-                                       href="mail:josetomas@gmail.com">josetomas@gmail.com</a></li>
-                              </ul>
-                           </div>
-                        </div>
+                        <div id="title-info" class="company-info"></div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -136,14 +126,17 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li class="active"><a href="buyer-dashboard.html"><i
-                                       class="icon-dashboard3"></i>Dashboard</a></li>
-                              <li><a href="buyer-orders.html" class="btn-edit-profile"><i
-                                       class="icon-add_shopping_cart"></i>Minhas Encomendas</a></li>
-                              <li><a href="buyer-statement.html"><i class="icon-file-text22"></i>Transações</a></li>
-                              <li><a href="account.html"><i class="icon-build"></i>Configurações</a></li>
-                              <li><a id="profile_delete" href="#"><i class="icon-delete"></i>Eliminar Perfil</a></li>
-                              <li><a href="registration.html"><i class="icon-log-out"></i>Sair</a></li>
+                              <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Meu Restaurante</a>
+                              </li>
+                              <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>
+                              <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
+                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
+                                       class="icon-add_shopping_cart"></i>Encomendas</a></li>
+                              <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a>
+                              </li>
+                              <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
+                                    Perfil</a></li>
+                              <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>
                            </ul>
                         </div>
                      </div>
@@ -156,39 +149,8 @@
                                  <h5>Configurações da Conta</h5>
                               </div>
                               <div class="row">
-                                 <form id="publisher_profile">
-                                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                       <div class="row">
-                                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                             <div class="field-holder">
-                                                <label>Nome*</label>
-                                                <input type="text" class="foodbakery-dev-req-field" name="name"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                             <div class="field-holder">
-                                                <label>Apelido*</label>
-                                                <input type="text" class="foodbakery-dev-req-field" name="surname"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                             <div class="field-holder">
-                                                <label>Email*</label>
-                                                <input type="text" class="foodbakery-dev-req-field" name="email"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                             <div class="field-holder">
-                                                <label>Nome de Utilizador*</label>
-                                                <input type="text" class="form-control gllpLongitude" name="username"
-                                                   value="">
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
+                                 <form id="form-edit-user-data">
+                                    <div id="user-data-1" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                        <div class="user-profile-images">
                                           <div class="current-img">
@@ -197,58 +159,46 @@
                                                    data-def-img="assets/extra-images/team-medium-img1.jpg"
                                                    data-img-type="default">
                                                    <figure>
-                                                      <a><img src="assets/extra-images/team-medium-img1.jpg" alt=""></a>
+                                                      <a id="img-photo"></a>
                                                    </figure>
                                                 </div>
                                              </div>
                                              <span>Coloque uma foto nova</span>
                                           </div>
                                           <div class="upload-file">
-                                             <input id="file-1" type="file" class="hide">
-                                             <button type="button"><span>Upload Foto</span></button>
+                                             <form id="form-edit-user-photo">
+                                                <input id="file-photo" type="file" name="file" class="hide">
+                                                <input type="submit" id="submit-edit-user-photo"
+                                                   form="form-edit-user-photo" class="hide">
+                                                <button id="button-edit-user-photo"
+                                                   onclick="document.getElementById('file-photo').click();"
+                                                   type="button"><span>Upload
+                                                      Foto</span></button>
+                                             </form>
                                           </div>
                                        </div>
                                     </div>
+                                    <div id="user-data-2" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+                                 </form><br><br>
+                                 <form id="form-edit-password">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="opt-conts">
-                                          <div class="row">
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Palavra-Pass</label>
-                                                   <input type="text" class="form-control gllpLongitude" name="password"
-                                                      value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Nº Telemóvel</label>
-                                                   <input type="text" class="form-control gllpLongitude"
-                                                      name="phone_number" value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Morada</label>
-                                                   <input type="text" class="form-control gllpLongitude" name="address"
-                                                      value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder">
-                                                   <label>Código Postal</label>
-                                                   <input type="text" class="form-control gllpLongitude" name="zip_code"
-                                                      value="">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="field-holder"></div>
-                                                <div class="field-holder search-location-map input-button-loader">
-                                                   <input type="button"
-                                                      class="acc-submit cs-section-update cs-color gllpSearchButton"
-                                                      value="Pesquisar">
-                                                </div>
-                                             </div>
-                                          </div>
+                                       <div class="element-title has-border" style="margin-bottom: 10px;">
+                                          <h5>Palavra-Passe</h5>
+                                       </div>
+                                    </div>
+                                    <div id="div-edit-password" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="field-holder">
+                                          <label>Nova palavra-pasee*</label>
+                                          <input type="password" name="password">
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                       <div class="field-holder search-location-map input-button-loader">
+                                          <input type="submit" form="form-edit-password"
+                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
+                                             value="Alterar palavra-passe"
+                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
+                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
                                        </div>
                                     </div>
                                  </form>
@@ -262,6 +212,8 @@
          </div>
       </div>
       <!-- Main Section End -->
+
+
       <!-- Footer Start -->
       <footer id="footer" class="footer-style-2">
          <div class="footer-widget">
@@ -359,6 +311,8 @@
       </footer>
       <!-- Footer End -->
    </div>
+
+
    <!-- Modal Popup Start -->
    <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -419,12 +373,14 @@
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>
-         <div class="message">You Want To Delete?</div>
-         <a href="javascript:void(0);" id="id_truebtn">Yes, Delete</a>
-         <a href="javascript:void(0);" id="id_falsebtn">No, Cancel</a>
+         <div class="message">Tem a certeza?</div>
+         <a href="javascript:void(0);" id="id_truebtn">Sim, Eliminar</a>
+         <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
       </div>
    </div>
    <!-- Modal Popup End -->
+
+
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
    <script src="assets/js/bootstrap-datepicker.js"></script>
