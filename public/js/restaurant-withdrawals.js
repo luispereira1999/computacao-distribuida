@@ -23,6 +23,6 @@ $(window).ready(() => {
    });
 
    $(".a-logout").click(() => {
-      logout();
+      logout("Sessão terminada com sucesso!");
    });
 });

@@ -440,8 +440,8 @@ function deleteUser() {
       type: "delete",
       url: urlApi + "users/delete/",
 
-      success: () => {
-         logout();
+      success: (res) => {
+         logout(res.message);
       },
       error: err => {
          var status = getStatus(err);

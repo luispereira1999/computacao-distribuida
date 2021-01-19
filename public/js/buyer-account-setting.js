@@ -24,11 +24,12 @@ $(window).ready(() => {
    });
 
    $("#id_truebtn").click(() => {
+      alert("d")
       deleteUser();
    });
 
    $(".a-logout").click(() => {
-      logout();
+      logout("Sessão terminada com sucesso!");
    });
 
    $("#form-edit-user-data").submit(e => {

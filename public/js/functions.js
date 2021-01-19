@@ -184,8 +184,8 @@ function clearTextOfElement(element) {
    element.text("");
 }
 
-function logout() {
+function logout(message) {
    destroyCookies();
    var url = "./index.html";
-   showModalAndRedirect("Sucesso", "Sessão terminada com sucesso!", url);
+   showModalAndRedirect("Sucesso", message, url);
 }
