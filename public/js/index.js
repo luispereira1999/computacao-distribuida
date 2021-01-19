@@ -15,6 +15,23 @@ $(window).ready(() => {
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
 
+   if (getCookie("type") == 1) {
+      var html = getHtmlClientHeaderItems();
+      $("#header-menu").append(html);
+   }
+   else if (getCookie("type") == 2) {
+      var html = getHtmlMerchantHeaderItems();
+      $("#header-menu").append(html);
+   }
+   else if (getCookie("type") == 3) {
+      var html = getHtmlDriverHeaderItems();
+      $("#header-menu").append(html);
+   }
+   else if (getCookie("type") == 4) {
+      var html = getHtmlAdminHeaderItems();
+      $("#header-menu").append(html);
+   }
+
    $(".a-logout").click(() => {
       logout();
    });

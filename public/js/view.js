@@ -55,6 +55,49 @@ function getHtmlUserInfoOnHeader() {
 }
 
 
+function getHtmlClientHeaderItems(){
+   return $('\
+      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
+      <li><a href="buyer-statement.html"><i class="icon-file-text22"></i>Transações</a></li>\
+      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
+   ');
+}
+
+
+function getHtmlMerchantHeaderItems(){
+   return $('\
+      <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Meu Restaurante</a></li>\
+      <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>\
+      <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
+      <li><a href="restaurant-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
+      <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar Perfil</a></li>\
+      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
+   ');
+}
+
+
+function getHtmlDriverHeaderItems(){
+   return $('\
+      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
+      <li><a href="buyer-statement.html"><i class="icon-file-text22"></i>Transações</a></li>\
+      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
+   ');
+}
+
+
+function getHtmlAdminHeaderItems(){
+   return $('\
+      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
+      <li><a href="buyer-statement.html"><i class="icon-file-text22"></i>Transações</a></li>\
+      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
+   ');
+}
+
+
 function getHtmlTitle(data) {
    return $('\
       <div class="img-holder">\

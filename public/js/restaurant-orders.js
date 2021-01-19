@@ -12,6 +12,8 @@ $(window).ready(() => {
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
+   var html = getHtmlMerchantHeaderItems();
+   $("#header-menu").append(html);
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
    getMerchantData();

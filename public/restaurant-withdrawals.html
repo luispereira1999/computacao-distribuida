@@ -1,64 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-   <meta charset="utf-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- metadados -->
    <title>Restaurante - Vendas</title>
+   <meta charset="utf-8">
+   <meta name="description" content="Aplicação web de venda e entrega de bens.">
+   <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
+   <meta name="author" content="João Antunes, Luís Pereira, Rui Pinto">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
-   <!-- Google Font Family Link Start -->
+
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
-   <!-- Google Font Family Link End -->
-   <!-- Bootstrap Link Start-->
    <link href="assets/css/bootstrap.css" rel="stylesheet">
    <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
    <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
    <link href="assets/css/bootstrap-slider.css" rel="stylesheet">
-   <!-- Bootstrap Link End-->
-   <!-- Iconmoon Link Start-->
    <link href="assets/css/iconmoon.css" rel="stylesheet">
-   <!-- Iconmoon Link End-->
-   <!-- Animate Link Start-->
    <link href="assets/css/animate.css" rel="stylesheet">
-   <!-- Animate Link End-->
-   <!-- Chosen Link Start-->
    <link href="assets/css/chosen.css" rel="stylesheet">
-   <!-- Chosen Link End-->
-   <!-- Swiper Link Start-->
    <link href="assets/css/swiper.css" rel="stylesheet">
-   <!-- Swiper Link End-->
-   <!-- Woocommerce Link Start-->
    <link href="assets/css/woocommerce.css" rel="stylesheet">
-   <!-- Woocommerce Link End-->
-   <!-- Pretty Photo Link Start-->
    <link href="assets/css/prettyPhoto.css" rel="stylesheet">
-   <!-- Pretty Photo Link End-->
-   <!-- Daterange Picker Link Start-->
    <link href="assets/css/daterangepicker.css" rel="stylesheet">
-   <!-- Daterange Picker Link End-->
-   <!-- Pretty Photo Link Start-->
    <link href="assets/css/jquery.mCustomScrollbar.css" rel="stylesheet">
-   <!-- Pretty Photo Link End-->
-   <!-- Themes / plugin Link Start-->
    <link href="style.css" rel="stylesheet">
    <link href="assets/css/cs-foodbakery-plugin.css" rel="stylesheet">
    <link href="assets/css/color.css" rel="stylesheet">
    <link href="assets/css/widget.css" rel="stylesheet">
    <link href="assets/css/responsive.css" rel="stylesheet">
-   <!-- <link href="assets/css/rtl.css" rel="stylesheet"> -->
-   <!-- Themes / plugin Link End-->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
    <script src="assets/js/modernizr.js"></script>
    <script src="assets/js/bootstrap.js"></script>
-   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-   <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
 
+   <!-- Alertify -->
+   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
+   <script type="text/javascript" defer src="js/environment.js"></script>
+   <script type="text/javascript" defer src="js/requests.js"></script>
+   <script type="text/javascript" defer src="js/functions.js"></script>
+   <script type="text/javascript" defer src="js/view.js"></script>
+   <script type="text/javascript" defer src="js/restaurant-withdrawals.js"></script>
 </head>
 
 <body>
@@ -100,18 +85,7 @@
                            <ul>
                               <li class="user-dashboard-menu-children">
                                  <a href="javascript:void(0);" id="header-user-info"></a>
-                                 <ul>
-                                    <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Meu Restaurante</a>
-                                    </li>
-                                    <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>
-                                    <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
-                                    <li><a href="restaurant-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>
-                                    <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a>
-                                    </li>
-                                    <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
-                                          Perfil</a></li>
-                                    <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>
-                                 </ul>
+                                 <ul id="header-menu"></ul>
                               </li>
                            </ul>
                         </div>
@@ -122,6 +96,8 @@
          </div>
       </header>
       <!-- Header End -->
+
+
       <!-- Main Section Start -->
       <div class="main-section">
          <div class="page-section restaurant-detail-image-section"
@@ -133,20 +109,7 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div class="company-info">
-                           <div class="img-holder">
-                              <figure>
-                                 <img src="assets/extra-images/listing-logo18.png" alt="">
-                              </figure>
-                           </div>
-                           <div class="text-holder">
-                              <span class="restaurant-title">Restaurante Demo</span>
-                              <div class="text">
-                                 <i class="icon-local_pizza"></i>
-                                 <p>Pizzaria</p>
-                              </div>
-                           </div>
-                        </div>
+                        <div id="title-info" class="company-info"></div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -239,6 +202,8 @@
          </div>
       </div>
       <!-- Main Section End -->
+
+
       <!-- Footer Start -->
       <footer id="footer" class="footer-style-2">
          <div class="footer-widget">
@@ -336,6 +301,8 @@
       </footer>
       <!-- Footer End -->
    </div>
+
+
    <!-- Modal Popup Start -->
    <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
       <div class="modal-dialog">
@@ -417,6 +384,8 @@
          <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
       </div>
    </div>
+
+
    <!-- Modal Popup End -->
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
