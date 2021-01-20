@@ -837,6 +837,41 @@ function getUserOrders() {
    });
 }
 
+function getMerchantOrders() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "orders/merchant",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlUserOrders(res.data[i]);
+            $("#get-user-orders").append(html);
+         }
+
+         $("span[data-accepted~='0']").css("background-color", "#1e73be");
+         $("span[data-accepted~='0']").text("Pendente");
+         $("span[data-accepted~='1']").css("background-color", "#047a06");
+         $("span[data-accepted~='1']").text("Entregue");
+         $("span[data-canceled~='1']").css("background-color", "#c33332");
+         $("span[data-canceled~='1']").text("Cancelada");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
    var token = getCookie("token");
