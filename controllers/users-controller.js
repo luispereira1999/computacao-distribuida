@@ -394,10 +394,6 @@ function checkInvalidFields(req, route, typeUserId) {
                   errors.push("A morada não foi preenchida.");
                if (!req.body.zip_code)
                   errors.push("O código postal não foi preenchido.");
-               if (!req.body.driving_license)
-                  errors.push("O tipo de carta de condução não foi preenchida.");
-               else if (req.body.driving_license != 1 && req.body.driving_license != 2 && req.body.driving_license != 3)
-                  errors.push("O tipo de carta de condução não é válido.");
 
                if (errors.length)
                   return { "exist": true, "message": errors };

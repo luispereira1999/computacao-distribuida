@@ -66,11 +66,10 @@ function getHtmlClientHeaderItems() {
 
 function getHtmlMerchantHeaderItems() {
    return $('\
-      <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Meu Restaurante</a></li>\
+      <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Meu Restaurante</a></li>\
       <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>\
       <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
       <li><a href="restaurant-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
@@ -78,8 +77,9 @@ function getHtmlMerchantHeaderItems() {
 
 function getHtmlDriverHeaderItems() {
    return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a href="motorista-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a href="motorista-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
+      <li><a href="motorista-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
