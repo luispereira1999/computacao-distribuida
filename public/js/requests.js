@@ -848,16 +848,16 @@ function getMerchantOrders() {
 
       success: res => {
          for (var i = 0; i < res.data.length; i++) {
-            var html = getHtmlUserOrders(res.data[i]);
-            $("#get-user-orders").append(html);
+            var html = getHtmlMerchantOrders(res.data[i]);
+            $(".table-generic").append(html);
          }
 
-         $("span[data-accepted~='0']").css("background-color", "#1e73be");
-         $("span[data-accepted~='0']").text("Pendente");
-         $("span[data-accepted~='1']").css("background-color", "#047a06");
-         $("span[data-accepted~='1']").text("Entregue");
-         $("span[data-canceled~='1']").css("background-color", "#c33332");
-         $("span[data-canceled~='1']").text("Cancelada");
+         $("[data-accepted~='0']").css("background-color", "#1e73be");
+         $("[data-accepted~='0']").text("Pendente");
+         $("[data-accepted~='1']").css("background-color", "#047a06");
+         $("[data-accepted~='1']").text("Entregue");
+         $("[data-canceled~='1']").css("background-color", "#c33332");
+         $("[data-canceled~='1']").text("Cancelada");
       },
       error: err => {
          var status = getStatus(err);

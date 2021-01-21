@@ -590,3 +590,17 @@ function getHtmlUserOrders(data) {
       </div>\
    ');
 }
+
+function getHtmlMerchantOrders(data) {
+   return $('\
+      <li>\
+         <div>'+ data.id + '</div>\
+         <div>'+ data.date + '</div>\
+         <div>'+ data.product_name + '</div>\
+         <div>'+ data.client_name + '</div>\
+         <div class="order-btn">\
+            <span data-accepted="'+ data.accepted + '" data-canceled="' + data.canceled + '" class="order-status"></span>\
+         </div>\
+      </li>\
+   ');
+}

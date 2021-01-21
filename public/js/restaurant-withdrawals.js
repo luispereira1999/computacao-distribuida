@@ -17,6 +17,7 @@ $(window).ready(() => {
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
    getMerchantData();
+   getMerchantOrders();
 
    $("#id_truebtn").click(() => {
       deleteUser();
