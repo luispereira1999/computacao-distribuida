@@ -27,6 +27,7 @@ jobs:
           script: |
                  rm -rf picand-go
                  git clone "https://github.com/luispereira1999/picand-go.git"
+                 docker login
                  sudo docker stop picandgoapp
                  sudo docker rm picandgoapp
                  sudo docker rmi picand-go/node-web-app
