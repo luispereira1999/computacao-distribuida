@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
    <!-- metadados -->
-   <title>Configurações da Conta</title>
+   <title>Motorista - Encomendas</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -13,12 +13,6 @@
 
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
-
-   <!-- Alertify -->
-   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-
    <link href="assets/css/bootstrap.css" rel="stylesheet">
    <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
    <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -40,15 +34,20 @@
    <script src="assets/js/modernizr.js"></script>
    <script src="assets/js/bootstrap.js"></script>
 
+   <!-- Alertify -->
+   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
    <script type="text/javascript" defer src="js/environment.js"></script>
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/driver-account-setting.js"></script>
+   <script type="text/javascript" defer src="js/motorista-orders.js"></script>
 </head>
 
 <body>
-   <!-- Main Wrapper -->
+   <!--Main Wrapper-->
    <div class="wrapper">
       <!-- Header Start -->
       <header id="header">
@@ -86,14 +85,7 @@
                            <ul>
                               <li class="user-dashboard-menu-children">
                                  <a href="javascript:void(0);" id="header-user-info"></a>
-                                 <ul>
-                                    <li><a href="buyer-orders.html" class="btn-edit-profile"><i
-                                             class="icon-add_shopping_cart"></i>Encomendas</a></li>
-                                    <li><a href="buyer-account-setting.html"><i
-                                             class="icon-build"></i>Configurações</a></li>
-                                    <li><a class="a-logout" style="cursor: pointer;"><i
-                                             class="icon-log-out"></i>Sair</a></li>
-                                 </ul>
+                                 <ul id="header-menu"></ul>
                               </li>
                            </ul>
                         </div>
@@ -117,7 +109,21 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div id="title-info" class="company-info"></div>
+                        <div class="company-info">
+                           <div class="img-holder">
+                              <figure>
+                                 <img src="assets/extra-images/listing-logo18.png" alt="">
+                              </figure>
+                           </div>
+
+                           <div class="text-holder">
+                              <span class="restaurant-title">Restaurante Demo</span>
+                              <div class="text">
+                                 <i class="icon-local_pizza"></i>
+                                 <p>Pizzaria</p>
+                              </div>
+                           </div>
+                        </div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -133,14 +139,12 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="restaurant-dashboard.html"><i
-                                       class="icon-dashboard3"></i>Dashboard</a></li>
-                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
+                              <li><a href="motorista-account-setting.html"><i class="icon-build"></i>Configurações</a>
+                              </li>
+                              </li>
+                              <li><a href="motorista-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
+                              <li><a href="motorista-orders.html" class="btn-edit-profile"><i
                                        class="icon-add_shopping_cart"></i>Encomendas</a></li>
-                              <li><a href="restaurant-statement.html"><i class="icon-file-text22"></i>Transações</a>
-                              </li>
-                              <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a>
-                              </li>
                               <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
                                     Perfil</a></li>
                               <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>
@@ -151,98 +155,18 @@
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                      <div class="user-dashboard loader-holder">
                         <div class="user-holder">
-                           <div class="user-profile">
-                              <div class="element-title has-border">
-                                 <h5>Configurações da Conta</h5>
-                              </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div class="row">
-                                 <form id="form-edit-user-data">
-                                    <div id="user-data-1" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                       <div class="user-profile-images">
-                                          <div class="current-img">
-                                             <div class="row mt">
-                                                <div id="cropContainerModal"
-                                                   data-def-img="assets/extra-images/team-medium-img1.jpg"
-                                                   data-img-type="default">
-                                                   <figure>
-                                                      <a id="img-photo"></a>
-                                                   </figure>
-                                                </div>
-                                             </div>
-                                             <span>Coloque uma foto nova</span>
-                                          </div>
-                                          <div class="upload-file">
-                                             <form id="form-edit-user-photo">
-                                                <input id="file-photo" type="file" name="file" class="hide">
-                                                <input type="submit" id="submit-edit-user-photo"
-                                                   form="form-edit-user-photo" class="hide">
-                                                <button id="button-edit-user-photo"
-                                                   onclick="document.getElementById('file-photo').click();"
-                                                   type="button"><span>Upload
-                                                      Foto</span></button>
-                                             </form>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div id="user-data-2" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-                                 </form><br><br>
-                                 <form id="form-edit-driving-license">
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                       <div class="element-title has-border" style="margin-bottom: 10px;">
-                                          <h5>Carta de condução</h5>
-                                       </div>
-                                    </div>
-                                    <div id="div-edit-driving-license" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                          <div class="field-holder">
-                                             <label>Tipo da Carta de Condução*</label>
-                                             <select name="driving_license">
-                                                <option value="1">A (moto)</option>
-                                                <option value="2">B (carro)</option>
-                                                <option value="3">A + B (ambos os veículos)</option>
-                                             </select>
-                                          </div>
-                                       </div>
-                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                          <div class="field-holder">
-                                             <label>Carta de Condução (PDF)*</label>
-                                             <input type="file" class="form-control gllpLongitude" name="file" value="">
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                       <div class="field-holder search-location-map input-button-loader">
-                                          <input type="submit" form="form-edit-driving-license"
-                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
-                                             value="Alterar carta de condução"
-                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
-                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
-                                       </div>
-                                    </div>
-                                 </form><br>
-                                 <form id="form-edit-password">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="element-title has-border" style="margin-bottom: 10px;">
-                                          <h5>Palavra-Passe</h5>
-                                       </div>
-                                    </div>
-                                    <div id="div-edit-password" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="field-holder">
-                                          <label>Nova palavra-pasee*</label>
-                                          <input type="password" name="password">
-                                       </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                       <div class="field-holder search-location-map input-button-loader">
-                                          <input type="submit" form="form-edit-password"
-                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
-                                             value="Alterar palavra-passe"
-                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
-                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
-                                       </div>
-                                    </div>
-                                 </form>
+                                 <div class="element-title has-border right-filters-row">
+                                    <h5>Encomendas</h5>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                 <div class="user-orders-list">
+                                    <div id="get-user-orders" class="row"></div>
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -419,9 +343,9 @@
          <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
       </div>
    </div>
+
+
    <!-- Modal Popup End -->
-
-
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
    <script src="assets/js/bootstrap-datepicker.js"></script>

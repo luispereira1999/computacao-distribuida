@@ -3,7 +3,7 @@
 
 <head>
    <!-- metadados -->
-   <title>Cliente - Configurações</title>
+   <title>Restaurante - Menu</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -13,12 +13,6 @@
 
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
-
-   <!-- Alertify -->
-   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-
    <link href="assets/css/bootstrap.css" rel="stylesheet">
    <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
    <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -40,15 +34,20 @@
    <script src="assets/js/modernizr.js"></script>
    <script src="assets/js/bootstrap.js"></script>
 
+   <!-- Alertify -->
+   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
    <script type="text/javascript" defer src="js/environment.js"></script>
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/buyer-account-setting.js"></script>
+   <script type="text/javascript" defer src="js/restaurant-menu.js"></script>
 </head>
 
 <body>
-   <!-- Main Wrapper -->
+   <!--Main Wrapper-->
    <div class="wrapper">
       <!-- Header Start -->
       <header id="header">
@@ -102,7 +101,7 @@
       <!-- Main Section Start -->
       <div class="main-section">
          <div class="page-section restaurant-detail-image-section"
-            style=" background: url(assets/extra-images/banner-img-2.jpg) no-repeat scroll 0 0 / cover;">
+            style=" background: url(assets/extra-images/cover-photo01.jpg) no-repeat scroll 0 0 / cover;">
             <!-- Container Start -->
             <div class="container">
                <!-- Row Start -->
@@ -126,9 +125,14 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="buyer-orders.html" class="btn-edit-profile"><i
+                              <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Meu Restaurante</a>
+                              </li>
+                              <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>
+                              <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
+                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
                                        class="icon-add_shopping_cart"></i>Encomendas</a></li>
-                              <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>
+                              <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a>
+                              </li>
                               <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
                                     Perfil</a></li>
                               <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>
@@ -139,65 +143,41 @@
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                      <div class="user-dashboard loader-holder">
                         <div class="user-holder">
-                           <div class="user-profile">
-                              <div class="element-title has-border">
-                                 <h5>Configurações da Conta</h5>
+                           <div class="publisher-withdrawal-form">
+                              <div class="element-title has-border right-filters-row">
+                                 <h5>Vendas</h5>
+
+                                 <div class="right-filters row pull-right">
+                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                       <div class="input-field">
+                                          <i class="icon-angle-down"></i>
+                                          <input type="text" data-id="daterange223" id="daterange" value=""
+                                             placeholder="Select Date Range">
+                                          <script>
+                                             $(function () {
+                                                $('input[data-id="daterange223"]').daterangepicker({
+                                                   opens: 'left'
+                                                }, function (start, end, label) {
+                                                   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                                });
+                                             });
+                                          </script>
+                                       </div>
+                                    </div>
+                                 </div>
+
                               </div>
-                              <div class="row">
-                                 <form id="form-edit-user-data">
-                                    <div id="user-data-1" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                       <div class="user-profile-images">
-                                          <div class="current-img">
-                                             <div class="row mt">
-                                                <div id="cropContainerModal"
-                                                   data-def-img="assets/extra-images/team-medium-img1.jpg"
-                                                   data-img-type="default">
-                                                   <figure>
-                                                      <a id="img-photo"></a>
-                                                   </figure>
-                                                </div>
-                                             </div>
-                                             <span>Coloque uma foto nova</span>
-                                          </div>
-                                          <div class="upload-file">
-                                             <form id="form-edit-user-photo">
-                                                <input id="file-photo" type="file" name="file" class="hide">
-                                                <input type="submit" id="submit-edit-user-photo"
-                                                   form="form-edit-user-photo" class="hide">
-                                                <button id="button-edit-user-photo"
-                                                   onclick="document.getElementById('file-photo').click();"
-                                                   type="button"><span>Upload
-                                                      Foto</span></button>
-                                             </form>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div id="user-data-2" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-                                 </form><br><br>
-                                 <form id="form-edit-password">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="element-title has-border" style="margin-bottom: 10px;">
-                                          <h5>Palavra-Passe</h5>
-                                       </div>
-                                    </div>
-                                    <div id="div-edit-password" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="field-holder">
-                                          <label>Nova palavra-pasee*</label>
-                                          <input type="password" name="password">
-                                       </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                       <div class="field-holder search-location-map input-button-loader">
-                                          <input type="submit" form="form-edit-password"
-                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
-                                             value="Alterar palavra-passe"
-                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
-                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
-                                       </div>
-                                    </div>
-                                 </form>
-                              </div>
+                           </div>
+                           <div class="responsive-table">
+                              <ul class="table-generic">
+                                 <li class="order-heading-titles">
+                                    <div>Id</div>
+                                    <div>Data</div>
+                                    <div>Nome</div>
+                                    <div>Produto</div>
+                                 </li>
+                                 <li id="#get-merchant-orders" class="sales-heading-titles"></li>
+                              </ul>
                            </div>
                         </div>
                      </div>
@@ -310,7 +290,7 @@
 
    <!-- Modal Popup Start -->
    <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -327,7 +307,7 @@
                      </li>
                      <li>
                         <strong>Booking Date :</strong>
-                        <span>Apr 9,2020 6:40 AM </span>
+                        <span> Apr 9,2020 6:40 AM </span>
                      </li>
                   </ul>
                   <h3>Customer Deatil</h3>
@@ -355,9 +335,14 @@
                         <span>I need to book a special table for my friends. Make it some special.!</span>
                      </li>
                   </ul>
+                  <h3>Booking Status </h3>
                   <div class="booking-status-holder">
-                     <div class="booking-status-process booking-status">
-                        <p style="background:#1e73be;">Your booking is Processing.</p>
+                     <div class="input-field">
+                        <select class="chosen-select-no-single">
+                           <option value="Processing">Processing</option>
+                           <option value="Cancelled">Cancelled</option>
+                           <option selected="selected" value="Completed">Completed</option>
+                        </select>
                      </div>
                   </div>
                </div>
@@ -365,6 +350,17 @@
          </div>
       </div>
    </div>
+   <script>
+      (function ($) {
+         $(document).ready(function () {
+            $(".menu-order-info .modal-dialog .modal-content").mCustomScrollbar({
+               setHeight: 467,
+               theme: "minimal-dark",
+               mouseWheelPixels: 100
+            });
+         });
+      })(jQuery);
+   </script>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>
@@ -373,9 +369,9 @@
          <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
       </div>
    </div>
+
+
    <!-- Modal Popup End -->
-
-
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
    <script src="assets/js/bootstrap-datepicker.js"></script>

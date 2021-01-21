@@ -1,6 +1,6 @@
 $(window).ready(() => {
    var userLogged = checkUserLogged();
-   if (userLogged && getCookie("type") == 2) {
+   if (userLogged && getCookie("type") == 3) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
@@ -12,12 +12,13 @@ $(window).ready(() => {
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
-   var html = getHtmlMerchantHeaderItems();
+   var html = getHtmlDriverHeaderItems();
    $("#header-menu").append(html);
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
-   getMerchantData();
-   getMerchantOrders();
+   getDriverData();
+
+   getUserOrders();
 
    $("#id_truebtn").click(() => {
       deleteUser();

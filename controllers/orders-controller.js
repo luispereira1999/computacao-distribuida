@@ -44,7 +44,17 @@ module.exports = {
       var user = new User(req.user);
 
       // selecionar encomendas da empresa feitas por utilizadores na base de dados
-      var sql = "SELECT Orders.id, Orders.accepted, Orders.canceled, Orders.user_id, Products.name FROM Orders INNER JOIN Products ON Orders.user_id = Products.id WHERE Products.user_id = ?";
+      var sql = "\
+         SELECT\
+   	      Orders.id, Orders.date, Orders.accepted, Orders.canceled,\
+	         Products.name as product_name,\
+	         Clients.name as client_name\
+         FROM Orders\
+         INNER JOIN Products ON Orders.user_id = Products.id\
+         INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
+         WHERE Products.user_id = ?\
+      ";
+
       var params = user.id;
       db.all(sql, params, function (err, rows) {
          if (err)
