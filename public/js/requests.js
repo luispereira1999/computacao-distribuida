@@ -850,6 +850,43 @@ function getMerchantOrders() {
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlMerchantOrders(res.data[i]);
             $(".table-generic").append(html);
+            var html = getHtmlMerchantOrdersDetail(res.data[i]);
+            $("#detail-orders").append(html);
+         }
+
+         $("[data-accepted~='0']").css("background-color", "#1e73be");
+         $("[data-accepted~='0']").text("Pendente");
+         $("[data-accepted~='1']").css("background-color", "#047a06");
+         $("[data-accepted~='1']").text("Entregue");
+         $("[data-canceled~='1']").css("background-color", "#c33332");
+         $("[data-canceled~='1']").text("Cancelada");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+function getProductsInMerchant() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "products/",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlProductsInAccount(res.data[i]);
+            $("#get-user-products").append(html);
          }
 
          $("[data-accepted~='0']").css("background-color", "#1e73be");

@@ -6,12 +6,20 @@ var Product = require("../models/product");
 
 
 module.exports = {
-   getAll: async (req, res) => {
+   getByUserId: async (req, res) => {
       const db = database.connect();
 
+      var user = new User(req.body);
+
       // selecionar produtos na base de dados
-      var sql = "SELECT p.id, p.name AS product_name, p.stock, p.price, p.description, p.url_photo, u.name AS user_name FROM Products AS p INNER JOIN Users AS u ON u.id = p.user_id WHERE p.deleted = 0";
-      var params = [];
+      var sql = "\
+         SELECT\
+            p.id, p.name AS product_name, p.stock, p.price, p.description, p.url_photo,\
+            u.name AS user_name FROM Products AS p\
+         INNER JOIN Users AS u ON u.id = p.user_id\
+         WHERE p.deleted = 0 AND u.id = ?\
+      ";
+      var params = user.id;
       db.all(sql, params, function (err, rows) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
@@ -174,7 +182,7 @@ module.exports = {
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
- 
+
          res.status(200).json({ "message": "Produto excluído com sucesso!" });
       });
 

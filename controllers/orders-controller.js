@@ -46,7 +46,7 @@ module.exports = {
       // selecionar encomendas da empresa feitas por utilizadores na base de dados
       var sql = "\
          SELECT\
-   	      Orders.id, Orders.date, Orders.accepted, Orders.canceled,\
+   	      Orders.id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
 	         Products.name as product_name,\
 	         Clients.name as client_name\
          FROM Orders\
