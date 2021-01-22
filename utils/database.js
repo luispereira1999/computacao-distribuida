@@ -4,10 +4,14 @@ const dbSource = globalConfig.path.DATABASE + globalConfig.file.DATABASE;
 
 module.exports = {
    connect: () => {
-      return new sqlite3.Database(dbSource, err => {
+      let database = new sqlite3.Database(dbSource, err => {
          if (err) {
-            return console.log("Não foi possível conectar à base de dados:", err.message);
+            console.log("Não foi possível conectar à base de dados:", err.message);
          }
       })
+
+      database.run('PRAGMA busy_timeout = 6000');
+      database.configure("busyTimeout", 6000);
+      return database;
    }
 };
