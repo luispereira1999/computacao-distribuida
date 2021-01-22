@@ -23,12 +23,34 @@ $(window).ready(() => {
    getMerchantData();
    getProductsInAccount();
 
+   $("#form-create-product").submit(e => {
+      e.preventDefault();
+      createProduct();
+   });
+
+   $("#get-user-products").on("click", ".span-edit-product-data", function () {
+      var data = {
+         "id": $(this).parent().parent().parent().attr("id").split("-")[1],
+         "name": $(this).parent().parent().children(".author-info").children(".text-holder").children("h6").children(".data-product-name").text(),
+         "stock": $(this).parent().parent().children(".author-info").children(".text-holder").children(".data-stock").text(),
+         "price": $(this).parent().parent().children(".author-info").children(".text-holder").children(".data-price").text(),
+         "description": $(this).parent().parent().children(".post-time").children(".data-description").text()
+      };
+
+      setFormData(data);
+   });
+
    $("#get-user-products").on("click", ".span-edit-product-photo", function () {
       var data = {
          "id": $(this).parent().parent().parent().attr("id").split("-")[1],
       };
 
       setFormData(data);
+   });
+
+   $("#form-edit-product-data").submit(e => {
+      e.preventDefault();
+      editProductData();
    });
 
    $("#form-edit-product-photo").submit(e => {

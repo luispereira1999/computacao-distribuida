@@ -612,17 +612,17 @@ function getHtmlProductsInAccount(data) {
             <div class="author-info">\
                <div class="img-holder">\
                   <figure>\
-                     <a href="#"><img src="./uploads/products/'+ data.url_photo + '"> </a>\
+                     <a href="#"><img class="data.url_photo" src="./uploads/products/'+ data.url_photo + '"> </a>\
                   </figure>\
                </div>\
                <div class="text-holder">\
-                  <h6><a href="#">'+ data.product_name + '</a></h6>\
-                  <address id="data-stock">'+ data.stock + '</address>\
-                  <span class="price">'+ data.price + '€</span>\
+                  <h6><a class="data-product-name" href="#">'+ data.product_name + '</a></h6>\
+                  <address class="data-stock">'+ data.stock + '</address>\
+                  <span class="data-price">'+ data.price + '</span><span>€</span>\
                </div>\
             </div>\
             <div class="post-time">\
-               <span>'+ data.description + '</span>\
+               <span class="data-description">'+ data.description + '</span>\
             </div><br>\
             <div class="order-btn">\
                <a style="border:none;" data-target="#order_detail" data-toggle="modal" href="#"></a>\
