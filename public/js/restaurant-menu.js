@@ -10,6 +10,10 @@ $(window).ready(() => {
       return;
    }
 
+   startModal($("div-create-product"));
+   startModal($("div-edit-product-data"));
+   startModal($("div-edit-product-photo"));
+
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
    var html = getHtmlMerchantHeaderItems();
@@ -18,6 +22,16 @@ $(window).ready(() => {
    $("#img-photo").append(html);
    getMerchantData();
    getProductsInAccount();
+
+   $("#get-user-products").on("click", ".delete-product", function () {
+      var id = $(this).parent().parent().parent().attr("id").split("-")[1];
+      $("#id_product_truebtn").attr("class", id);
+      $("#id_product_confrmdiv").css("display", "block");
+   });
+
+   $("#id_product_truebtn").click(function () {
+      deleteProduct($(this).attr("class"));
+   });
 
    $("#id_truebtn").click(() => {
       deleteUser();

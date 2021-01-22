@@ -31,7 +31,7 @@ function getHtmlProductsInIndex(data) {
                   <div class="post-time">\
                      <image width="25" height="25" src="./images/euro.png"></image>\
                   </div>\
-                  <span>20.3€</span>\
+                  <span>'+ data.price + '€</span>\
                </div>\
             </div>\
             <div class="list-option">\
@@ -67,7 +67,7 @@ function getHtmlClientHeaderItems() {
 function getHtmlMerchantHeaderItems() {
    return $('\
       <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Meu Restaurante</a></li>\
-      <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>\
+      <li><a href="restaurant-menu.html"><i class="icon-menu5"></i>Menu</a></li>\
       <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
       <li><a href="restaurant-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
@@ -607,7 +607,7 @@ function getHtmlMerchantOrders(data) {
 
 function getHtmlProductsInAccount(data) {
    return $('\
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="product-'+ data.id + '">\
          <div class="order-list">\
             <div class="author-info">\
                <div class="img-holder">\
@@ -616,18 +616,19 @@ function getHtmlProductsInAccount(data) {
                   </figure>\
                </div>\
                <div class="text-holder">\
-                  <h6><a href="#">'+ data.merchant_name + '</a></h6>\
-                  <address></address>'+ data.product_name + '\
+                  <h6><a href="#">'+ data.product_name + '</a></h6>\
+                  <address id="data-stock">'+ data.stock + '</address>\
                   <span class="price">'+ data.price + '€</span>\
                </div>\
             </div>\
             <div class="post-time">\
-               <span>'+ data.address + '</span>\
-               <span>'+ data.zip_code + '</span>\
-            </div>\
-            <span class="date-time">'+ data.date + '</span>\
+               <span>'+ data.description + '</span>\
+            </div><br>\
             <div class="order-btn">\
-               <a style="border:none" data-target="#order_detail" data-toggle="modal" href="#"></a><span style="background-color: rgb(195, 51, 50);cursor: pointer;" data-accepted="1" data-canceled="0" class="order-status">Apagar</span><span style="background-color: rgb(4, 122, 6); cursor: pointer;" data-accepted="1" data-canceled="0" class="order-status">Editar</span>\
+               <a style="border:none;" data-target="#order_detail" data-toggle="modal" href="#"></a>\
+               <span style="font-size: 11px;background-color: rgb(195, 51, 50);cursor: pointer;" data-accepted="1" data-canceled="0" class="delete-product order-status">Apagar</span>\
+               <span onclick="document.getElementById('+ "'div-edit-product-data'" + ').style.display=' + "'block'" + '"  style="font-size: 11px;background-color: rgb(4, 122, 6); cursor: pointer;" data-accepted="1" data-canceled="0" class="span-edit-product-data order-status">Editar dados</span>\
+               <span onclick="document.getElementById('+ "'div-edit-product-photo'" + ').style.display=' + "'block'" + '" style="font-size: 11px;background-color: #1e73be;cursor: pointer;" data-accepted="1" data-canceled="0" class="span-edit-product-photo order-status">Editar foto</span>\
             </div>\
             \
             <div class="modal fade menu-order-detail order-detail" id="order_detail" tabindex="-1" role="dialog">\
@@ -758,6 +759,6 @@ function getHtmlProductsInAccount(data) {
 }
 
 
-function getHtmlMerchantOrdersDetail(data){
+function getHtmlMerchantOrdersDetail(data) {
    return $('d')
 }

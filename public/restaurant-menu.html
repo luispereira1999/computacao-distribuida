@@ -39,9 +39,13 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
 
+   <!-- CSS -->
+   <link rel="stylesheet" href="css/index.css">
+   <link rel="stylesheet" href="css/create-product.css">
+
    <script type="text/javascript" defer src="js/environment.js"></script>
-   <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
+   <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
    <script type="text/javascript" defer src="js/restaurant-menu.js"></script>
 </head>
@@ -125,7 +129,8 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="restaurant-account-setting.html"><i class="icon-building"></i>Meu Restaurante</a>
+                              <li><a href="restaurant-account-setting.html"><i class="icon-building"></i>Meu
+                                    Restaurante</a>
                               </li>
                               <li><a href="restaurant-menu.html"><i class="icon-menu5"></i>Menu</a></li>
                               <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
@@ -343,6 +348,95 @@
          <div class="message">Tem a certeza?</div>
          <a href="javascript:void(0);" id="id_truebtn">Sim, Eliminar</a>
          <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
+      </div>
+   </div>
+   <div id="id_product_confrmdiv" style="display: none;">
+      <div class="cs-confirm-container">
+         <i class="icon-sad"></i>
+         <div class="message">Tem a certeza?</div>
+         <a href="javascript:void(0);" class="" id="id_product_truebtn">Sim, Eliminar</a>
+         <a href="javascript:void(0);" id="id_product_falsebtn">Não, Cancelar</a>
+      </div>
+   </div>
+
+   <div id="div-create-product" class="modal">
+      <div class="box">
+         <div class="title">Criar produto</div>
+
+         <form id="form-create-product" class="form modal-content animate">
+            <div class="topico">
+               <label>Nome</label>
+               <input type="text" class="input" name="name">
+            </div>
+            <div class="topico">
+               <label>Stock</label>
+               <input type="text" class="input" name="stock">
+            </div>
+            <div class="topico">
+               <label>Preço</label>
+               <input type="text" class="input" name="price">
+            </div>
+            <div class="topico">
+               <label>Descrição</label>
+               <textarea class="textarea" name="description"></textarea>
+            </div>
+            <div class="topico">
+               <label>Foto</label>
+               <input type="file" class="input" name="file">
+            </div>
+
+            <div class="topico">
+               <input type="submit" class="btn">
+            </div>
+         </form>
+      </div>
+   </div>
+
+   <div id="div-edit-product-data" class="modal">
+      <div class="box">
+         <div class="title">Editar dados do produto</div>
+
+         <form id="form-edit-product-data" class="form modal-content animate">
+            <input type="hidden" name="id">
+            <div class="topico">
+               <label>Nome</label>
+               <input type="text" class="input" name="name">
+            </div>
+            <div class="topico">
+               <label>Stock</label>
+               <input type="text" class="input" name="stock">
+            </div>
+            <div class="topico">
+               <label>Preço</label>
+               <input type="text" class="input" name="price">
+            </div>
+            <div class="topico">
+               <label>Descrição</label>
+               <textarea class="textarea" name="description"></textarea>
+            </div>
+
+            <div class="topico">
+               <input type="submit" class="btn">
+            </div>
+         </form>
+      </div>
+   </div>
+
+   <div id="div-edit-product-photo" class="modal">
+      <div class="box">
+         <div class="title">Editar foto do produto</div>
+
+         <form id="form-edit-product-photo" class="form modal-content animate">
+            <input type="hidden" name="id">
+            <div class="topico">
+               <label>Foto</label>
+               <input type="file" class="input" name="file">
+            </div>
+
+            <div class="topico">
+               <input type="submit" class="btn">
+            </div>
+         </form>
       </div>
    </div>
 

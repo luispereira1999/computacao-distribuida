@@ -6,10 +6,10 @@ var Product = require("../models/product");
 
 
 module.exports = {
-   getByUserId: async (req, res) => {
+   getByMerchant: async (req, res) => {
       const db = database.connect();
 
-      var user = new User(req.body);
+      var user = new User(req.user);
 
       // selecionar produtos na base de dados
       var sql = "\
@@ -28,28 +28,6 @@ module.exports = {
             res.status(400).json({ "message": "Ups! Não existem produtos." });
          else
             res.status(200).json({ "message": "Produtos obtidos com sucesso!", "data": rows });
-      });
-
-      db.close();
-   },
-
-
-   getById: async (req, res) => {
-      const db = database.connect();
-
-      var product = new Product(req.params);
-
-      // selecionar produto na base de dados
-      var sql = "SELECT name, stock, price, url_photo, description FROM Products WHERE id = ? AND deleted = 0";
-      var params = [product.id];
-      db.get(sql, params, function (err, row) {
-         if (err)
-            return res.status(500).json({ "message": "Oh! " + err.message });
-
-         if (row)
-            res.status(200).json({ "message": "Produto obtido com sucesso!", "data": row });
-         else
-            res.status(400).json({ "message": "Ups! O produto não existe." });
       });
 
       db.close();

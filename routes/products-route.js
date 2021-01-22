@@ -44,7 +44,8 @@ const upload = multer({
 });
 
 
-router.get("/:id", productsController.getByUserId);
+router.get("/", [validateLogin, validateUser], productsController.getByMerchant);
+// router.get("/:userId", productsController.getByUserId);
 router.get("/:filter/:name", productsController.getByName);
 router.post("/create", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.create);
 router.patch("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.editData);
