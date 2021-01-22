@@ -25,5 +25,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm start --if-present
+    - run: npm install
+    - run: npm start & npx wait-on http://localhost:8080
+    env:
+        CI: true
