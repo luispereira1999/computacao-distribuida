@@ -647,7 +647,7 @@ function createProduct() {
       success: res => {
          var modal = $("#div-create-product");
          closeModal(modal);
-         openModal(res.message);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);

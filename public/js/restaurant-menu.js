@@ -23,11 +23,6 @@ $(window).ready(() => {
    getMerchantData();
    getProductsInAccount();
 
-   $("#form-create-product").submit(e => {
-      e.preventDefault();
-      createProduct();
-   });
-
    $("#get-user-products").on("click", ".span-edit-product-data", function () {
       var data = {
          "id": $(this).parent().parent().parent().attr("id").split("-")[1],
@@ -46,6 +41,11 @@ $(window).ready(() => {
       };
 
       setFormData(data);
+   });
+
+   $("#form-create-product").submit(e => {
+      e.preventDefault();
+      createProduct();
    });
 
    $("#form-edit-product-data").submit(e => {

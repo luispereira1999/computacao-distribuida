@@ -618,7 +618,7 @@ function getHtmlProductsInAccount(data) {
                <div class="text-holder">\
                   <h6><a class="data-product-name" href="#">'+ data.product_name + '</a></h6>\
                   <address class="data-stock">'+ data.stock + '</address>\
-                  <span class="data-price">'+ data.price + '</span><span>€</span>\
+                  <span class="price data-price">'+ data.price + '</span><span>€</span>\
                </div>\
             </div>\
             <div class="post-time">\
@@ -627,8 +627,8 @@ function getHtmlProductsInAccount(data) {
             <div class="order-btn">\
                <a style="border:none;" data-target="#order_detail" data-toggle="modal" href="#"></a>\
                <span style="font-size: 11px;background-color: rgb(195, 51, 50);cursor: pointer;" data-accepted="1" data-canceled="0" class="delete-product order-status">Apagar</span>\
-               <span onclick="document.getElementById('+ "'div-edit-product-data'" + ').style.display=' + "'block'" + '"  style="font-size: 11px;background-color: rgb(4, 122, 6); cursor: pointer;" data-accepted="1" data-canceled="0" class="span-edit-product-data order-status">Editar dados</span>\
-               <span onclick="document.getElementById('+ "'div-edit-product-photo'" + ').style.display=' + "'block'" + '" style="font-size: 11px;background-color: #1e73be;cursor: pointer;" data-accepted="1" data-canceled="0" class="span-edit-product-photo order-status">Editar foto</span>\
+               <span onclick="document.getElementById('+ "'div-edit-product-data'" + ').style.display=' + "'block'" + '"  style="font-size: 11px;background-color: #1e73be; cursor: pointer;" data-accepted="1" data-canceled="0" class="span-edit-product-data order-status">Editar dados</span>\
+               <span onclick="document.getElementById('+ "'div-edit-product-photo'" + ').style.display=' + "'block'" + '" style="font-size: 11px;background-color: #e6d415;cursor: pointer;" data-accepted="1" data-canceled="0" class="span-edit-product-photo order-status">Editar foto</span>\
             </div>\
             \
             <div class="modal fade menu-order-detail order-detail" id="order_detail" tabindex="-1" role="dialog">\
