@@ -4,7 +4,7 @@ const dbSource = globalConfig.path.DATABASE + globalConfig.file.DATABASE;
 
 module.exports = {
    connect: () => {
-      let database = new sqlite3.Database(dbSource, err => {
+      let database = new sqlite3.Database(dbSource, sqlite3.OPEN_READWRITE, err => {
          if (err) {
             console.log("Não foi possível conectar à base de dados:", err.message);
          }
