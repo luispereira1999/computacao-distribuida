@@ -694,6 +694,39 @@ function editProductData() {
 }
 
 
+function editProductPhoto() {
+   var form = $("#form-edit-product-photo")[0];
+   var formData = new FormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      processData: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "put",
+      url: urlApi + "products/edit-photo/" + formData.get("id"),
+
+      success: res => {
+         var modal = $("#div-edit-product-photo");
+         closeModal(modal);
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function deleteProduct(productId) {
    var token = getCookie("token");
 

@@ -23,6 +23,19 @@ $(window).ready(() => {
    getMerchantData();
    getProductsInAccount();
 
+   $("#get-user-products").on("click", ".span-edit-product-photo", function () {
+      var data = {
+         "id": $(this).parent().parent().parent().attr("id").split("-")[1],
+      };
+
+      setFormData(data);
+   });
+
+   $("#form-edit-product-photo").submit(e => {
+      e.preventDefault();
+      editProductPhoto();
+   });
+
    $("#get-user-products").on("click", ".delete-product", function () {
       var id = $(this).parent().parent().parent().attr("id").split("-")[1];
       $("#id_product_truebtn").attr("class", id);
