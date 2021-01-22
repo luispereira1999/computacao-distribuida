@@ -1,7 +1,2 @@
 node_modules
-public/uploads/driving-licenses
-public/uploads/products
-public/uploads/photos/*
-!public/uploads/photos/default.png
 .vscode
-.deployment

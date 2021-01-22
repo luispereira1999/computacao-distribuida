@@ -1,9 +1,5 @@
 {
    "SECRET": "hard-secret",
-   "url": {
-      "API_DEVELOPMENT": "https://picandgo.azurewebsites.net/api/",
-      "API_PRODUCTION": "http://localhost:4000/api/"
-   },
    "path": {
       "DATABASE": "./utils/",
       "UPLOADS": "./public/uploads/",

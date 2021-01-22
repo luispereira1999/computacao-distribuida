@@ -27,7 +27,7 @@ module.exports = {
       const hash = await bcrypt.hashSync(user.password, 10);
       var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, globalConfig.file.DEFAULT_PHOTO, typeUser.id, typeUser.id];
 
-      db.run(sql, params,  function (err) {
+      db.run(sql, params, function (err) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
