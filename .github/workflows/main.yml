@@ -25,11 +25,13 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-                 rm -rf picand-go
+                 cd projeto
+                 rm -rf *
                  git clone "https://github.com/luispereira1999/picand-go.git"
+                 cd picand-go
                  docker login
-                 sudo docker stop picandgoapp
-                 sudo docker rm picandgoapp
-                 sudo docker rmi picand-go/node-web-app
-                 sudo docker build -t picand-go/node-web-app .
-                 sudo docker run -p 80:8080 --name picandgoapp -d picand-go/node-web-app
+                 docker stop picand-goapp
+                 docker rm picand-goapp
+                 docker rmi picand-go/node-web-app
+                 docker build -t picand-go/node-web-app .
+                 docker run -p 80:8080 --name picand-goapp -d picand-go/node-web-app
