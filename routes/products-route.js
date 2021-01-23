@@ -44,11 +44,11 @@ const upload = multer({
 });
 
 
-router.get("/:id", productsController.getByUserId);
-router.get("/:filter/:name", productsController.getByName);
+router.get("/", [validateLogin, validateUser], productsController.getByMerchant);
+router.get("/:filter/:merchant", productsController.getByName);
 router.post("/create", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.create);
-router.patch("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.editData);
-router.put("/edit-photo/:id", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.editPhoto);
+router.put("/edit-data/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.editData);
+router.patch("/edit-photo/:id", [upload.single("file"), validateLogin, validateUser, validateType.checkMerchant], productsController.editPhoto);
 router.delete("/delete/:id", [validateLogin, validateUser, validateType.checkMerchant], productsController.delete);
 
 module.exports = router;
