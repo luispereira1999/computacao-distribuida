@@ -418,22 +418,22 @@ _____________________________________________
   {
      "message": "Empresas obtidas com sucesso!",
      "data": [
-         {
-             "id": 1,
-             "username": "pizzahut",
-             "name": "pizzahut",
-             "email": "pizzahut@pizzahut.com",
-             "url_photo": "12-1-2021_10_24_15.jpg",
-             "type": 2
-         },
-         {
-             "id": 2,
-             "username": "mcdonalds",
-             "name": "MC Donalds",
-             "email": "mcdonalds@mcdonalds.com",
-             "url_photo": "11-1-2021_20_49_2.png",
-             "type": 2
-         }
+        {
+           "id": 1,
+           "username": "pizzahut",
+           "name": "pizzahut",
+           "email": "pizzahut@pizzahut.com",
+           "url_photo": "12-1-2021_10_24_15.jpg",
+           "type": 2
+        },
+        {
+           "id": 2,
+           "username": "mcdonalds",
+           "name": "MC Donalds",
+           "email": "mcdonalds@mcdonalds.com",
+           "url_photo": "11-1-2021_20_49_2.png",
+           "type": 2
+        }
      ]
   }
    ```
@@ -479,22 +479,22 @@ _____________________________________________
   {
      "message": "Utilizadores obtidos com sucesso!",
      "data": [
-         {
-             "id": 1,
-             "username": "pizzahut",
-             "name": "pizzahut",
-             "email": "pizzahut@pizzahut.com",
-             "url_photo": "12-1-2021_10_24_15.jpg",
-             "type": 2
-         },
-         {
-             "id": 2,
-             "username": "mcdonalds",
-             "name": "MC Donalds",
-             "email": "mcdonalds@mcdonalds.com",
-             "url_photo": "11-1-2021_20_49_2.png",
-             "type": 2
-         }
+        {
+           "id": 1,
+           "username": "pizzahut",
+           "name": "pizzahut",
+           "email": "pizzahut@pizzahut.com",
+           "url_photo": "12-1-2021_10_24_15.jpg",
+           "type": 2
+        },
+        {
+           "id": 2,
+           "username": "mcdonalds",
+           "name": "MC Donalds",
+           "email": "mcdonalds@mcdonalds.com",
+           "url_photo": "11-1-2021_20_49_2.png",
+           "type": 2
+        }
      ]
   }
    ```
@@ -559,12 +559,12 @@ _____________________________________________
   {
      "message": "Utilizador editado com sucesso!",
      "data": {
-         "id": 12,
-         "username": "u alterado",
-         "name": "n alterado",
-         "email": "alterado@picand.go",
-         "url_photo": "default.png",
-         "type": 1
+        "id": 12,
+        "username": "u alterado",
+        "name": "n alterado",
+        "email": "alterado@picand.go",
+        "url_photo": "default.png",
+        "type": 1
      },
      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidSBhbHRlcmFkbyIsIm5hbWUiOiJuIGFsdGVyYWRvIiwiZW1haWwiOiJhbHRlcmFkb0BwaWNhbmQuZ28iLCJ1cmxfcGhvdG8iOiJkZWZhdWx0LnBuZyIsInR5cGUiOjEsImlhdCI6MTYxMTM3MTc0NCwiZXhwIjoxNjExNDU4MTQ0fQ.YYoYEf7RlUd40K37pDBty9fU_ryyvNuXXIcOBJdMp_U"
   }
@@ -624,12 +624,12 @@ _____________________________________________
   {
      "message": "Palavra-passe editada com sucesso!",
      "data": {
-         "id": 2,
-         "username": "b",
-         "name": "b",
-         "email": "b@picand.go",
-         "url_photo": "default.png",
-         "type": 2
+        "id": 2,
+        "username": "b",
+        "name": "b",
+        "email": "b@picand.go",
+        "url_photo": "default.png",
+        "type": 2
      },
      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidSBhbHRlcmFkbyIsIm5hbWUiOiJuIGFsdGVyYWRvIiwiZW1haWwiOiJhbHRlcmFkb0BwaWNhbmQuZ28iLCJ1cmxfcGhvdG8iOiJkZWZhdWx0LnBuZyIsInR5cGUiOjEsImlhdCI6MTYxMTM3MTk3NCwiZXhwIjoxNjExNDU4Mzc0fQ.guK5JsuUVUre_2IswHRmUb1CDK3L4grexYX5KEAUEA8"
   }
@@ -1031,24 +1031,24 @@ _____________________________________________
   {
      "message": "Produtos obtidos com sucesso!",
      "data": [
-         {
-             "id": 2,
-             "product_name": "Massa",
-             "stock": 8,
-             "price": 2.5,
-             "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
-             "url_photo": "22-1-2021_22_2_1.png",
-             "user_name": "b"
-         },
-         {
-             "id": 4,
-             "product_name": "Bife",
-             "stock": 0,
-             "price": 2.5,
-             "description": "bife de porco",
-             "url_photo": "10-1-2021_10_24_21.jpg",
-             "user_name": "b"
-         }
+        {
+           "id": 2,
+           "product_name": "Massa",
+           "stock": 8,
+           "price": 2.5,
+           "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
+           "url_photo": "22-1-2021_22_2_1.png",
+           "user_name": "b"
+        },
+        {
+           "id": 4,
+           "product_name": "Bife",
+           "stock": 0,
+           "price": 2.5,
+           "description": "bife de porco",
+           "url_photo": "10-1-2021_10_24_21.jpg",
+           "user_name": "b"
+        }
      ]
   }
    ```
@@ -1102,22 +1102,22 @@ _____________________________________________
   {     
      "message": "Produto(s) obtido(s) com sucesso!",
      "data": [
-         {
-             "id": 2,
-             "product_name": "Massa",
-             "stock": 8,
-             "price": 2.5,
-             "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
-             "url_photo": "22-1-2021_22_2_1.png"
-         },
-         {
-             "id": 4,
-             "product_name": "Bife",
-             "stock": 0,
-             "price": 2.5,
-             "description": "bife de porco",
-             "url_photo": "10-1-2021_10_24_21.jpg"
-         },
+        {
+           "id": 2,
+           "product_name": "Massa",
+           "stock": 8,
+           "price": 2.5,
+           "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
+           "url_photo": "22-1-2021_22_2_1.png"
+        },
+        {
+           "id": 4,
+           "product_name": "Bife",
+           "stock": 0,
+           "price": 2.5,
+           "description": "bife de porco",
+           "url_photo": "10-1-2021_10_24_21.jpg"
+        },
      ]
   }
    ```
@@ -1414,43 +1414,43 @@ _____________________________________________
   {
      "message": "Encomendas obtidas com sucesso!",
      "data": [
-         {
-             "id": 4,
-             "address": "Rua dos calhaus, Famalicão",
-             "zip_code": "4512-123",
-             "date": "9-1-2020, 16:10",
-             "vat": 0.23,
-             "pick_up_fee": 3.5,
-             "total": 7.38,
-             "accepted": 1,
-             "canceled": 0,
-             "product_name": "Massa",
-             "price": 2.5,
-             "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
-             "url_photo": "22-1-2021_22_2_1.png",
-             "merchant_name": "b",
-             "client_name": "b",
-             "client_email": "b@picando.go",
-             "client_phone_number": 912345678
-         },
-         {
-             "id": 6,
-             "address": "ewwe",
-             "zip_code": "4121-232",
-             "date": "17-1-2021, 21:14",
-             "vat": 0.23,
-             "pick_up_fee": 3.5,
-             "total": 7.38,
-             "accepted": 0,
-             "canceled": 1,
-             "product_name": "Bife",
-             "price": 2.5,
-             "description": "bife de porco",
-             "url_photo": "10-1-2021_10_24_21.jpg",
-             "merchant_name": "b",
-             "client_name": "b",
-             "client_email": "b@picando.go",
-             "client_phone_number": 912345678
+        {
+           "id": 4,
+           "address": "Rua dos calhaus, Famalicão",
+           "zip_code": "4512-123",
+           "date": "9-1-2020, 16:10",
+           "vat": 0.23,
+           "pick_up_fee": 3.5,
+           "total": 7.38,
+           "accepted": 1,
+           "canceled": 0,
+           "product_name": "Massa",
+           "price": 2.5,
+           "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
+           "url_photo": "22-1-2021_22_2_1.png",
+           "merchant_name": "b",
+           "client_name": "b",
+           "client_email": "b@picando.go",
+           "client_phone_number": 912345678
+        },
+        {
+           "id": 6,
+           "address": "ewwe",
+           "zip_code": "4121-232",
+           "date": "17-1-2021, 21:14",
+           "vat": 0.23,
+           "pick_up_fee": 3.5,
+           "total": 7.38,
+           "accepted": 0,
+           "canceled": 1,
+           "product_name": "Bife",
+           "price": 2.5,
+           "description": "bife de porco",
+           "url_photo": "10-1-2021_10_24_21.jpg",
+           "merchant_name": "b",
+           "client_name": "b",
+           "client_email": "b@picando.go",
+           "client_phone_number": 912345678
         }
     ]
   }
@@ -1504,26 +1504,26 @@ _____________________________________________
   {
      "message": "Encomendas obtidas com sucesso!",
      "data": [
-         {
-             "id": 1,
-             "address": "Rua dos pedras, Famalicão",
-             "date": "9-1-2020, 16:10",
-             "total": 7.38,
-             "accepted": 0,
-             "canceled": 0,
-             "product_name": "Bife",
-             "client_name": "Luisinho"
-         },
-         {
-             "id": 2,
-             "address": "Rua dos flores, Famalicão",
-             "date": "9-1-2020, 16:10",
-             "total": 7.38,
-             "accepted": 1,
-             "canceled": 0,
-             "product_name": "Massa",
-             "client_name": "MC Dondals"
-         }
+        {
+           "id": 1,
+           "address": "Rua dos pedras, Famalicão",
+           "date": "9-1-2020, 16:10",
+           "total": 7.38,
+           "accepted": 0,
+           "canceled": 0,
+           "product_name": "Bife",
+           "client_name": "Luisinho"
+        },
+        {
+           "id": 2,
+           "address": "Rua dos flores, Famalicão",
+           "date": "9-1-2020, 16:10",
+           "total": 7.38,
+           "accepted": 1,
+           "canceled": 0,
+           "product_name": "Massa",
+           "client_name": "MC Dondals"
+        }
      ]
   }
    ```
@@ -1701,28 +1701,28 @@ _____________________________________________
    **Status:** `200 OK` <br />
    ```json
   {
-         "message": "Produtos obtidos com sucesso!",
-         "data": [
-         {
-             "order_id": 1,
-             "address": "Rua dos calhaus, Famalicão",
-             "date": "9-1-2020, 16:10",
-             "total": 7.38,
-             "accepted": 0,
-             "canceled": 0,
-             "delivery_user_id": 12,
-             "client_name": "a"
-         },
-         {
-             "order_id": 2,
-             "address": "Rua dos calhaus, Famalicão",
-             "date": "9-1-2020, 16:10",
-             "total": 7.38,
-             "accepted": 0,
-             "canceled": 0,
-             "delivery_user_id": 12,
-             "client_name": "a"
-         }
+        "message": "Produtos obtidos com sucesso!",
+        "data": [
+        {
+           "order_id": 1,
+           "address": "Rua dos calhaus, Famalicão",
+           "date": "9-1-2020, 16:10",
+           "total": 7.38,
+           "accepted": 0,
+           "canceled": 0,
+           "delivery_user_id": 12,
+           "client_name": "a"
+        },
+        {
+           "order_id": 2,
+           "address": "Rua dos calhaus, Famalicão",
+           "date": "9-1-2020, 16:10",
+           "total": 7.38,
+           "accepted": 0,
+           "canceled": 0,
+           "delivery_user_id": 12,
+           "client_name": "a"
+        }
      ]
   }
    ```
