@@ -142,6 +142,10 @@ jQuery(document).ready(function () {
         event.preventDefault();
         jQuery('#id_confrmdiv').toggle('fast');
     });
+    jQuery('#product_delete, #id_product_truebtn, #id_product_falsebtn').click(function () {
+      event.preventDefault();
+      jQuery('#id_product_confrmdiv').toggle('fast');
+    });
     jQuery('.dashboard-review-reply-btn').click(function () {
         event.preventDefault();
         jQuery('.dashbard-user-reviews-list').css("display", "none");;

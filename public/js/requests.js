@@ -544,16 +544,7 @@ function acceptUser(currentButtonClicked) {
 
 
 // PRODUCTS
-function getProducts() {
-   var thead = $("#table-products thead");
-   var tbody = $("#table-products tbody");
-
-   var htmlExists = checkHtmlExists(tbody.html());
-   if (htmlExists) {
-      destroyElement(thead.find("tr"));
-      destroyElement(tbody.find("tr"));
-   }
-
+function getProductsInAccount() {
    var token = getCookie("token");
 
    $.ajax({
@@ -563,42 +554,10 @@ function getProducts() {
       url: urlApi + "products/",
 
       success: res => {
-         var table = $("#table-products");
-         createTableWithData(res.data, table);
-
-         var elements = [{
-            "selector": ".td-get-by-id",
-            "table": table,
-            "th": $("<th>Obter pelo ID</th>"),
-            "td": $("<td class='td-get-by-id'></td>"),
-            "button": $("<button class='button-get-by-id'>Obter pelo ID</button>"),
-         }, {
-            "selector": ".td-edit-data",
-            "table": table,
-            "th": $("<th>Editar dados</th>"),
-            "td": $("<td class='td-edit-data'></td>"),
-            "button": $("<button class='button-edit-data'>Editar dados</button>"),
-         }, {
-            "selector": ".td-edit-photo",
-            "table": table,
-            "th": $("<th>Editar foto</th>"),
-            "td": $("<td class='td-edit-photo'></td>"),
-            "button": $("<button class='button-edit-photo'>Editar foto</button>"),
-         }, {
-            "selector": ".td-delete",
-            "table": table,
-            "th": $("<th>Remover</th>"),
-            "td": $("<td class='td-delete'></td>"),
-            "button": $("<button class='button-delete-product'>Remover</button>"),
-         }, {
-            "selector": ".td-create-order",
-            "table": table,
-            "th": $("<th>Encomendar</th>"),
-            "td": $("<td class='td-create-order'></td>"),
-            "button": $("<button class='button-create-order'>Encomendar</button>"),
-         }];
-
-         addButtonColumnToTable(elements);
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlProductsInAccount(res.data[i]);
+            $("#get-user-products").append(html);
+         }
       },
       error: err => {
          var status = getStatus(err);
@@ -612,6 +571,7 @@ function getProducts() {
       }
    });
 }
+
 
 function getProductsToIndex() {
    var token = getCookie("token");
@@ -644,6 +604,7 @@ function getProductsToIndex() {
    });
 }
 
+
 function getProductById(currentButtonClicked) {
    var productId = currentButtonClicked.parent().parent().children(".td-id").text();
 
@@ -668,6 +629,7 @@ function getProductById(currentButtonClicked) {
    });
 }
 
+
 function createProduct() {
    var form = $("#form-create-product")[0];
    var formData = new FormData(form);
@@ -685,7 +647,7 @@ function createProduct() {
       success: res => {
          var modal = $("#div-create-product");
          closeModal(modal);
-         openModal(res.message);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -699,6 +661,7 @@ function createProduct() {
       }
    });
 }
+
 
 function editProductData() {
    var form = $("#form-edit-product-data");
@@ -715,8 +678,7 @@ function editProductData() {
       success: res => {
          var modal = $("#div-edit-product-data");
          closeModal(modal);
-         openModal(res.message);
-         $("#button-get-products").trigger("click");
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -730,6 +692,7 @@ function editProductData() {
       }
    });
 }
+
 
 function editProductPhoto() {
    var form = $("#form-edit-product-photo")[0];
@@ -748,8 +711,7 @@ function editProductPhoto() {
       success: res => {
          var modal = $("#div-edit-product-photo");
          closeModal(modal);
-         openModal(res.message);
-         $("#button-get-products").trigger("click");
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -764,9 +726,9 @@ function editProductPhoto() {
    });
 }
 
-function deleteProduct(currentButtonClicked) {
+
+function deleteProduct(productId) {
    var token = getCookie("token");
-   var productId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    $.ajax({
       cache: false,
@@ -775,17 +737,9 @@ function deleteProduct(currentButtonClicked) {
       url: urlApi + "products/delete/" + productId,
 
       success: res => {
-         openModal(res.message);
-
-         var rowCount = $("tbody tr").length;
-         if (rowCount > 1) {
-            var currentRow = $("tbody tr .td-id:contains('" + productId + "')").parent();
-            destroyElement(currentRow);
-         }
-         else {
-            destroyElement($("thead").find("tr"));
-            destroyElement($("tbody").find("tr"));
-         }
+         var modal = $("#id_product_confrmdiv");
+         closeModal(modal);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -837,6 +791,7 @@ function getUserOrders() {
    });
 }
 
+
 function getMerchantOrders() {
    var token = getCookie("token");
 
@@ -874,40 +829,6 @@ function getMerchantOrders() {
    });
 }
 
-function getProductsInMerchant() {
-   var token = getCookie("token");
-
-   $.ajax({
-      cache: false,
-      headers: { Authorization: "Bearer " + token },
-      type: "get",
-      url: urlApi + "products/",
-
-      success: res => {
-         for (var i = 0; i < res.data.length; i++) {
-            var html = getHtmlProductsInAccount(res.data[i]);
-            $("#get-user-products").append(html);
-         }
-
-         $("[data-accepted~='0']").css("background-color", "#1e73be");
-         $("[data-accepted~='0']").text("Pendente");
-         $("[data-accepted~='1']").css("background-color", "#047a06");
-         $("[data-accepted~='1']").text("Entregue");
-         $("[data-canceled~='1']").css("background-color", "#c33332");
-         $("[data-canceled~='1']").text("Cancelada");
-      },
-      error: err => {
-         var status = getStatus(err);
-
-         if (status >= 400 && status <= 599 != 404)
-            showErrorAlert(err.responseJSON.message);
-         else if (status == 0 || status == 404) {
-            var url = "./404.html";
-            redirectPage(url);
-         }
-      }
-   });
-}
 
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
@@ -936,6 +857,7 @@ function createOrder(currentButtonClicked) {
       }
    });
 }
+
 
 function cancelOrder(currentButtonClicked) {
    var token = getCookie("token");

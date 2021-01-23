@@ -5,9 +5,8 @@ $(window).ready(() => {
       $("#header-user-not-logged").hide();
    }
    else {
-      var url = "./index.html";
-      redirectPage(url);
-      return;
+      $("#header-user-logged").hide();
+      $("#header-user-not-logged").show();
    }
 
    var html = getHtmlUserInfoOnHeader();
@@ -18,6 +17,10 @@ $(window).ready(() => {
    $("#img-photo").append(html);
    getMerchantData();
    getProductsInAccount();
+
+   $("#id_product_truebtn").click(function () {
+      deleteProduct($(this).attr("class"));
+   });
 
    $("#id_truebtn").click(() => {
       deleteUser();

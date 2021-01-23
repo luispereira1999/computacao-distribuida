@@ -1649,16 +1649,20 @@ span.sticky-stop { position: relative; top: -49px; }
 .user-reviews-list .reviews-list > li.not-found { padding: 10px; }
 /* warning message*/
 .wp-foodbakery #id_confrmdiv { background-color: rgba(0, 0, 0, 0.5) !important; border: 0px solid #aaa !important; border-radius: 0px !important; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: 100% !important; left: 0 !important; margin-left: 0px !important; padding: 0 !important; position: fixed !important; text-align: center !important; top: 0 !important; width: 100% !important; z-index: 9; }
+.wp-foodbakery #id_product_confrmdiv { background-color: rgba(0, 0, 0, 0.5) !important; border: 0px solid #aaa !important; border-radius: 0px !important; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: 100% !important; left: 0 !important; margin-left: 0px !important; padding: 0 !important; position: fixed !important; text-align: center !important; top: 0 !important; width: 100% !important; z-index: 9; }
 .cs-confirm-container { background: #fff; width: 480px; margin: 0 auto; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); padding: 15px 70px; border-radius: 4px; }
 .cs-confirm-container i { display: inline-block; font-size: 70px; margin-bottom: 14px; opacity: 0.6; color: #555555; }
 .cs-confirm-container .message { font-size: 24px; }
 /* warning message*/
 #id_confrmdiv { background-color: rgba(0, 0, 0, 0.5) !important; border: 0px solid #aaa !important; border-radius: 0px !important; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: 100% !important; left: 0 !important; margin-left: 0px !important; padding: 0 !important; position: fixed !important; text-align: center !important; top: 0 !important; width: 100% !important; z-index: 9; }
+#id_product_confrmdiv { background-color: rgba(0, 0, 0, 0.5) !important; border: 0px solid #aaa !important; border-radius: 0px !important; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: 100% !important; left: 0 !important; margin-left: 0px !important; padding: 0 !important; position: fixed !important; text-align: center !important; top: 0 !important; width: 100% !important; z-index: 9; }
 .cs-confirm-container { background: #fff; width: 480px; margin: 0 auto; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); padding: 15px 70px; border-radius: 4px; }
 .cs-confirm-container i { display: inline-block; font-size: 70px; margin-bottom: 14px; opacity: 0.6; color: #555555; }
 .cs-confirm-container .message { font-size: 24px; line-height: 36px; color: #575757; font-weight: 700; letter-spacing: -1px; margin-bottom: 20px; text-transform: capitalize; }
 a#id_truebtn, a#id_falsebtn { display: inline-block; vertical-align: middle; padding: 6px 18px; background: #e36953; font-size: 18px; font-Weight: 600; color: #fff; border-radius: 4px; }
+a#id_product_truebtn, a#id_product_falsebtn { display: inline-block; vertical-align: middle; padding: 6px 18px; background: #e36953; font-size: 18px; font-Weight: 600; color: #fff; border-radius: 4px; }
 a#id_falsebtn { background: #d0d0d0; margin-left: 6px; }
+a#id_product_falsebtn { background: #d0d0d0; margin-left: 6px; }
 .user-dashboard .restaurant-settings-nav li .user_dashboard_ajax { display: none; }
 .chosen-container-single .chosen-single div b { background-image: none; }
 #dev-menu-orders-list .categories-order a.btn-cross { margin-top: 0; }
