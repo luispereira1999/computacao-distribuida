@@ -68,14 +68,14 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `username: string`\
-   `password: string`\
-   `name: string`\
-   `surname: string`\
-   `email: string`\
-   `phone_number: integer`\
-   `address: string`\
-   `zip_code: string`
+   `username: string` campo para o nome do utilizador\
+   `password: string` campo para a palavra-passe\
+   `name: string` campo para o nome\
+   `surname: string` campo para o apelido\
+   `email: string` campo para o email\
+   `phone_number: integer` campo para o número de telemóvel\
+   `address: string` campo para a morada\
+   `zip_code: string` campo para o código postal
   
 * **Sucesso:**
 
@@ -127,16 +127,16 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `username: string`\
-   `password: string`\
-   `name: string`\
-   `email: string`\
-   `phone_number: integer`\
-   `address: string`\
-   `zip_code: string`\
-   `nif: integer`\
-   `description: string`\
-   `file: file [uploaded from computer]`
+   `username: string` campo para o nome de utilizador\
+   `password: string` campo para a palavra-passe\
+   `name: string` campo para o nome\
+   `email: string` campo para o email\
+   `phone_number: integer` campo para o número de telemóvel\
+   `address: string` campo para a morada\
+   `zip_code: string` campo para o código postal\
+   `nif: integer` campo para o NIF\
+   `description: string` campo para a descrição\
+   `file: file [uploaded from computer]` campo para inserir foto do computador
   
 * **Sucesso:**
 
@@ -179,17 +179,17 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `username: string`\
-   `password: string`\
-   `name: string`\
-   `surname: string`\
-   `email: string`\
-   `phone_number: integer`\
-   `address: string`\
-   `zip_code: string`\
-   `nif: integer`\
-   `driving_license: integer [1, 2 ou 3]`\
-   `file: file [uploaded from computer]`
+   `username: string` campo para o nome de utilizador\
+   `password: string` campo para a palavra-passe\
+   `name: string` campo para o nome\
+   `surname: string` campo para o apelido\
+   `email: string` campo para o email\
+   `phone_number: integer` campo para o número de telemóvel\
+   `address: string` campo para a morada\
+   `zip_code: string` campo para o código postal\
+   `nif: integer` campo para o NIF\
+   `driving_license: integer [1, 2 ou 3]` campo para o tipo de carta de condução\
+   `file: file [uploaded from computer]` campo para inserir pdf do computador
   
 * **Sucesso:**
 
@@ -232,15 +232,15 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `username: string`\
-   `password: string`\
-   `name: string`\
-   `surname: string`\
-   `email: string`\
-   `phone_number: integer`\
-   `address: string`\
-   `zip_code: string`\
-   `description: string`
+   `username: string` campo para o nome de utilizador\
+   `password: string` campo para a palavra-passe\
+   `name: string` campo para o nome\
+   `surname: string` campo para o apelido\
+   `email: string` campo para o email\
+   `phone_number: integer` campo para o número de telemóvel\
+   `address: string` campo para a morada\
+   `zip_code: string` campo para o código postal\
+   `description: string` campo para a descrição
 
 * **Sucesso:**
 
@@ -291,8 +291,8 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `username: string`\
-   `password: string`
+   `username: string` campo para o nome de utilizador\
+   `password: string` campo para a palavra-passe
 
 * **Sucesso:**
 
@@ -352,7 +352,7 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -470,7 +470,7 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -538,19 +538,19 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `username: string`\
-   `name: string`\
-   `surname: string`\
-   `email: string`\
-   `phone_number: integer`\
-   `address: string`\
-   `zip_code: string`
+   `username: string` campo para o nome de utilizador\
+   `name: string` campo para o nome\
+   `surname: string` campo para o apelido\
+   `email: string` campo para o email\
+   `phone_number: integer` campo para o número de telemóvel\
+   `address: string` campo para a morada\
+   `zip_code: string` campo para o código postal
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -609,13 +609,13 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `password: string`
+   `password: string` campo para a palavra-passe
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -674,13 +674,13 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `file: file [uploaded from computer]`
+   `file: file [uploaded from computer]` campo para a foto do computador
 
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -739,14 +739,14 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `driving_license: integer`\
-   `file: file [uploaded from computer]`
+   `driving_license: integer` campo para o tipo da carta de condução\
+   `file: file [uploaded from computer]` campo para inserir pdf do computador
 
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -796,13 +796,13 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `id: integer`
+   `id: integer` campo para o ID do utilizador aceitar
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -852,13 +852,13 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `id: integer`
+   `id: integer` campo para o ID do utilizador a ser definido como administrador
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -908,13 +908,13 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `id: integer`
+   `id: integer` campo para o ID do utilizador a ser removido de utilizador
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -964,7 +964,7 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1022,7 +1022,7 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1092,8 +1092,8 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `filter: string [name]`\
-   `merchant: string`
+   `filter: string [name]` campo para o nome do filtro\
+   `merchant: string` campo para o nome da empresa
 
 * **Sucesso:**
 
@@ -1154,17 +1154,17 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `name: string`\
-   `price: real`\
-   `stock: integer`\
-   `description: string`\
-   `file: file [uploaded from computer]`
+   `name: string` campo para o nome\
+   `price: real` campo para o preço\
+   `stock: integer` campo para a quantidade de stock\
+   `description: string` campo para a descrição\
+   `file: file [uploaded from computer]` campo para inserir foto do computador
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1214,22 +1214,22 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `name: string`\
-   `price: real`\
-   `stock: integer`\
-   `description: string`
+   `name: string` campo para o nome\
+   `price: real` campo para o preço\
+   `stock: integer` campo para a quantidade de stock\
+   `description: string` campo para a descrição
    
 * **Params:**
 
    **Obrigatório:**
 
-   `id: integer`
+   `id: integer` campo para o ID do produto
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1285,13 +1285,13 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `id: integer`
+   `id: integer` campo para o ID do produto
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1341,13 +1341,13 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `id: integer`
+   `id: integer` campo para o ID do produto
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1405,7 +1405,7 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1495,7 +1495,7 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1567,15 +1567,15 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `address: string`\
-   `zip_code: string`\
-   `product_id: integer`
+   `address: string` campo para a morada\
+   `zip_code: string` campo para o código postal\
+   `product_id: integer` campo para o ID do produto
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1625,14 +1625,14 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `product_id: integer`\
-   `order_id: integer`
+   `product_id: integer` campo para o ID do produto\
+   `order_id: integer` campo para o ID da encomenda
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1694,7 +1694,7 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1766,13 +1766,13 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `order_id: integer`
+   `order_id: integer` campo para o ID da encomenda
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
@@ -1822,13 +1822,13 @@ _____________________________________________
 
    **Obrigatório:**
 
-   `order_id: integer`
+   `order_id: integer` campo para o ID da encomenda
    
 * **Authorization:**
 
    **Obrigatório:**
 
-   `token: bearer token`
+   `token: bearer token` campo para o token
 
 * **Sucesso:**
 
