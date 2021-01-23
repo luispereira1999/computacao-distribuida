@@ -36,7 +36,7 @@ module.exports = {
             username: user.username,
             name: user.name,
             email: user.email,
-            url_photo: user.url_photo,
+            url_photo: globalConfig.file.DEFAULT_PHOTO,
             type: 1
          };
          const token = generateToken(data);

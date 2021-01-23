@@ -70,6 +70,38 @@ module.exports = {
    },
 
 
+   getFromDriver: async (req, res) => {
+      const db = database.connect();
+
+      var user = new User(req.user);
+
+      // selecionar encomendas do condutor entregues pelo condutor na base de dados
+      var sql = "\
+         SELECT\
+            Orders.id as order_id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
+            Deliveries.user_id as delivery_id,\
+            Clients.name as client_name\
+            FROM Orders\
+         INNER JOIN Deliveries ON Deliveries.user_id = Orders.id\
+         INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
+         WHERE Deliveries.user_id = 3\
+      ";
+
+      var params = user.id;
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem encomendas." });
+         else
+            res.status(200).json({ "message": "Encomendas obtidas com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
    create: async (req, res) => {
       const db = database.connect();
 

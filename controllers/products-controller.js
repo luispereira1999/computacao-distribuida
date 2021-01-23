@@ -15,7 +15,8 @@ module.exports = {
       var sql = "\
          SELECT\
             p.id, p.name AS product_name, p.stock, p.price, p.description, p.url_photo,\
-            u.name AS user_name FROM Products AS p\
+            u.name AS user_name\
+         FROM Products AS p\
          INNER JOIN Users AS u ON u.id = p.user_id\
          WHERE p.deleted = 0 AND u.id = ?\
       ";
@@ -41,11 +42,17 @@ module.exports = {
       if (error.exist)
          return res.status(400).json({ "message": "Ups! O filtro não está disponível." });
 
-      var product = new Product(req.params);
+      var user = new User({ "name": req.params.merchant });
 
       // selecionar produto na base de dados
-      var sql = "SELECT * FROM Products WHERE name LIKE ?";
-      var params = "%" + product.name + "%";
+      var sql = "\
+         SELECT\
+            Products.id, Products.name AS product_name, Products.stock, Products.price, Products.description, Products.url_photo\
+         FROM Products\
+         INNER JOIN Users ON Users.id = Products.user_id\
+         WHERE Users.name = ?\
+      ";
+      var params = user.name;
       db.all(sql, params, function (err, rows) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });

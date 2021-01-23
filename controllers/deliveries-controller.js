@@ -1,13 +1,45 @@
 const database = require("../utils/database");
+var User = require("../models/user");
 var Order = require("../models/order");
 var Delivery = require("../models/delivery");
 
 
 module.exports = {
+   getByDriver: async (req, res) => {
+      const db = database.connect();
+
+      var user = new User(req.user);
+
+      // selecionar produtos na base de dados
+      var sql = "\
+         SELECT\
+            Orders.id as order_id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
+            Deliveries.user_id as delivery_user_id,\
+            Clients.name as client_name\
+         FROM Deliveries\
+         INNER JOIN Orders ON Orders.id = Deliveries.order_id\
+         INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
+         WHERE Deliveries.user_id = ?\
+       ";
+      var params = user.id;
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem entregas." });
+         else
+            res.status(200).json({ "message": "Produtos obtidos com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
    accept: async (req, res) => {
       const db = database.connect();
 
-      var invalidFields = await checkInvalidFields(req, 1);
+      var invalidFields = await checkInvalidFields(req);
       if (invalidFields.exist)
          return res.status(400).json({ "message": invalidFields.message.join(" | ") });
 
@@ -74,7 +106,8 @@ function checkInvalidFields(req) {
 
    if (errors.length)
       return ({ "exist": true, "message": errors });
-   else return ({ "exist": false });
+   else
+      return ({ "exist": false });
 }
 
 

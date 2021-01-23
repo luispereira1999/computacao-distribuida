@@ -26,6 +26,47 @@ module.exports = {
    },
 
 
+
+   getMerchants: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT id, username, name, email, url_photo, type FROM Users WHERE accepted = 1 AND deleted = 0 AND type = 2 LIMIT ?";
+      var params = [req.params.quantity];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem empresas." });
+         else
+            res.status(200).json({ "message": "Empresas obtidas com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
+   getByNotAccepted: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT id, username, name, email, type FROM Users WHERE accepted = 0";
+      var params = [];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem utilizadores por aceitar." });
+         else
+            res.status(200).json({ "message": "Utilizadores obtidos com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
    editData: async (req, res, next) => {
       const db = database.connect();
 
@@ -177,46 +218,6 @@ module.exports = {
    },
 
 
-   getMerchants: async (req, res, next) => {
-      const db = database.connect();
-
-      // selecionar utilizador na base de dados
-      var sql = "SELECT id, username, name, email, url_photo, type FROM Users WHERE accepted = 1 AND deleted = 0 AND type = 2 LIMIT ?";
-      var params = [req.params.quantity];
-      db.all(sql, params, function (err, rows) {
-         if (err)
-            return res.status(500).json({ "message": "Oh! " + err.message });
-
-         if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem empresas." });
-         else
-            res.status(200).json({ "message": "Empresas obtidas com sucesso!", "data": rows });
-      });
-
-      db.close();
-   },
-
-
-   getByNotAccepted: async (req, res, next) => {
-      const db = database.connect();
-
-      // selecionar utilizador na base de dados
-      var sql = "SELECT id, username, name, email, type FROM Users WHERE accepted = 0";
-      var params = [];
-      db.all(sql, params, function (err, rows) {
-         if (err)
-            return res.status(500).json({ "message": "Oh! " + err.message });
-
-         if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem utilizadores por aceitar." });
-         else
-            res.status(200).json({ "message": "Utilizadores obtidos com sucesso!", "data": rows });
-      });
-
-      db.close();
-   },
-
-
    accept: async (req, res, next) => {
       const db = database.connect();
 
@@ -311,7 +312,7 @@ module.exports = {
 
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O utilizador não existe." });
- 
+
          res.status(200).json({ "message": "Utilizador excluído com sucesso!" });
       });
 
