@@ -49,15 +49,15 @@ const upload = multer({
 
 
 router.get("/account", [validateLogin, validateUser], userController.view);
-router.patch("/edit-data", [validateLogin, validateUser], userController.editData);
-router.put("/edit-password", [validateLogin, validateUser], userController.editPassword);
-router.put("/edit-photo", [upload.single("file"), validateLogin, validateUser], userController.editPhoto);
-router.put("/edit-driving-license", [upload.single("file"), validateLogin, validateUser, validateType.checkDriver], userController.editDrivingLicense);
 router.get("/get-merchants/:quantity", userController.getMerchants);
 router.get("/not-accepted", [validateLogin, validateUser, validateType.checkAdmin], userController.getByNotAccepted);
-router.put("/accept/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.accept);
-router.put("/set-admin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.setAdmin);
-router.put("/remove-admin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.removeAdmin);
+router.put("/edit-data", [validateLogin, validateUser], userController.editData);
+router.patch("/edit-password", [validateLogin, validateUser], userController.editPassword);
+router.patch("/edit-photo", [upload.single("file"), validateLogin, validateUser], userController.editPhoto);
+router.patch("/edit-driving-license", [upload.single("file"), validateLogin, validateUser, validateType.checkDriver], userController.editDrivingLicense);
+router.patch("/accept/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.accept);
+router.patch("/set-admin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.setAdmin);
+router.patch("/remove-admin/:id", [validateLogin, validateUser, validateType.checkAdmin], userController.removeAdmin);
 router.delete("/delete", [validateLogin, validateUser], userController.delete);
 
 module.exports = router;
