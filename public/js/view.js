@@ -592,7 +592,7 @@ function getHtmlMerchantOrders(data) {
          <div>'+ data.id + '</div>\
          <div>'+ data.product_name + '</div>\
          <div>'+ data.date + '</div>\
-         <div>'+ data.total + '</div>\
+         <div>'+ data.total + '€</div>\
          <div>'+ data.client_name + '</div>\
          <div class="order-btn">\
             <span data-accepted="'+ data.accepted + '" data-canceled="' + data.canceled + '" class="order-status"></span>\
