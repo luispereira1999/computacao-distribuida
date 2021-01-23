@@ -13,7 +13,12 @@
 
 `/ users`
 - `/ account`
+- `/ get-merchants / { quantity }`
 - `/ not-accepted`
+- `/ edit-data`
+- `/ edit-password`
+- `/ edit-photo`
+- `/ edit-driving-license`
 - `/ accept / { id }`
 - `/ set-admin / { id }`
 - `/ remove-admin / { id }`
@@ -21,23 +26,33 @@
 
 `/ products`
 - `/`
-- `/ { id }`
-- `/ { filter } / { name }`
+- `/ { filter } / { merchant }`
 - `/ create`
 - `/ edit-data / { id }`
+- `/ edit-photo / { id }`
 - `/ delete / { id }`
 
 `/ orders`
+- `/`
+- `/ merchant`
 - `/ create`
 - `/ cancel`
 
 `/ deliveries`
+- `/`
 - `/ create`
 - `/ complete`
 
 <br />
 
 _____________________________________________
+
+
+
+
+
+
+
 
 <br />
 
@@ -62,9 +77,6 @@ _____________________________________________
    `address: string`\
    `zip_code: string`
   
-   **Opcional:**
-   `receive_advertising: integer [0 ou 1]`
-
 * **Sucesso:**
 
    **Status:** `201 CREATED` <br />
@@ -73,8 +85,10 @@ _____________________________________________
      "message": "Cliente registado com sucesso!",
      "data": {
         "id": 1,
+        "username": "a",
         "name": "a",
         "email": "a@picand.go",
+        "url_photo": "default.png",
         "type": 1
      },
      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsIm5hbWUiOiJhIiwiZW1haWwiOiJhQHBpY2FuZC5nbyIsInR5cGUiOjEsImlhdCI6MTYwOTY0NzUxMywiZXhwIjoxNjA5NzMzOTEzfQ.GXFDN99-TdOuUo4bGd71g1SgI7GKgynkH4OlHXg9O0w"
@@ -96,16 +110,9 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-$.post("http://localhost:4000/api/register/client/", data).done((res) => {
-     console.log(res);
-}).fail((err) => {
-     console.log(err);
-});
-```
 <br />
+
+
 
 
 ### / register / merchant <br /><br />
@@ -131,9 +138,6 @@ $.post("http://localhost:4000/api/register/client/", data).done((res) => {
    `description: string`\
    `file: file [uploaded from computer]`
   
-   **Opcional:**
-   `receive_advertising: integer [0 ou 1]`
-
 * **Sucesso:**
 
    **Status:** `201 CREATED` <br />
@@ -158,26 +162,9 @@ $.post("http://localhost:4000/api/register/client/", data).done((res) => {
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-$.ajax({
-     cache: false,
-     contentType: false,
-     data: formData,
-     processData: false,
-     type: "post",
-     url: "http://localhost:4000/api/register/merchant/",
-
-     success: (res) => {
-        console.log(res);
-     },
-     error: (err) => {
-        console.log(err);
-     }
-});
-```
 <br />
+
+
 
 
 ### / register / driver <br /><br />
@@ -204,9 +191,6 @@ $.ajax({
    `driving_license: integer [1, 2 ou 3]`\
    `file: file [uploaded from computer]`
   
-   **Opcional:**
-   `receive_advertising: integer [0 ou 1]`
-
 * **Sucesso:**
 
    **Status:** `201 CREATED` <br />
@@ -231,26 +215,9 @@ $.ajax({
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-$.ajax({
-     cache: false,
-     contentType: false,
-     data: formData,
-     processData: false,
-     type: "post",
-     url: "http://localhost:4000/api/register/driver/",
-
-     success: (res) => {
-        console.log(res);
-     },
-     error: (err) => {
-        console.log(err);
-     }
-});
-```
 <br />
+
+
 
 
 ### / register / admin <br /><br />
@@ -274,9 +241,6 @@ $.ajax({
    `address: string`\
    `zip_code: string`\
    `description: string`
-  
-   **Opcional:**
-   `receive_advertising: integer [0 ou 1]`
 
 * **Sucesso:**
 
@@ -302,18 +266,16 @@ $.ajax({
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-$.post("http://localhost:4000/api/register/admin/", data).done((res) => {
-     console.log(res);
-}).fail((err) => {
-     console.log(err);
-});
-```
 <br />
 
 _____________________________________________
+
+
+
+
+
+
+
 
 <br />
 
@@ -337,11 +299,13 @@ _____________________________________________
    **Status:** `200 OK` <br />
    ```json
   {
-     "message": "Cliente registado com sucesso!",
+     "message": "O utilizador efetuou login com sucesso!",
      "data": {
         "id": 1,
+        "username": "a",
         "name": "a",
         "email": "a@picand.go",
+        "url_photo": "default.png",
         "type": 1
      },
      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsIm5hbWUiOiJhIiwiZW1haWwiOiJhQHBpY2FuZC5nbyIsInR5cGUiOjEsImlhdCI6MTYwOTY0NzUxMywiZXhwIjoxNjA5NzMzOTEzfQ.GXFDN99-TdOuUo4bGd71g1SgI7GKgynkH4OlHXg9O0w"
@@ -363,18 +327,16 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-$.post("http://localhost:4000/api/register/admin/", data).done((res) => {
-     console.log(res);
-}).fail((err) => {
-     console.log(err);
-});
-```
 <br />
 
 _____________________________________________
+
+
+
+
+
+
+
 
 <br />
 
@@ -399,26 +361,24 @@ _____________________________________________
   {
      "message": "Dados do utilizador obtidos com sucesso!",
      "data": {
-        "id": 1,
-        "username": "a",
-        "password": "$2b$10$qeeTD85K4CxZ9rT3pmdfp.NrtuRVrNwP6xq17vvItEDq1t0M7Xj3m",
-        "name": "a",
-        "surname": "a",
-        "email": "a@picand.go",
+        "id": 2,
+        "username": "b",
+        "password": "$2a$10$fCNm2NeTVDmQAKEWE/40vOAQhQvTvCvCYCjB1oGpaV..ODvkRSuJG",
+        "name": "b",
+        "surname": "b",
+        "email": "a@picando.go",
         "phone_number": 912345678,
-        "address": "a",
+        "address": "b",
         "zip_code": "4123-456",
         "nif": null,
         "description": null,
-        "url_photo": null,
-        "url_driving_license": null,
+        "url_photo": "18-1-2021_11_51_49.jpg",
+        "url_driving_license": "18-1-2021_17_57_9.pdf",
         "driving_license": null,
-        "receive_advertising": 0,
-        "old_type": 1,
+        "old_type": 3,
         "accepted": 1,
-        "locked": 0,
         "deleted": 0,
-        "type": 1
+        "type": 3
      }
   }
    ```
@@ -438,17 +398,70 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
+
+
+### / users / get-merchants / { quantity } <br /><br />
+
+* **Descrição:**
+   `Obter empresas.`
+
+* **Método:**
+   `GET`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Empresas obtidas com sucesso!",
+     "data": [
+         {
+             "id": 1,
+             "username": "pizzahut",
+             "name": "pizzahut",
+             "email": "pizzahut@pizzahut.com",
+             "url_photo": "12-1-2021_10_24_15.jpg",
+             "type": 2
+         },
+         {
+             "id": 2,
+             "username": "mcdonalds",
+             "name": "MC Donalds",
+             "email": "mcdonalds@mcdonalds.com",
+             "url_photo": "11-1-2021_20_49_2.png",
+             "type": 2
+         }
+     ]
+  }
+   ```
+ 
+* **Erro:**
+   
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! Não existem empresas."
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Users"
+  }
+   ```
+<br />
+
+
 
 
 ### / users / not-accepted <br /><br />
 
 * **Descrição:**
-   `Obter utilizadores que ainda não foram aceites.`
+   `Obter utilizadores por aceitar.`
 
 * **Método:**
    `GET`
@@ -464,26 +477,37 @@ _____________________________________________
    **Status:** `200 OK` <br />
    ```json
   {
+     "message": "Utilizadores obtidos com sucesso!",
      "data": [
-        {
-           "username": "b",
-           "name": "b",
-           "email": "b@picand.go",
-           "type": 2
-        }
+         {
+             "id": 1,
+             "username": "pizzahut",
+             "name": "pizzahut",
+             "email": "pizzahut@pizzahut.com",
+             "url_photo": "12-1-2021_10_24_15.jpg",
+             "type": 2
+         },
+         {
+             "id": 2,
+             "username": "mcdonalds",
+             "name": "MC Donalds",
+             "email": "mcdonalds@mcdonalds.com",
+             "url_photo": "11-1-2021_20_49_2.png",
+             "type": 2
+         }
      ]
   }
    ```
  
 * **Erro:**
-
+   
    **Status:** `400 BAD REQUEST` <br />
    ```json
   {
      "message": "Ups! Não existem utilizadores por aceitar."
   }
    ```
-   
+
    **Status:** `401 UNAUTHORIZED` <br />
    ```json
   {
@@ -497,17 +521,273 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
+
+
+### / user / edit-data <br /><br />
+
+* **Descrição:**
+   `Editar dados de um utilizador.`
+
+* **Método:**
+   `PUT`
+
+* **Body [raw]:**
+
+   **Obrigatório:**
+   
+   `username: string`\
+   `name: string`\
+   `surname: string`\
+   `email: string`\
+   `phone_number: integer`\
+   `address: string`\
+   `zip_code: string`
+   
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Utilizador editado com sucesso!",
+     "data": {
+         "id": 12,
+         "username": "u alterado",
+         "name": "n alterado",
+         "email": "alterado@picand.go",
+         "url_photo": "default.png",
+         "type": 1
+     },
+     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidSBhbHRlcmFkbyIsIm5hbWUiOiJuIGFsdGVyYWRvIiwiZW1haWwiOiJhbHRlcmFkb0BwaWNhbmQuZ28iLCJ1cmxfcGhvdG8iOiJkZWZhdWx0LnBuZyIsInR5cGUiOjEsImlhdCI6MTYxMTM3MTc0NCwiZXhwIjoxNjExNDU4MTQ0fQ.YYoYEf7RlUd40K37pDBty9fU_ryyvNuXXIcOBJdMp_U"
+  }
+   ```
+ 
+* **Erro:**
+
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! O nome de utilizador não foi preenchido."
+  }
+   ```
+
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Users"
+  }
+   ```
+<br />
+
+
+
+
+### / user / edit-password <br /><br />
+
+* **Descrição:**
+   `Editar palavra-passe de um utilizador.`
+
+* **Método:**
+   `PATCH`
+
+* **Body [raw]:**
+
+   **Obrigatório:**
+   
+   `password: string`
+   
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Palavra-passe editada com sucesso!",
+     "data": {
+         "id": 2,
+         "username": "b",
+         "name": "b",
+         "email": "b@picand.go",
+         "url_photo": "default.png",
+         "type": 2
+     },
+     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidSBhbHRlcmFkbyIsIm5hbWUiOiJuIGFsdGVyYWRvIiwiZW1haWwiOiJhbHRlcmFkb0BwaWNhbmQuZ28iLCJ1cmxfcGhvdG8iOiJkZWZhdWx0LnBuZyIsInR5cGUiOjEsImlhdCI6MTYxMTM3MTk3NCwiZXhwIjoxNjExNDU4Mzc0fQ.guK5JsuUVUre_2IswHRmUb1CDK3L4grexYX5KEAUEA8"
+  }
+   ```
+ 
+* **Erro:**
+
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! A palavra-passe não foi preenchido."
+  }
+   ```
+
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Users"
+  }
+   ```
+<br />
+
+
+
+
+### / users / edit-photo <br /><br />
+
+* **Descrição:**
+   `Editar foto de um utilizador.`
+
+* **Método:**
+   `PATCH`
+
+* **Body [form-data]:**
+
+   **Obrigatório:**
+   
+   `file: file [uploaded from computer]`
+
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Foto do utilizador editada com sucesso",
+     "data": {
+        "id": 2,
+        "username": "b",
+        "name": "b",
+        "email": "b@picand.go",
+        "url_photo": "12-1-2021_10_24_21.jpg",
+        "type": 2
+     },
+     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ1IGFsdGVyYWRvIiwibmFtZSI6Im4gYWx0ZXJhZG8iLCJlbWFpbCI6ImFsdGVyYWRvQHBpY2FuZC5nbyIsInVybF9waG90byI6IjEyLTEtMjAyMV8xMF8yNF8yMS5qcGciLCJ0eXBlIjoyLCJpYXQiOjE2MTA4NTc4MTQsImV4cCI6MTYxMDk0NDIxNH0.X69Jgk5x8LBNbtlvu0VHZhpnJ56a4Qu97lUZSVd1HgA"
+  }
+   ```
+ 
+* **Erro:**
+
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! A foto do utilizador não foi preenchida."
+  }
+   ```
+
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Users"
+  }
+   ```
+<br />
+
+
+
+
+### / users / edit-driving-license <br /><br />
+
+* **Descrição:**
+   `Editar carta de condução de um condutor.`
+
+* **Método:**
+   `PATCH`
+
+* **Body [form-data]:**
+
+   **Obrigatório:**
+   
+   `driving_license: integer`\
+   `file: file [uploaded from computer]`
+
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Carta de condução editada com sucesso!"
+  }
+   ```
+ 
+* **Erro:**
+
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! O tipo de carta de condução não foi preenchida."
+  }
+   ```
+
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Users"
+  }
+   ```
+<br />
+
+
 
 
 ### / users / accept / { id } <br /><br />
 
 * **Descrição:**
-   `Aceitar utilizador para poder entrar na aplicação.`
+   `Aceitar utilizador não aceite.`
 
 * **Método:**
    `PATCH`
@@ -555,11 +835,9 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
 
 
 ### / users / set-admin / { id } <br /><br />
@@ -613,11 +891,9 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
 
 
 ### / users / remove-admin / { id } <br /><br />
@@ -671,11 +947,9 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
 
 
 ### / users / delete / { id } <br /><br />
@@ -685,12 +959,6 @@ _____________________________________________
 
 * **Método:**
    `DELETE`
-   
-* **Params:**
-
-   **Obrigatório:**
-
-   `id: integer`
    
 * **Authorization:**
 
@@ -729,23 +997,32 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Users"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
 
 _____________________________________________
+
+
+
+
+
+
+
 
 <br />
 
 ### / products <br /><br />
 
 * **Descrição:**
-   `Obter produtos.`
+   `Obter produtos da empresa que está com login iniciado.`
 
 * **Método:**
    `GET`
+
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
 
 * **Sucesso:**
 
@@ -754,26 +1031,24 @@ _____________________________________________
   {
      "message": "Produtos obtidos com sucesso!",
      "data": [
-        {
-           "id": 1,
-           "name": "Produto A",
-           "stock": 8,
-           "price": 12.5,
-           "description": "a",
-           "url_photo": "back-end\\uploads\\products\\3-1-2021_18_54_56.png",
-           "deleted": 0,
-           "user_id": 2
-        },
-        {
-           "id": 2,
-           "name": "Produto B",
-           "stock": 22,
-           "price": 4,
-           "description": "b",
-           "url_photo": "back-end\\uploads\\products\\3-1-2021_18_54_57.png",
-           "deleted": 0,
-           "user_id": 2
-        }
+         {
+             "id": 2,
+             "product_name": "Massa",
+             "stock": 8,
+             "price": 2.5,
+             "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
+             "url_photo": "22-1-2021_22_2_1.png",
+             "user_name": "b"
+         },
+         {
+             "id": 4,
+             "product_name": "Bife",
+             "stock": 0,
+             "price": 2.5,
+             "description": "bife de porco",
+             "url_photo": "10-1-2021_10_24_21.jpg",
+             "user_name": "b"
+         }
      ]
   }
    ```
@@ -787,58 +1062,10 @@ _____________________________________________
   }
    ```
 
-   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   **Status:** `401 UNAUTHORIZED` <br />
    ```json
   {
-     "message": "Oh! SQLITE_ERROR: no such table: Products"
-  }
-   ```
-
-* **Chamada simples:**
-```js
-```
-<br />
-
-
-### / products / { id } <br /><br />
-
-* **Descrição:**
-   `Obter um produto pelo ID.`
-
-* **Método:**
-   `GET`
-   
-* **Params:**
-
-   **Obrigatório:**
-
-   `id: integer`
-
-* **Sucesso:**
-
-   **Status:** `200 OK` <br />
-   ```json
-  {  
-     "message": "Produto obtido com sucesso!",
-     "data": {
-        "id": 1,
-        "name": "Produto A",
-        "stock": 4,
-        "price": 12.5,
-        "description": "a",
-        "url_photo": "back-end\\uploads\\products\\3-1-2021_18_54_56.png",
-        "deleted": 0,
-        "user_id": 2
-    }  
-  }
-   ```
- 
-* **Erro:**
-   
-   **Status:** `400 BAD REQUEST` <br />
-   ```json
-  {
-     "message": "Ups! O produto não existe."
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
   }
    ```
 
@@ -848,17 +1075,15 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Products"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
 
 
 ### / products / { filter } / { name } <br /><br />
 
 * **Descrição:**
-   `Obter produtos por filtros (nome do produto).`
+   `Obter produtos por filtros (nome da empresa).`
 
 * **Método:**
    `GET`
@@ -868,7 +1093,7 @@ _____________________________________________
    **Obrigatório:**
 
    `filter: string [name]`\
-   `name: string`
+   `merchant: string`
 
 * **Sucesso:**
 
@@ -877,16 +1102,22 @@ _____________________________________________
   {     
      "message": "Produto(s) obtido(s) com sucesso!",
      "data": [
-        {
-           "id": 1,
-           "name": "Produto A",
-           "stock": 4,
-           "price": 12.5,
-           "description": "a",
-           "url_photo": "back-end\\uploads\\products\\3-1-2021_18_54_56.png",
-           "deleted": 0,
-           "user_id": 2
-        }
+         {
+             "id": 2,
+             "product_name": "Massa",
+             "stock": 8,
+             "price": 2.5,
+             "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
+             "url_photo": "22-1-2021_22_2_1.png"
+         },
+         {
+             "id": 4,
+             "product_name": "Bife",
+             "stock": 0,
+             "price": 2.5,
+             "description": "bife de porco",
+             "url_photo": "10-1-2021_10_24_21.jpg"
+         },
      ]
   }
    ```
@@ -906,11 +1137,9 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Products"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
 
 
 ### / products / create <br /><br />
@@ -926,9 +1155,9 @@ _____________________________________________
    **Obrigatório:**
    
    `name: string`\
-   `price: string`\
-   `stock: string`\
-   `description: integer`\
+   `price: real`\
+   `stock: integer`\
+   `description: string`\
    `file: file [uploaded from computer]`
    
 * **Authorization:**
@@ -968,26 +1197,9 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Products"
   }
    ```
-
-* **Chamada simples:**
-```js
-$.ajax({
-     cache: false,
-     contentType: false,
-     data: formData,
-     processData: false,
-     type: "post",
-     url: "http://localhost:4000/api/products/create/",
-
-     success: (res) => {
-        console.log(res);
-     },
-     error: (err) => {
-        console.log(err);
-     }
-});
-```
 <br />
+
+
 
 
 ### / products / edit-data / { id } <br /><br />
@@ -996,16 +1208,22 @@ $.ajax({
    `Editar dados de um produto.`
 
 * **Método:**
-   `PATCH`
+   `PUT`
 
-* **Body [form-data]:**
+* **Body [raw]:**
 
    **Obrigatório:**
    
    `name: string`\
    `price: real`\
    `stock: integer`\
-   `description: string`\
+   `description: string`
+   
+* **Params:**
+
+   **Obrigatório:**
+
+   `id: integer`
    
 * **Authorization:**
 
@@ -1018,7 +1236,7 @@ $.ajax({
    **Status:** `200 OK` <br />
    ```json
   {
-     "message": "Produto editado com sucesso!"
+     "message": "Dados do produto editados com sucesso!"
   }
    ```
  
@@ -1044,11 +1262,71 @@ $.ajax({
      "message": "Oh! SQLITE_ERROR: no such table: Products"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
+
+
+### / products / edit-photo / { id } <br /><br />
+
+* **Descrição:**
+   `Editar foto de um produto.`
+
+* **Método:**
+   `PATCH`
+
+* **Body [form-data]:**
+
+   **Obrigatório:**
+   
+   `file: file [uploaded from computer]`
+   
+* **Params:**
+
+   **Obrigatório:**
+
+   `id: integer`
+   
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Foto do produto editada com sucesso!"
+  }
+   ```
+ 
+* **Erro:**
+
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! O produto não existe ou não pertence a esta empresa."
+  }
+   ```
+
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Products"
+  }
+   ```
+<br />
+
+
 
 
 ### / products / delete / { id } <br /><br />
@@ -1102,15 +1380,180 @@ $.ajax({
      "message": "Oh! SQLITE_ERROR: no such table: Products"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
 
 _____________________________________________
 
+
+
+
+
+
+
+
 <br />
+
+### / orders <br /><br />
+
+* **Descrição:**
+   `Obter encomendas do utilizador.`
+
+* **Método:**
+   `GET`
+
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Encomendas obtidas com sucesso!",
+     "data": [
+         {
+             "id": 4,
+             "address": "Rua dos calhaus, Famalicão",
+             "zip_code": "4512-123",
+             "date": "9-1-2020, 16:10",
+             "vat": 0.23,
+             "pick_up_fee": 3.5,
+             "total": 7.38,
+             "accepted": 1,
+             "canceled": 0,
+             "product_name": "Massa",
+             "price": 2.5,
+             "description": "Reese’s Dipped Pretzels Snack de Pretzels Cobertos de Manteiga de Amendoim e Chocolate de Leite 120g",
+             "url_photo": "22-1-2021_22_2_1.png",
+             "merchant_name": "b",
+             "client_name": "b",
+             "client_email": "b@picando.go",
+             "client_phone_number": 912345678
+         },
+         {
+             "id": 6,
+             "address": "ewwe",
+             "zip_code": "4121-232",
+             "date": "17-1-2021, 21:14",
+             "vat": 0.23,
+             "pick_up_fee": 3.5,
+             "total": 7.38,
+             "accepted": 0,
+             "canceled": 1,
+             "product_name": "Bife",
+             "price": 2.5,
+             "description": "bife de porco",
+             "url_photo": "10-1-2021_10_24_21.jpg",
+             "merchant_name": "b",
+             "client_name": "b",
+             "client_email": "b@picando.go",
+             "client_phone_number": 912345678
+        }
+    ]
+  }
+   ```
+ 
+* **Erro:**
+   
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! Não existem encomendas."
+  }
+   ```
+
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Orders"
+  }
+   ```
+<br />
+
+
+
+
+### / orders / merchant <br /><br />
+
+* **Descrição:**
+   `Obter encomendas (vendas) da empresa.`
+
+* **Método:**
+   `GET`
+   
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+     "message": "Encomendas obtidas com sucesso!",
+     "data": [
+         {
+             "id": 1,
+             "address": "Rua dos pedras, Famalicão",
+             "date": "9-1-2020, 16:10",
+             "total": 7.38,
+             "accepted": 0,
+             "canceled": 0,
+             "product_name": "Bife",
+             "client_name": "Luisinho"
+         },
+         {
+             "id": 2,
+             "address": "Rua dos flores, Famalicão",
+             "date": "9-1-2020, 16:10",
+             "total": 7.38,
+             "accepted": 1,
+             "canceled": 0,
+             "product_name": "Massa",
+             "client_name": "MC Dondals"
+         }
+     ]
+  }
+   ```
+ 
+* **Erro:**
+   
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! Não existem encomendas."
+  }
+   ```
+   
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Orders"
+  }
+   ```
+<br />
+
+
+
 
 ### / orders / create <br /><br />
 
@@ -1124,7 +1567,9 @@ _____________________________________________
 
    **Obrigatório:**
    
-   `order_id: integer`
+   `address: string`\
+   `zip_code: string`\
+   `product_id: integer`
    
 * **Authorization:**
 
@@ -1163,11 +1608,10 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Orders"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
+
 
 ### / orders / cancel <br /><br />
 
@@ -1218,18 +1662,97 @@ _____________________________________________
    **Status:** `500 INTERNAL SERVER ERROR` <br />
    ```json
   {
-     "message": "Oh! SQLITE_ERROR: no such table: Products"
+     "message": "Oh! SQLITE_ERROR: no such table: Orders"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
 
 _____________________________________________
 
+
+
+
+
+
+
+
 <br />
+
+
+
+
+
+### / deliveries <br /><br />
+
+* **Descrição:**
+   `Obter entregas do condutor.`
+
+* **Método:**
+   `GET`
+
+* **Authorization:**
+
+   **Obrigatório:**
+
+   `token: bearer token`
+
+* **Sucesso:**
+
+   **Status:** `200 OK` <br />
+   ```json
+  {
+         "message": "Produtos obtidos com sucesso!",
+         "data": [
+         {
+             "order_id": 1,
+             "address": "Rua dos calhaus, Famalicão",
+             "date": "9-1-2020, 16:10",
+             "total": 7.38,
+             "accepted": 0,
+             "canceled": 0,
+             "delivery_user_id": 12,
+             "client_name": "a"
+         },
+         {
+             "order_id": 2,
+             "address": "Rua dos calhaus, Famalicão",
+             "date": "9-1-2020, 16:10",
+             "total": 7.38,
+             "accepted": 0,
+             "canceled": 0,
+             "delivery_user_id": 12,
+             "client_name": "a"
+         }
+     ]
+  }
+   ```
+ 
+* **Erro:**
+
+   **Status:** `400 BAD REQUEST` <br />
+   ```json
+  {
+     "message": "Ups! A encomenda não existe ou foi cancelada."
+  }
+   ```
+
+   **Status:** `401 UNAUTHORIZED` <br />
+   ```json
+  {
+     "message": "Ups! O utilizador não tem permissão para executar esta operação!"
+  }
+   ```
+
+   **Status:** `500 INTERNAL SERVER ERROR` <br />
+   ```json
+  {
+     "message": "Oh! SQLITE_ERROR: no such table: Deliveries"
+  }
+   ```
+<br />
+
+
+
 
 ### / deliveries / accept <br /><br />
 
@@ -1282,11 +1805,9 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Deliveries"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
 <br />
+
+
 
 
 ### / deliveries / complete <br /><br />
@@ -1340,8 +1861,3 @@ _____________________________________________
      "message": "Oh! SQLITE_ERROR: no such table: Products"
   }
    ```
-
-* **Chamada simples:**
-```js
-```
-<br />
