@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
    <!-- metadados -->
-   <title>Motorista - Vendas</title>
+   <title>Condutor - Encomendas</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -43,7 +43,7 @@
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/restaurant-withdrawals.js"></script>
+   <script type="text/javascript" defer src="js/condutor-orders.js"></script>
 </head>
 
 <body>
@@ -65,10 +65,8 @@
                      <div class="main-nav">
                         <nav id="site-navigation" class="main-navigation">
                            <ul>
-                              <li><a href="restaurants.html">Restaurantes</a></li>
+                              <li><a href="Restaurantes.html">Restaurantes</a></li>
                               <li>
-                              <li><a href="contact-us.html">Contactos</a></li>
-                              </li>
                            </ul>
                         </nav>
                      </div>
@@ -109,7 +107,21 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div id="title-info" class="company-info"></div>
+                        <div class="company-info">
+                           <div class="img-holder">
+                              <figure>
+                                 <img src="assets/extra-images/listing-logo18.png" alt="">
+                              </figure>
+                           </div>
+
+                           <div class="text-holder">
+                              <span class="restaurant-title">Restaurante Demo</span>
+                              <div class="text">
+                                 <i class="icon-local_pizza"></i>
+                                 <p>Pizzaria</p>
+                              </div>
+                           </div>
+                        </div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -125,14 +137,11 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Meu Restaurante</a>
-                              </li>
-                              <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>
-                              <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
-                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
-                                       class="icon-add_shopping_cart"></i>Encomendas</a></li>
                               <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a>
                               </li>
+                              <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Entregas</a></li>
+                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
+                                       class="icon-add_shopping_cart"></i>Encomendas</a></li>
                               <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
                                     Perfil</a></li>
                               <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>
@@ -143,58 +152,19 @@
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                      <div class="user-dashboard loader-holder">
                         <div class="user-holder">
-                           <div class="publisher-withdrawal-form">
-                              <div class="element-title has-border right-filters-row">
-                                 <h5>Entregas</h5>
-                                 <div class="right-filters row pull-right">
-                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                       <div class="input-field">
-                                          <i class="icon-angle-down"></i>
-                                          <input type="text" data-id="daterange223" id="daterange" value=""
-                                             placeholder="Select Date Range">
-                                          <script>
-                                             $(function () {
-                                                $('input[data-id="daterange223"]').daterangepicker({
-                                                   opens: 'left'
-                                                }, function (start, end, label) {
-                                                   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                                                });
-                                             });
-                                          </script>
-                                       </div>
-                                    </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="row">
+                                 <div class="element-title has-border right-filters-row">
+                                    <h5>Encomendas</h5>
                                  </div>
                               </div>
                            </div>
-                           <div class="responsive-table">
-                              <ul class="table-generic">
-                                 <li class="order-heading-titles">
-                                    <div>Id da Entrega</div>
-                                    <div>Id da Encomenda</div>
-                                    <div>Produto</div>
-                                    <div>Produto</div>
-                                    <div>Valor</div>
-                                    <div>Estado</div>
-                                 </li>
-                                 <li class="order-heading-titles">
-                                    <div>Venda-22623</div>
-                                    <div>9 abril 2020</div>
-                                    <div>10.00€</div>
-                                    <div>Pendente</div>
-                                 </li>
-                                 <li class="order-heading-titles">
-                                    <div>Venda-22622</div>
-                                    <div>9 abril 2020</div>
-                                    <div>10.00€</div>
-                                    <div>Aprovado</div>
-                                 </li>
-                                 <li class="order-heading-titles">
-                                    <div>Venda-22621</div>
-                                    <div>9 abril 2020</div>
-                                    <div>20.00€</div>
-                                    <div>Aprovado</div>
-                                 </li>
-                              </ul>
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                 <div class="user-orders-list">
+                                    <div id="get-user-orders" class="row"></div>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      </div>
@@ -254,10 +224,10 @@
                            <h5>Cidades Populares</h5>
                         </div>
                         <ul>
-                           <li><a href="restaurants.html">Famalicão</a></li>
-                           <li><a href="restaurants.html">Braga</a></li>
-                           <li><a href="restaurants.html">Barcelos</a></li>
-                           <li><a href="restaurants.html">Guimarães</a></li>
+                           <li><a href="Restaurantes.html">Famalicão</a></li>
+                           <li><a href="Restaurantes.html">Braga</a></li>
+                           <li><a href="Restaurantes.html">Barcelos</a></li>
+                           <li><a href="Restaurantes.html">Guimarães</a></li>
                         </ul>
                      </div>
                   </div>
@@ -307,7 +277,7 @@
 
    <!-- Modal Popup Start -->
    <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
+      <div class="modal-dialog" role="document">
          <div class="modal-content">
             <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -324,7 +294,7 @@
                      </li>
                      <li>
                         <strong>Booking Date :</strong>
-                        <span> Apr 9,2020 6:40 AM </span>
+                        <span>Apr 9,2020 6:40 AM </span>
                      </li>
                   </ul>
                   <h3>Customer Deatil</h3>
@@ -352,14 +322,9 @@
                         <span>I need to book a special table for my friends. Make it some special.!</span>
                      </li>
                   </ul>
-                  <h3>Booking Status </h3>
                   <div class="booking-status-holder">
-                     <div class="input-field">
-                        <select class="chosen-select-no-single">
-                           <option value="Processing">Processing</option>
-                           <option value="Cancelled">Cancelled</option>
-                           <option selected="selected" value="Completed">Completed</option>
-                        </select>
+                     <div class="booking-status-process booking-status">
+                        <p style="background:#1e73be;">Your booking is Processing.</p>
                      </div>
                   </div>
                </div>
@@ -367,17 +332,6 @@
          </div>
       </div>
    </div>
-   <script>
-      (function ($) {
-         $(document).ready(function () {
-            $(".menu-order-info .modal-dialog .modal-content").mCustomScrollbar({
-               setHeight: 467,
-               theme: "minimal-dark",
-               mouseWheelPixels: 100
-            });
-         });
-      })(jQuery);
-   </script>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>

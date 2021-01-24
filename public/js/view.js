@@ -57,8 +57,8 @@ function getHtmlUserInfoOnHeader() {
 
 function getHtmlClientHeaderItems() {
    return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
@@ -77,9 +77,9 @@ function getHtmlMerchantHeaderItems() {
 
 function getHtmlDriverHeaderItems() {
    return $('\
-      <li><a href="motorista-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a href="motorista-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
-      <li><a href="motorista-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
+      <li><a href="condutor-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a href="condutor-withdrawals.html"><i class="icon-bill"></i>Entregas</a></li>\
+      <li><a href="condutor-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
@@ -87,9 +87,9 @@ function getHtmlDriverHeaderItems() {
 
 function getHtmlAdminHeaderItems() {
    return $('\
+      <li><a href="admin-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
       <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-users"></i>Todos utilizadores</a></li>\
       <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-open_in_browser"></i>Aceitar utilizadores</a></li>\
-      <li><a href="admin-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
       <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
