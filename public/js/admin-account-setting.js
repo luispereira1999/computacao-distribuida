@@ -1,6 +1,6 @@
 $(window).ready(() => {
    var userLogged = checkUserLogged();
-   if (userLogged || getCookie("type") == 4) {
+   if (userLogged && getCookie("type") == 4) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
