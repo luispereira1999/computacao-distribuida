@@ -18,7 +18,7 @@ $(window).ready(() => {
    $("#img-photo").append(html);
    getDriverData();
 
-   $("#form-edit-user-photo input[name='file']").change(() => {
+   $("#file-photo").change(() => {
       $("#form-edit-user-photo").trigger("submit");
       editUserPhoto();
    });

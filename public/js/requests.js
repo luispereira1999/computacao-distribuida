@@ -310,7 +310,7 @@ function editUserData() {
       cache: false,
       data: formData,
       headers: { Authorization: "Bearer " + token },
-      type: "patch",
+      type: "put",
       url: urlApi + "users/edit-data/",
 
       success: res => {
@@ -344,7 +344,7 @@ function editDrivingLicense() {
       data: formData,
       processData: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "users/edit-driving-license/",
 
       success: res => {
@@ -372,7 +372,7 @@ function editPassword() {
       cache: false,
       data: formData,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "users/edit-password/",
 
       success: res => {
@@ -408,7 +408,7 @@ function editUserPhoto() {
       data: formData,
       processData: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "users/edit-photo/",
 
       success: res => {

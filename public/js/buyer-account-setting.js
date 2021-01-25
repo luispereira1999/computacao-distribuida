@@ -18,13 +18,12 @@ $(window).ready(() => {
    $("#img-photo").append(html);
    getClientData();
 
-   $("#form-edit-user-photo input[name='file']").change(() => {
+   $("#file-photo").change(() => {
       $("#form-edit-user-photo").trigger("submit");
       editUserPhoto();
    });
 
    $("#id_truebtn").click(() => {
-      alert("d")
       deleteUser();
    });
 
@@ -40,5 +39,11 @@ $(window).ready(() => {
    $("#form-edit-password").submit(e => {
       e.preventDefault();
       editPassword();
+   });
+
+   $("#form-edit-user-photo").submit(e => {
+      e.preventDefault();
+      alert("ddttss")
+      editUserPhoto();
    });
 });
