@@ -387,6 +387,56 @@ function getUsersAccepted() {
 }
 
 
+function getUsersNotAccepted() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/not-accepted",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlAllUsersNotAccepted(res.data[i]);
+            $("#table-users").append(html);
+         }
+
+         $(".type-user:contains('1')").text("Cliente");
+         $(".type-user:contains('2')").text("Restaurante");
+         $(".type-user:contains('3')").text("Condutor");
+         $(".type-user:contains('4')").text("Admin");
+
+         $("span[data-type~='1']").css("background-color", "#047a06");
+         $("span[data-type~='1']").text("Aceitar");
+         $("span[data-type~='1']").addClass("accept");
+         $("span[data-type~='2']").css("background-color", "#047a06");
+         $("span[data-type~='2']").text("Aceitar");
+         $("span[data-type~='2']").addClass("accept");
+         $("span[data-type~='3']").css("background-color", "#047a06");
+         $("span[data-type~='3']").text("Aceitar");
+         $("span[data-type~='3']").addClass("accept");
+         $("span[data-type~='4']").css("background-color", "#c33332");
+         $("span[data-type~='4']").text("Recusar");
+         $("span[data-type~='4']").addClass("decline");
+
+         $("span[data-type]").css("cursor", "pointer");
+
+         $(".user-id:contains('" + getCookie("id") + "')").parent().hide();
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
 
 function editUserData() {
    var form = $("#form-edit-user-data");
@@ -533,57 +583,6 @@ function deleteUser() {
 
       success: (res) => {
          logout(res.message);
-      },
-      error: err => {
-         var status = getStatus(err);
-
-         if (status >= 400 && status <= 599 != 404)
-            showErrorAlert(err.responseJSON.message);
-         else if (status == 0 || status == 404) {
-            var url = "./404.html";
-            redirectPage(url);
-         }
-      }
-   });
-}
-
-
-function getUsersNotAccepted() {
-   var thead = $("#table-users-not-accepted thead");
-   var tbody = $("#table-users-not-accepted tbody");
-
-   var htmlExists = checkHtmlExists(tbody.html());
-   if (htmlExists) {
-      destroyElement(thead.find("tr"));
-      destroyElement(tbody.find("tr"));
-   }
-
-   var token = getCookie("token");
-
-   $.ajax({
-      cache: false,
-      headers: { Authorization: "Bearer " + token },
-      type: "get",
-      url: urlApi + "users/not-accepted/",
-
-      success: res => {
-         var table = $("#table-users-not-accepted");
-         createTableWithData(res.data, table);
-
-         var elements = [{
-            "selector": ".td-accept",
-            "table": table,
-            "th": $("<th>Aceitar</th>"),
-            "td": $("<td class='td-accept'></td>"),
-            "button": $("<button class='button-accept-user'>Aceitar</button>"),
-         }, {
-            "selector": ".td-decline",
-            "table": table,
-            "th": $("<th>Recusar</th>"),
-            "td": $("<td class='td-decline'></td>"),
-            "button": $("<button class='button-decline-user'>Recusar</button>"),
-         }];
-         addButtonColumnToTable(elements);
       },
       error: err => {
          var status = getStatus(err);

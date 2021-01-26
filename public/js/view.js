@@ -881,3 +881,20 @@ function getHtmlAllUsers(data) {
       </li>\
    ');
 }
+
+
+function getHtmlAllUsersNotAccepted(data) {
+   return $('\
+      <li>\
+         <div class="user-id">'+ data.id + '</div>\
+         <div>'+ data.username + '</div>\
+         <div>'+ data.name + '</div>\
+         <div>'+ data.email + '</div>\
+         <div>'+ data.address + ", " + data.zip_code + '</div>\
+         <div class="type-user">'+ data.type + '</div>\
+         <div>\
+            <span data-type="'+ data.type + '" class="order-status"></span>\
+         </div>\
+      </li>\
+   ');
+}
