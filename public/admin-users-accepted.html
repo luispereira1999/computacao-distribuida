@@ -3,7 +3,7 @@
 
 <head>
    <!-- metadados -->
-   <title>Restaurante - Vendas</title>
+   <title>Admin - Utilizadores Aceites</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -43,7 +43,7 @@
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/restaurant-withdrawals.js"></script>
+   <script type="text/javascript" defer src="js/admin-users-accepted.js"></script>
 </head>
 
 <body>
@@ -126,11 +126,11 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="restaurant-account-setting.html"><i
-                                       class="icon-building"></i>Configurações</a>
-                              <li><a href="restaurant-menu.html"><i class="icon-menu5"></i>Menu</a></li>
-                              <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
-                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
+                              <li><a href="admin-account-setting.html"><i class="icon-build"></i>Configurações</a></li>
+                              <li><a href="admin-users-accepted.html"><i class="icon-users"></i>Utilizadores Aceites</a></li>
+                              <li><a href="admin-accept-users.html"><i class="icon-open_in_browser"></i>Aceitar
+                                    Utilizadores</a></li>
+                              <li><a href="admin-orders.html" class="btn-edit-profile"><i
                                        class="icon-add_shopping_cart"></i>Encomendas</a></li>
                               <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
                                     Perfil</a></li>
@@ -144,19 +144,17 @@
                         <div class="user-holder">
                            <div class="publisher-withdrawal-form">
                               <div class="element-title has-border right-filters-row">
-                                 <h5>Vendas</h5>
+                                 <h5>UTILIZADORES ACEITES</h5>
                               </div>
                            </div>
                            <div class="responsive-table">
-                              <ul class="table-generic" id="table-orders">
+                              <ul class="table-generic" id="table-users">
                                  <li class="order-heading-titles">
                                     <div>Id</div>
-                                    <div>Produto</div>
-                                    <div>Data</div>
-                                    <div>Preço Total</div>
-                                    <div>Utilizador</div>
+                                    <div>Nome de Utilizador</div>
+                                    <div>Email</div>
+                                    <div>Tipo</div>
                                     <div>Status</div>
-                                    <div>Detalhes</div>
                                  </li>
                                  <li class="order-heading-titles"></li>
                               </ul>
@@ -271,7 +269,6 @@
 
 
    <!-- Modal Popup Start -->
-   <div id="modals-merchant-orders"></div>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>

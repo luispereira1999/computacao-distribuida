@@ -30,6 +30,7 @@ function registerClient() {
    });
 }
 
+
 function registerMerchant() {
    var form = $("#form-register-merchant")[0];
    var formData = new FormData(form);
@@ -59,6 +60,7 @@ function registerMerchant() {
    });
 }
 
+
 function registerDriver() {
    var form = $("#form-register-driver")[0];
    var formData = new FormData(form);
@@ -87,6 +89,7 @@ function registerDriver() {
       }
    });
 }
+
 
 function registerAdmin() {
    var form = $("#form-register-admin");
@@ -181,6 +184,7 @@ function getClientData() {
    });
 }
 
+
 function getMerchantData() {
    var token = getCookie("token");
 
@@ -211,6 +215,7 @@ function getMerchantData() {
       }
    });
 }
+
 
 function getDriverData() {
    var token = getCookie("token");
@@ -245,6 +250,7 @@ function getDriverData() {
    });
 }
 
+
 function getAdminData() {
    var token = getCookie("token");
 
@@ -276,6 +282,7 @@ function getAdminData() {
    });
 }
 
+
 function getMerchantsToIndex() {
    $.ajax({
       cache: false,
@@ -300,6 +307,86 @@ function getMerchantsToIndex() {
       }
    });
 }
+
+
+function getMerchantsInMerchants() {
+   $.ajax({
+      cache: false,
+      type: "get",
+      url: urlApi + "users/get-merchants/50",
+
+      success: res => {
+         console.log(res.data)
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlMerchantsInMerchants(res.data[i]);
+            $("#ul-merchants").append(html);
+         }
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function getUsersAccepted() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/accepted",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlAllUsers(res.data[i]);
+            $("#table-users").append(html);
+         }
+
+         $(".type-user:contains('1')").text("Cliente");
+         $(".type-user:contains('2')").text("Restaurante");
+         $(".type-user:contains('3')").text("Condutor");
+         $(".type-user:contains('4')").text("Admin");
+
+         $("span[data-type~='1']").css("background-color", "#047a06");
+         $("span[data-type~='1']").text("Definir Admin");
+         $("span[data-type~='1']").addClass("set-admin");
+         $("span[data-type~='2']").css("background-color", "#047a06");
+         $("span[data-type~='2']").text("Definir Admin");
+         $("span[data-type~='2']").addClass("set-admin");
+         $("span[data-type~='3']").css("background-color", "#047a06");
+         $("span[data-type~='3']").text("Definir Admin");
+         $("span[data-type~='3']").addClass("set-admin");
+         $("span[data-type~='4']").css("background-color", "#c33332");
+         $("span[data-type~='4']").text("Remover Admin");
+         $("span[data-type~='4']").addClass("remove-admin");
+
+         $("span[data-type]").css("cursor", "pointer");
+
+         $(".user-id:contains('" + getCookie("id") + "')").parent().hide();
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 
 function editUserData() {
    var form = $("#form-edit-user-data");
@@ -333,6 +420,7 @@ function editUserData() {
    });
 }
 
+
 function editDrivingLicense() {
    var form = $("#form-edit-driving-license")[0];
    var formData = new FormData(form);
@@ -362,6 +450,7 @@ function editDrivingLicense() {
       }
    });
 }
+
 
 function editPassword() {
    var form = $("#form-edit-password");
@@ -394,6 +483,7 @@ function editPassword() {
       }
    });
 }
+
 
 function editUserPhoto() {
    var form = $("#form-edit-user-photo")[0];
@@ -431,6 +521,7 @@ function editUserPhoto() {
    });
 }
 
+
 function deleteUser() {
    var token = getCookie("token");
 
@@ -455,6 +546,7 @@ function deleteUser() {
       }
    });
 }
+
 
 function getUsersNotAccepted() {
    var thead = $("#table-users-not-accepted thead");
@@ -506,28 +598,70 @@ function getUsersNotAccepted() {
    });
 }
 
-function acceptUser(currentButtonClicked) {
+
+function setAdmin(id) {
    var token = getCookie("token");
-   var userId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
-      url: urlApi + "users/accept/" + userId,
+      type: "patch",
+      url: urlApi + "users/set-admin/" + id,
 
       success: res => {
-         openModal(res.message);
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
 
-         var rowCount = $("tbody tr").length;
-         if (rowCount > 1) {
-            var currentRow = $("tbody tr .td-id:contains('" + userId + "')").parent();
-            destroyElement(currentRow);
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
          }
-         else {
-            destroyElement($("thead").find("tr"));
-            destroyElement($("tbody").find("tr"));
+      }
+   });
+}
+
+
+function removeAdmin(id) {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "patch",
+      url: urlApi + "users/remove-admin/" + id,
+
+      success: res => {
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
          }
+      }
+   });
+}
+
+
+function acceptUser(id) {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "patch",
+      url: urlApi + "users/accept/" + id,
+
+      success: res => {
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -572,6 +706,7 @@ function getProductsInAccount() {
    });
 }
 
+
 function getProductsToIndex() {
    var token = getCookie("token");
 
@@ -603,6 +738,7 @@ function getProductsToIndex() {
    });
 }
 
+
 function getProductById(currentButtonClicked) {
    var productId = currentButtonClicked.parent().parent().children(".td-id").text();
 
@@ -626,6 +762,7 @@ function getProductById(currentButtonClicked) {
       }
    });
 }
+
 
 function createProduct() {
    var form = $("#form-create-product")[0];
@@ -659,6 +796,7 @@ function createProduct() {
    });
 }
 
+
 function editProductData() {
    var form = $("#form-edit-product-data");
    var formData = getFormData(form);
@@ -688,6 +826,7 @@ function editProductData() {
       }
    });
 }
+
 
 function editProductPhoto() {
    var form = $("#form-edit-product-photo")[0];
@@ -720,6 +859,7 @@ function editProductPhoto() {
       }
    });
 }
+
 
 function deleteProduct(productId) {
    var token = getCookie("token");
@@ -787,6 +927,7 @@ function getUserOrders() {
    });
 }
 
+
 function getMerchantOrders() {
    var token = getCookie("token");
 
@@ -825,6 +966,7 @@ function getMerchantOrders() {
    });
 }
 
+
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
    var token = getCookie("token");
@@ -852,6 +994,7 @@ function createOrder(currentButtonClicked) {
       }
    });
 }
+
 
 function cancelOrder(currentButtonClicked) {
    var token = getCookie("token");

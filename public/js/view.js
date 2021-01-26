@@ -45,6 +45,36 @@ function getHtmlProductsInIndex(data) {
 }
 
 
+function getHtmlMerchantsInMerchants(data) {
+   return $('\
+      <li>\
+         <div class="img-holder">\
+            <figure>\
+               <a href="#"><img src="assets/extra-images/listing-logo18.png" class="img-list wp-post-image" alt=""></a>\
+            </figure>\
+         </div>\
+         <div class="text-holder">\
+            <div class="post-title">\
+               <h5>\
+                  <a href="listing-detail.html">'+ data.name + '</a>\
+               </h5>\
+            </div>\
+            <span class="post-categories">'+ data.description + '</span>\
+            <div class="delivery-potions">\
+               <div class="post-time">\
+                  <i class="icon-motorcycle"></i>\
+               </div>\
+               <span>'+ data.address + ", " + data.zip_code + '</span>\
+            </div>\
+         </div>\
+         <div class="list-option">\
+            <a href="#" class="viewmenu-btn text-color">Ver Menu</a>\
+         </div>\
+      </li>\
+   ');
+}
+
+
 function getHtmlUserInfoOnHeader() {
    return $('\
       <figure class="profile-image">\
@@ -88,42 +118,9 @@ function getHtmlDriverHeaderItems() {
 function getHtmlAdminHeaderItems() {
    return $('\
       <li><a href="admin-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-users"></i>Todos utilizadores</a></li>\
+      <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-users"></i>Utilizadores Aceites</a></li>\
       <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-open_in_browser"></i>Aceitar utilizadores</a></li>\
       <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
-   ');
-}
-
-
-function getHtmlMerchantSidebarItems() {
-   return $('\
-      <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Configurações</a></li>\
-      <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>\
-      <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
-      <li><a href="restaurant-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar Perfil</a></li>\
-      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
-   ');
-}
-
-
-function getHtmlDriverSidebarItems() {
-   return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar Perfil</a></li>\
-      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
-   ');
-}
-
-
-function getHtmlAdminSidebarItems() {
-   return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar Perfil</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
@@ -867,5 +864,20 @@ function getHtmlProductsInAccount(data) {
             </script>\
          </div>\
       </div>\
+   ');
+}
+
+
+function getHtmlAllUsers(data) {
+   return $('\
+      <li>\
+         <div class="user-id">'+ data.id + '</div>\
+         <div>'+ data.username + '</div>\
+         <div>'+ data.email + '</div>\
+         <div class="type-user">'+ data.type + '</div>\
+         <div>\
+            <span data-type="'+ data.type + '" class="order-status"></span>\
+         </div>\
+      </li>\
    ');
 }
