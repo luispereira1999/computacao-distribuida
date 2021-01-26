@@ -572,7 +572,6 @@ function getProductsInAccount() {
    });
 }
 
-
 function getProductsToIndex() {
    var token = getCookie("token");
 
@@ -604,7 +603,6 @@ function getProductsToIndex() {
    });
 }
 
-
 function getProductById(currentButtonClicked) {
    var productId = currentButtonClicked.parent().parent().children(".td-id").text();
 
@@ -628,7 +626,6 @@ function getProductById(currentButtonClicked) {
       }
    });
 }
-
 
 function createProduct() {
    var form = $("#form-create-product")[0];
@@ -662,7 +659,6 @@ function createProduct() {
    });
 }
 
-
 function editProductData() {
    var form = $("#form-edit-product-data");
    var formData = getFormData(form);
@@ -672,7 +668,7 @@ function editProductData() {
       cache: false,
       data: formData,
       headers: { Authorization: "Bearer " + token },
-      type: "patch",
+      type: "put",
       url: urlApi + "products/edit-data/" + formData.id,
 
       success: res => {
@@ -693,7 +689,6 @@ function editProductData() {
    });
 }
 
-
 function editProductPhoto() {
    var form = $("#form-edit-product-photo")[0];
    var formData = new FormData(form);
@@ -705,7 +700,7 @@ function editProductPhoto() {
       data: formData,
       processData: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "products/edit-photo/" + formData.get("id"),
 
       success: res => {
@@ -725,7 +720,6 @@ function editProductPhoto() {
       }
    });
 }
-
 
 function deleteProduct(productId) {
    var token = getCookie("token");
@@ -769,6 +763,9 @@ function getUserOrders() {
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlUserOrders(res.data[i]);
             $("#get-user-orders").append(html);
+
+            var html = getHtmlModalOrders(res.data[i]);
+            $("#modals-orders").append(html);
          }
 
          $("span[data-accepted~='0']").css("background-color", "#1e73be");
@@ -790,7 +787,6 @@ function getUserOrders() {
       }
    });
 }
-
 
 function getMerchantOrders() {
    var token = getCookie("token");
@@ -829,7 +825,6 @@ function getMerchantOrders() {
    });
 }
 
-
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
    var token = getCookie("token");
@@ -857,7 +852,6 @@ function createOrder(currentButtonClicked) {
       }
    });
 }
-
 
 function cancelOrder(currentButtonClicked) {
    var token = getCookie("token");
