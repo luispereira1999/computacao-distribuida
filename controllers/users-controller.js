@@ -26,26 +26,6 @@ module.exports = {
    },
 
 
-   getByAccepted: async (req, res, next) => {
-      const db = database.connect();
-
-      // selecionar utilizador na base de dados
-      var sql = "SELECT id, username, email, type FROM Users WHERE accepted = 1 AND deleted = 0";
-      var params = [];
-      db.all(sql, params, function (err, rows) {
-         if (err)
-            return res.status(500).json({ "message": "Oh! " + err.message });
-
-         if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem utilizadores." });
-         else
-            res.status(200).json({ "message": "Utilizadores obtidas com sucesso!", "data": rows });
-      });
-
-      db.close();
-   },
-
-
    getMerchants: async (req, res, next) => {
       const db = database.connect();
 
@@ -66,11 +46,31 @@ module.exports = {
    },
 
 
+   getByAccepted: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT id, username, email, type FROM Users WHERE accepted = 1 AND deleted = 0";
+      var params = [];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem utilizadores." });
+         else
+            res.status(200).json({ "message": "Utilizadores obtidas com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
    getByNotAccepted: async (req, res, next) => {
       const db = database.connect();
 
       // selecionar utilizador na base de dados
-      var sql = "SELECT id, username, name, email, type FROM Users WHERE accepted = 0";
+      var sql = "SELECT id, username, name, email, description, phone_number, address, zip_code, driving_license, url_photo, url_driving_license, type FROM Users WHERE accepted = 0";
       var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)

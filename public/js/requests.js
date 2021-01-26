@@ -400,6 +400,8 @@ function getUsersNotAccepted() {
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlAllUsersNotAccepted(res.data[i]);
             $("#table-users").append(html);
+            var html = getHtmlModalUserDetail(res.data[i]);
+            $("#modals-user-detail").append(html);
          }
 
          $(".type-user:contains('1')").text("Cliente");
@@ -407,22 +409,17 @@ function getUsersNotAccepted() {
          $(".type-user:contains('3')").text("Condutor");
          $(".type-user:contains('4')").text("Admin");
 
-         $("span[data-type~='1']").css("background-color", "#047a06");
-         $("span[data-type~='1']").text("Aceitar");
-         $("span[data-type~='1']").addClass("accept");
-         $("span[data-type~='2']").css("background-color", "#047a06");
-         $("span[data-type~='2']").text("Aceitar");
-         $("span[data-type~='2']").addClass("accept");
-         $("span[data-type~='3']").css("background-color", "#047a06");
-         $("span[data-type~='3']").text("Aceitar");
-         $("span[data-type~='3']").addClass("accept");
-         $("span[data-type~='4']").css("background-color", "#c33332");
-         $("span[data-type~='4']").text("Recusar");
-         $("span[data-type~='4']").addClass("decline");
+         $("span[data-type]").css("background-color", "#047a06");
+         $("span[data-type]").text("Aceitar");
+         $("span[data-type]").addClass("accept");
 
          $("span[data-type]").css("cursor", "pointer");
 
          $(".user-id:contains('" + getCookie("id") + "')").parent().hide();
+
+         $("div[data-driving-license~='1']").hide();
+         $("div[data-driving-license~='2']").hide();
+         $("div[data-driving-license~='4']").hide();
       },
       error: err => {
          var status = getStatus(err);
@@ -937,7 +934,6 @@ function getMerchantOrders() {
       url: urlApi + "orders/merchant",
 
       success: res => {
-         console.log(res.data)
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlMerchantOrders(res.data[i]);
             $("#table-orders").append(html);

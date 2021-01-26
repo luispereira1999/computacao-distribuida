@@ -890,11 +890,103 @@ function getHtmlAllUsersNotAccepted(data) {
          <div>'+ data.username + '</div>\
          <div>'+ data.name + '</div>\
          <div>'+ data.email + '</div>\
-         <div>'+ data.address + ", " + data.zip_code + '</div>\
          <div class="type-user">'+ data.type + '</div>\
          <div>\
             <span data-type="'+ data.type + '" class="order-status"></span>\
          </div>\
+         <div>\
+            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '"><i class="icon-plus2 text-color"></i></a>\
+         </div>\
       </li>\
+   ');
+}
+
+
+function getHtmlModalUserDetail(data) {
+   return $('\
+      <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
+         <div class="modal-dialog" style="width: 35%;">\
+            <div class="modal-content">\
+               <div class="modal-header">\
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
+                  <h2>Detalhes de Utilizador</h2>\
+               </div>\
+               <div class="modal-body">\
+                  <div class="order-detail-inner">\
+                     <div class="description-holder">\
+                        <div class="row">\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="list-detail-options has-checkbox">\
+                                 <h3>Utilizador</h3>\
+                                 <ul class="order-detail-options">\
+                                    <li>\
+                                       <strong>Nome do Utilizador:</strong>\
+                                       <span>'+ data.name + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Nº Telemóvel do Cliente:</strong>\
+                                       <span>'+ data.phone_number + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Email do Utilizador:</strong>\
+                                       <span>'+ data.email + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Morada do Utilizador:</strong>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div><br><br>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="row">\
+                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
+                                    <h3>Foto</h3>\
+                                 </div>\
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
+                                    <ul class="order-detail-options order-total">\
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                                          <figure>\
+                                             <a><img src="./uploads/photos/'+ data.url_photo + '" class="attachment-full size-full wp-post-image" alt=""></a>\
+                                          </figure>\
+                                       </div>\
+                                    </ul>\
+                                 </div>\
+                              </div>\
+                           </div><br><br>\
+                           <div data-driving-license="'+ data.type + '" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="row">\
+                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
+                                    <h3>Carta de Condução</h3>\
+                                 </div>\
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
+                                    <ul class="order-detail-options order-total">\
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                                          <figure>\
+                                             <a><img src="./images/pdf.png" class="attachment-full size-full wp-post-image" alt=""></a>\
+                                          </figure>\
+                                       </div>\
+                                    </ul>\
+                                 </div>\
+                              </div>\
+                           </div>\
+                        </div>\
+                     </div>\
+                  </div>\
+               </div>\
+            </div>\
+         </div>\
+      </div>\
+      <script>\
+         (function ($) {\
+            $(document).ready(function () {\
+               $(".order-detail .modal-dialog .modal-content").mCustomScrollbar({\
+                  setHeight: 450,\
+                  theme: "minimal-dark",\
+                  mouseWheelPixels: 100\
+               });\
+            });\
+         })(jQuery);\
+      </script>\
    ');
 }
