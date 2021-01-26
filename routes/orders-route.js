@@ -7,6 +7,7 @@ const validateType = require("../middlewares/type");
 
 router.get("/", [validateLogin, validateUser], ordersController.getFromUser);
 router.get("/merchant", [validateLogin, validateUser, validateType.checkMerchant], ordersController.getFromMerchant);
+router.get("/driver", [validateLogin, validateUser, validateType.checkDriver], ordersController.getFromDriver);
 router.post("/create", [validateLogin, validateUser], ordersController.create);
 router.delete("/cancel", [validateLogin, validateUser], ordersController.cancel);
 

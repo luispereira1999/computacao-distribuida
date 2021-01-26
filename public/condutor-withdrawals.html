@@ -65,8 +65,10 @@
                      <div class="main-nav">
                         <nav id="site-navigation" class="main-navigation">
                            <ul>
-                              <li><a href="Restaurantes.html">Restaurantes</a></li>
+                              <li><a href="listings.html">Restaurantes</a></li>
                               <li>
+                              <li><a href="contact-us.html">Contactos</a></li>
+                              </li>
                            </ul>
                         </nav>
                      </div>
@@ -92,6 +94,7 @@
                </div>
             </div>
          </div>
+
       </header>
       <!-- Header End -->
 
@@ -125,6 +128,7 @@
                            <ul>
                               <li><a href="condutor-account-setting.html"><i class="icon-build"></i>Configurações</a>
                               </li>
+                              <li><a href="condutor-accept-orders.html"><i class="icon-open_in_browser"></i>Aceitar Encomendas</a></li>
                               <li><a href="condutor-withdrawals.html"><i class="icon-bill"></i>Entregas</a></li>
                               <li><a href="condutor-orders.html" class="btn-edit-profile"><i
                                        class="icon-add_shopping_cart"></i>Encomendas</a></li>
@@ -140,55 +144,20 @@
                         <div class="user-holder">
                            <div class="publisher-withdrawal-form">
                               <div class="element-title has-border right-filters-row">
-                                 <h5>Entregas</h5>
-                                 <div class="right-filters row pull-right">
-                                    <div class="col-lg-6 col-md-6 col-xs-6">
-                                       <div class="input-field">
-                                          <i class="icon-angle-down"></i>
-                                          <input type="text" data-id="daterange223" id="daterange" value=""
-                                             placeholder="Select Date Range">
-                                          <script>
-                                             $(function () {
-                                                $('input[data-id="daterange223"]').daterangepicker({
-                                                   opens: 'left'
-                                                }, function (start, end, label) {
-                                                   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                                                });
-                                             });
-                                          </script>
-                                       </div>
-                                    </div>
-                                 </div>
+                                 <h5>ENTREGAS</h5>
                               </div>
                            </div>
                            <div class="responsive-table">
-                              <ul class="table-generic">
+                              <ul class="table-generic" id="table-orders">
                                  <li class="order-heading-titles">
-                                    <div>Id da Entrega</div>
-                                    <div>Id da Encomenda</div>
+                                    <div>Encomenda</div>
+                                    <div>Cliente</div>
                                     <div>Produto</div>
-                                    <div>Produto</div>
-                                    <div>Valor</div>
-                                    <div>Estado</div>
+                                    <div>Data</div>
+                                    <div>Status</div>
+                                    <div>Detalhes</div>
                                  </li>
-                                 <li class="order-heading-titles">
-                                    <div>Venda-22623</div>
-                                    <div>9 abril 2020</div>
-                                    <div>10.00€</div>
-                                    <div>Pendente</div>
-                                 </li>
-                                 <li class="order-heading-titles">
-                                    <div>Venda-22622</div>
-                                    <div>9 abril 2020</div>
-                                    <div>10.00€</div>
-                                    <div>Aprovado</div>
-                                 </li>
-                                 <li class="order-heading-titles">
-                                    <div>Venda-22621</div>
-                                    <div>9 abril 2020</div>
-                                    <div>20.00€</div>
-                                    <div>Aprovado</div>
-                                 </li>
+                                 <li class="order-heading-titles"></li>
                               </ul>
                            </div>
                         </div>
@@ -281,78 +250,7 @@
 
 
    <!-- Modal Popup Start -->
-   <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                     aria-hidden="true">×</span></button>
-               <h2><a>Booking Detail</a></h2>
-            </div>
-            <div class="modal-body booking-modal-body">
-               <div class="order-detail-inner">
-                  <h3>Restaurant Demo </h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>Booking ID :</strong>
-                        <span>22603</span>
-                     </li>
-                     <li>
-                        <strong>Booking Date :</strong>
-                        <span> Apr 9,2020 6:40 AM </span>
-                     </li>
-                  </ul>
-                  <h3>Customer Deatil</h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>First Name:</strong>
-                        <span>Mark</span>
-                     </li>
-                     <li>
-                        <strong>Last Name:</strong>
-                        <span>Jose</span>
-                     </li>
-                     <li>
-                        <strong>Email:</strong>
-                        <span>markjose@gmail.com</span>
-                     </li>
-                     <li>
-                        <span>4-guest</span>
-                     </li>
-                     <li>
-                        <span>Apr 30,2020 11:00 AM</span>
-                     </li>
-                     <li class="order-detail-message">
-                        <strong>Instructions:</strong>
-                        <span>I need to book a special table for my friends. Make it some special.!</span>
-                     </li>
-                  </ul>
-                  <h3>Booking Status </h3>
-                  <div class="booking-status-holder">
-                     <div class="input-field">
-                        <select class="chosen-select-no-single">
-                           <option value="Processing">Processing</option>
-                           <option value="Cancelled">Cancelled</option>
-                           <option selected="selected" value="Completed">Completed</option>
-                        </select>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <script>
-      (function ($) {
-         $(document).ready(function () {
-            $(".menu-order-info .modal-dialog .modal-content").mCustomScrollbar({
-               setHeight: 467,
-               theme: "minimal-dark",
-               mouseWheelPixels: 100
-            });
-         });
-      })(jQuery);
-   </script>
+   <div id="modals-driver-orders"></div>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>
@@ -361,9 +259,9 @@
          <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
       </div>
    </div>
-
-
    <!-- Modal Popup End -->
+
+
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
    <script src="assets/js/bootstrap-datepicker.js"></script>

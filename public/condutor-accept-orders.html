@@ -3,7 +3,7 @@
 
 <head>
    <!-- metadados -->
-   <title>Condutor - Configurações</title>
+   <title>Condutor - Aceitar Encomendas</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -13,12 +13,6 @@
 
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
-
-   <!-- Alertify -->
-   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-
    <link href="assets/css/bootstrap.css" rel="stylesheet">
    <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
    <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -40,15 +34,20 @@
    <script src="assets/js/modernizr.js"></script>
    <script src="assets/js/bootstrap.js"></script>
 
+   <!-- Alertify -->
+   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
    <script type="text/javascript" defer src="js/environment.js"></script>
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/condutor-account-setting.js"></script>
+   <script type="text/javascript" defer src="js/condutor-accept-orders.js"></script>
 </head>
 
 <body>
-   <!-- Main Wrapper -->
+   <!--Main Wrapper-->
    <div class="wrapper">
       <!-- Header Start -->
       <header id="header">
@@ -66,8 +65,10 @@
                      <div class="main-nav">
                         <nav id="site-navigation" class="main-navigation">
                            <ul>
-                              <li><a href="Restaurantes.html">Restaurantes</a></li>
+                              <li><a href="listings.html">Restaurantes</a></li>
                               <li>
+                              <li><a href="contact-us.html">Contactos</a></li>
+                              </li>
                            </ul>
                         </nav>
                      </div>
@@ -93,6 +94,7 @@
                </div>
             </div>
          </div>
+
       </header>
       <!-- Header End -->
 
@@ -140,99 +142,24 @@
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                      <div class="user-dashboard loader-holder">
                         <div class="user-holder">
-                           <div class="user-profile">
-                              <div class="element-title has-border">
-                                 <h5>Configurações</h5>
+                           <div class="publisher-withdrawal-form">
+                              <div class="element-title has-border right-filters-row">
+                                 <h5>ACEITAR ENCOMENDAS</h5>
                               </div>
-                              <div class="row">
-                                 <form id="form-edit-user-data">
-                                    <div id="user-data-1" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                       <div class="user-profile-images">
-                                          <div class="current-img">
-                                             <div class="row mt">
-                                                <div id="cropContainerModal"
-                                                   data-def-img="assets/extra-images/team-medium-img1.jpg"
-                                                   data-img-type="default">
-                                                   <figure>
-                                                      <a id="img-photo"></a>
-                                                   </figure>
-                                                </div>
-                                             </div>
-                                             <span>Coloque uma foto nova</span>
-                                          </div>
-                                          <div class="upload-file">
-                                             <form id="form-edit-user-photo">
-                                                <input id="file-photo" type="file" name="file" class="hide">
-                                                <input type="submit" id="submit-edit-user-photo"
-                                                   form="form-edit-user-photo" class="hide">
-                                                <button id="button-edit-user-photo"
-                                                   onclick="document.getElementById('file-photo').click();"
-                                                   type="button"><span>Upload
-                                                      Foto</span></button>
-                                             </form>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div id="user-data-2" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-                                 </form><br><br>
-                                 <form id="form-edit-driving-license">
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                       <div class="element-title has-border" style="margin-bottom: 10px;">
-                                          <h5>Carta de condução</h5>
-                                       </div>
-                                    </div>
-                                    <div id="div-edit-driving-license" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                          <div class="field-holder">
-                                             <label>Tipo da Carta de Condução*</label>
-                                             <select name="driving_license">
-                                                <option value="1">A (moto)</option>
-                                                <option value="2">B (carro)</option>
-                                                <option value="3">A + B (ambos os veículos)</option>
-                                             </select>
-                                          </div>
-                                       </div>
-                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                          <div class="field-holder">
-                                             <label>Carta de Condução (PDF)*</label>
-                                             <input type="file" class="form-control gllpLongitude" name="file" value="">
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                       <div class="field-holder search-location-map input-button-loader">
-                                          <input type="submit" form="form-edit-driving-license"
-                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
-                                             value="Alterar carta de condução"
-                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
-                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
-                                       </div>
-                                    </div>
-                                 </form><br>
-                                 <form id="form-edit-password">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="element-title has-border" style="margin-bottom: 10px;">
-                                          <h5>Palavra-Passe</h5>
-                                       </div>
-                                    </div>
-                                    <div id="div-edit-password" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                       <div class="field-holder">
-                                          <label>Nova palavra-pasee*</label>
-                                          <input type="password" name="password">
-                                       </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                       <div class="field-holder search-location-map input-button-loader">
-                                          <input type="submit" form="form-edit-password"
-                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
-                                             value="Alterar palavra-passe"
-                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
-                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
-                                       </div>
-                                    </div>
-                                 </form>
-                              </div>
+                           </div>
+                           <div class="responsive-table">
+                              <ul class="table-generic" id="table-users">
+                                 <li class="order-heading-titles">
+                                    <div>Id</div>
+                                    <div>Utilizador</div>
+                                    <div>Nome</div>
+                                    <div>Email</div>
+                                    <div>Tipo</div>
+                                    <div>Status</div>
+                                    <div>Detalhes</div>
+                                 </li>
+                                 <li class="order-heading-titles"></li>
+                              </ul>
                            </div>
                         </div>
                      </div>
@@ -324,62 +251,7 @@
 
 
    <!-- Modal Popup Start -->
-   <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                     aria-hidden="true">×</span></button>
-               <h2><a>Booking Detail</a></h2>
-            </div>
-            <div class="modal-body booking-modal-body">
-               <div class="order-detail-inner">
-                  <h3>Restaurant Demo </h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>Booking ID :</strong>
-                        <span>22603</span>
-                     </li>
-                     <li>
-                        <strong>Booking Date :</strong>
-                        <span>Apr 9,2020 6:40 AM </span>
-                     </li>
-                  </ul>
-                  <h3>Customer Deatil</h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>First Name:</strong>
-                        <span>Mark</span>
-                     </li>
-                     <li>
-                        <strong>Last Name:</strong>
-                        <span>Jose</span>
-                     </li>
-                     <li>
-                        <strong>Email:</strong>
-                        <span>markjose@gmail.com</span>
-                     </li>
-                     <li>
-                        <span>4-guest</span>
-                     </li>
-                     <li>
-                        <span>Apr 30,2020 11:00 AM</span>
-                     </li>
-                     <li class="order-detail-message">
-                        <strong>Instructions:</strong>
-                        <span>I need to book a special table for my friends. Make it some special.!</span>
-                     </li>
-                  </ul>
-                  <div class="booking-status-holder">
-                     <div class="booking-status-process booking-status">
-                        <p style="background:#1e73be;">Your booking is Processing.</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+   <div id="modals-order-detail"></div>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>

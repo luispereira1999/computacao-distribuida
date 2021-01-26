@@ -962,6 +962,43 @@ function getMerchantOrders() {
 }
 
 
+function getDriverOrders() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "orders/driver",
+
+      success: res => {
+         console.log(res.data)
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlDriverOrders(res.data[i]);
+            $("#table-orders").append(html);
+            var html = getHtmlModalDriverOrders(res.data[i]);
+            $("#modals-driver-orders").append(html);
+         }
+
+         $("[data-pending~='1']").css("background-color", "#047a06");
+         $("[data-pending~='1']").text("Concluída");
+         $("[data-completed~='1']").css("background-color", "#c33332");
+         $("[data-completed~='1']").text("Por concluir");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
    var token = getCookie("token");

@@ -77,14 +77,18 @@ module.exports = {
 
       // selecionar encomendas do condutor entregues pelo condutor na base de dados
       var sql = "\
-         SELECT\
-            Orders.id as order_id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
-            Deliveries.user_id as delivery_id,\
-            Clients.name as client_name\
-         FROM Orders\
-         INNER JOIN Deliveries ON Deliveries.user_id = Orders.id\
+		   SELECT\
+			   Orders.id as order_id, Orders.address, Orders.date, Orders.total, Deliveries.pending, Deliveries.completed,\
+		      Deliveries.user_id as delivery_id,\
+            Clients.name as client_name,\
+            Products.name as product_name,\
+			   Merchants.name as merchant_name\
+		      FROM Deliveries\
+         INNER JOIN Orders ON Orders.id = Deliveries.order_id\
          INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
-         WHERE Deliveries.user_id = 3\
+		   INNER JOIN Products ON Products.id = Deliveries.order_id\
+		   INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
+		   WHERE Deliveries.user_id = ?\
       ";
 
       var params = user.id;
@@ -93,9 +97,9 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem encomendas." });
+            res.status(400).json({ "message": "Ups! Não existem encomendas entregues." });
          else
-            res.status(200).json({ "message": "Encomendas obtidas com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Encomendas entregues obtidas com sucesso!", "data": rows });
       });
 
       db.close();
