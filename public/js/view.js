@@ -485,15 +485,15 @@ function getHtmlMerchantOrders(data) {
 function getHtmlDriverOrders(data) {
    return $('\
       <li>\
-         <div>'+ data.order_id + '</div>\
+         <div class="order-id">'+ data.id + '</div>\
+         <div>'+ data.merchant_name + '</div>\
          <div>'+ data.client_name + '</div>\
-         <div>'+ data.product_name + '</div>\
          <div>'+ data.date + '</div>\
          <div class="order-btn">\
             <span data-pending="'+ data.pending + '" data-completed="' + data.completed + '" class="order-status"></span>\
          </div>\
          <div>\
-            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.order_id + '"><i class="icon-plus2 text-color"></i></a>\
+            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '"><i class="icon-plus2 text-color"></i></a>\
          </div>\
       </li>\
    ');
@@ -503,7 +503,7 @@ function getHtmlDriverOrders(data) {
 function getHtmlModalOrders(data) {
    return $('\
       <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
-         <div class="modal-dialog">\
+         <div class="modal-dialog" style="width: 60%;">\
             <div class="modal-content">\
                <div class="modal-header">\
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
@@ -554,7 +554,7 @@ function getHtmlModalOrders(data) {
                                     </li>\
                                     <li>\
                                        <strong>Morada:</strong>\
-                                       <span>'+ data.address + '</span>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
                                     </li>\
                                  </ul>\
                               </div>\
@@ -631,7 +631,7 @@ function getHtmlModalOrders(data) {
 function getHtmlModalMerchantOrders(data) {
    return $('\
       <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
-         <div class="modal-dialog">\
+         <div class="modal-dialog" style="width: 60%;">\
             <div class="modal-content">\
                <div class="modal-header">\
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
@@ -659,7 +659,7 @@ function getHtmlModalMerchantOrders(data) {
                                     </li>\
                                     <li>\
                                        <strong>Morada do Cliente:</strong>\
-                                       <span>'+ data.address + '</span>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
                                     </li>\
                                  </ul>\
                               </div>\
@@ -735,8 +735,8 @@ function getHtmlModalMerchantOrders(data) {
 
 function getHtmlModalDriverOrders(data) {
    return $('\
-      <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.order_id + '" tabindex="-1" role="dialog">\
-         <div class="modal-dialog">\
+      <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
+         <div class="modal-dialog" style="width: 60%;">\
             <div class="modal-content">\
                <div class="modal-header">\
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
@@ -752,7 +752,7 @@ function getHtmlModalDriverOrders(data) {
                                  <ul class="order-detail-options">\
                                     <li class="order-number">\
                                        <strong>ID de Encomenda:</strong>\
-                                       <span>'+ data.order_id + '</span>\
+                                       <span>'+ data.id + '</span>\
                                     </li>\
                                     <li class="order-number">\
                                        <strong>Nome do Restaurante:</strong>\
@@ -787,7 +787,7 @@ function getHtmlModalDriverOrders(data) {
                                     </li>\
                                     <li>\
                                        <strong>Morada:</strong>\
-                                       <span>'+ data.address + '</span>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
                                     </li>\
                                  </ul>\
                               </div>\

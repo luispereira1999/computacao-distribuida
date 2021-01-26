@@ -19,6 +19,11 @@ $(window).ready(() => {
    getDriverData();
    getDriverOrders();
 
+   $("#table-deliveries").on("click", ".complete", function () {
+      var id = $(this).parent().parent().children(".order-id").text();
+      completeDelivery(id);
+   });
+
    $("#id_truebtn").click(() => {
       deleteUser();
    });

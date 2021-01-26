@@ -316,7 +316,6 @@ function getMerchantsInMerchants() {
       url: urlApi + "users/get-merchants/50",
 
       success: res => {
-         console.log(res.data)
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlMerchantsInMerchants(res.data[i]);
             $("#ul-merchants").append(html);
@@ -972,18 +971,20 @@ function getDriverOrders() {
       url: urlApi + "orders/driver",
 
       success: res => {
-         console.log(res.data)
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlDriverOrders(res.data[i]);
-            $("#table-orders").append(html);
+            $("#table-deliveries").append(html);
             var html = getHtmlModalDriverOrders(res.data[i]);
             $("#modals-driver-orders").append(html);
          }
 
-         $("[data-pending~='1']").css("background-color", "#047a06");
-         $("[data-pending~='1']").text("Concluída");
-         $("[data-completed~='1']").css("background-color", "#c33332");
-         $("[data-completed~='1']").text("Por concluir");
+         $("[data-pending~='1']").css("background-color", "#c33332");
+         $("[data-pending~='1']").text("Por concluir");
+         $("[data-pending~='1']").addClass("complete");
+         $("[data-pending='1']").css("cursor", "pointer");
+
+         $("[data-completed~='1']").css("background-color", "#047a06");
+         $("[data-completed~='1']").text("Concluída");
       },
       error: err => {
          var status = getStatus(err);
@@ -1044,6 +1045,33 @@ function cancelOrder(currentButtonClicked) {
       success: res => {
          openModal(res.message);
          $("#button-get-orders-from-user").trigger("click");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function completeDelivery(id) {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      data: { "order_id": id },
+      type: "patch",
+      url: urlApi + "deliveries/complete/",
+
+      success: res => {
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);

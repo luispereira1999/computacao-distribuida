@@ -13,7 +13,7 @@ module.exports = {
       // selecionar encomendas do utilizador na base de dados
       var sql = "\
          SELECT\
-            Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Orders.id, Orders.address, Orders.zip_code, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
             Products.name as product_name, Products.price, Products.description, Products.urL_photo as url_photo,\
             Merchants.name as merchant_name,\
             Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
@@ -46,7 +46,7 @@ module.exports = {
       // selecionar encomendas da empresa feitas por utilizadores na base de dados
       var sql = "\
          SELECT\
-            Orders.id, Orders.address, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
             Products.name as product_name, Products.price, Products.description,\
             Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
          FROM Orders\
@@ -78,10 +78,10 @@ module.exports = {
       // selecionar encomendas do condutor entregues pelo condutor na base de dados
       var sql = "\
 		   SELECT\
-			   Orders.id as order_id, Orders.address, Orders.date, Orders.total, Deliveries.pending, Deliveries.completed,\
-		      Deliveries.user_id as delivery_id,\
-            Clients.name as client_name,\
-            Products.name as product_name,\
+            Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+		      Deliveries.user_id as delivery_id, Deliveries.pending, Deliveries.completed,\
+            Clients.name as client_name, Clients.phone_number as client_phone_number, Clients.email as client_email,\
+            Products.name as product_name, Products.price, Products.description,\
 			   Merchants.name as merchant_name\
 		      FROM Deliveries\
          INNER JOIN Orders ON Orders.id = Deliveries.order_id\
