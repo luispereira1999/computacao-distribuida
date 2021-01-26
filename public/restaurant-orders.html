@@ -139,7 +139,8 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="restaurant-account-setting.html"><i class="icon-building"></i>Meu Restaurante</a>
+                              <li><a href="restaurant-account-setting.html"><i
+                                       class="icon-building"></i>Configurações</a>
                               <li><a href="restaurant-menu.html"><i class="icon-menu5"></i>Menu</a></li>
                               <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
                               <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
@@ -278,62 +279,7 @@
 
 
    <!-- Modal Popup Start -->
-   <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                     aria-hidden="true">×</span></button>
-               <h2><a>Booking Detail</a></h2>
-            </div>
-            <div class="modal-body booking-modal-body">
-               <div class="order-detail-inner">
-                  <h3>Restaurant Demo </h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>Booking ID :</strong>
-                        <span>22603</span>
-                     </li>
-                     <li>
-                        <strong>Booking Date :</strong>
-                        <span>Apr 9,2020 6:40 AM </span>
-                     </li>
-                  </ul>
-                  <h3>Customer Deatil</h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>First Name:</strong>
-                        <span>Mark</span>
-                     </li>
-                     <li>
-                        <strong>Last Name:</strong>
-                        <span>Jose</span>
-                     </li>
-                     <li>
-                        <strong>Email:</strong>
-                        <span>markjose@gmail.com</span>
-                     </li>
-                     <li>
-                        <span>4-guest</span>
-                     </li>
-                     <li>
-                        <span>Apr 30,2020 11:00 AM</span>
-                     </li>
-                     <li class="order-detail-message">
-                        <strong>Instructions:</strong>
-                        <span>I need to book a special table for my friends. Make it some special.!</span>
-                     </li>
-                  </ul>
-                  <div class="booking-status-holder">
-                     <div class="booking-status-process booking-status">
-                        <p style="background:#1e73be;">Your booking is Processing.</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+   <div id="modals-orders"></div>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>
@@ -344,7 +290,7 @@
    </div>
    <!-- Modal Popup End -->
 
-   
+
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
    <script src="assets/js/bootstrap-datepicker.js"></script>

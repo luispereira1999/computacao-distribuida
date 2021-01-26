@@ -1,6 +1,5 @@
 const database = require("../utils/database");
 const fs = require("fs");
-const globalConfig = require("../utils/global-config.json");
 var User = require("../models/user");
 var Product = require("../models/product");
 
@@ -241,27 +240,6 @@ function checkFilter(filter) {
       return { "exist": false };
    else
       return { "exist": true };
-}
-
-
-function getUrlPhoto(db, productId) {
-   return new Promise(resolve => {
-      var product = new Product({ "id": productId });
-
-      // selecionar foto do produto na base de dados
-      var sql = "SELECT url_photo FROM Products WHERE id = ?";
-      var params = product.id;
-      var urlPhoto = { "error": false, "value": "" };
-
-      db.each(sql, params, (err, row) => {
-         if (err)
-            return urlPhoto = { "error": true, "message": "Oh! " + err.message };
-
-         return urlPhoto = { "error": false, "value": globalConfig.path.UPLOADS + globalConfig.path.PRODUCTS + row.url_photo };
-      }, () => {
-         resolve(urlPhoto);
-      });
-   });
 }
 
 

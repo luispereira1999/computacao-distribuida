@@ -46,9 +46,9 @@ module.exports = {
       // selecionar encomendas da empresa feitas por utilizadores na base de dados
       var sql = "\
          SELECT\
-   	      Orders.id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
-	         Products.name as product_name,\
-	         Clients.name as client_name\
+            Orders.id, Orders.address, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Products.name as product_name, Products.price, Products.description,\
+            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
          FROM Orders\
          INNER JOIN Products ON Orders.user_id = Products.id\
          INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
@@ -81,7 +81,7 @@ module.exports = {
             Orders.id as order_id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
             Deliveries.user_id as delivery_id,\
             Clients.name as client_name\
-            FROM Orders\
+         FROM Orders\
          INNER JOIN Deliveries ON Deliveries.user_id = Orders.id\
          INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
          WHERE Deliveries.user_id = 3\

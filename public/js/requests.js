@@ -763,7 +763,6 @@ function getUserOrders() {
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlUserOrders(res.data[i]);
             $("#get-user-orders").append(html);
-
             var html = getHtmlModalOrders(res.data[i]);
             $("#modals-orders").append(html);
          }
@@ -798,11 +797,12 @@ function getMerchantOrders() {
       url: urlApi + "orders/merchant",
 
       success: res => {
+         console.log(res.data)
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlMerchantOrders(res.data[i]);
-            $(".table-generic").append(html);
-            var html = getHtmlMerchantOrdersDetail(res.data[i]);
-            $("#detail-orders").append(html);
+            $("#table-orders").append(html);
+            var html = getHtmlModalMerchantOrders(res.data[i]);
+            $("#modals-merchant-orders").append(html);
          }
 
          $("[data-accepted~='0']").css("background-color", "#1e73be");
