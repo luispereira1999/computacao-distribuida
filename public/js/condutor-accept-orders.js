@@ -19,9 +19,9 @@ $(window).ready(() => {
    getDriverData();
    getOrdersNotAccepted();
 
-   $("#table-users").on("click", ".accept", function () {
-      var id = $(this).parent().parent().children(".user-id").text();
-      acceptUser(id);
+   $("#table-orders").on("click", ".accept", function () {
+      var id = $(this).parent().parent().children(".order-id").text();
+      acceptDelivery(id);
    });
 
    $("#id_truebtn").click(() => {

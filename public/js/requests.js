@@ -1000,6 +1000,47 @@ function getDriverOrders() {
 }
 
 
+function getOrdersNotAccepted() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "orders/not-accepted",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlAllOrdersNotAccepted(res.data[i]);
+            $("#table-orders").append(html);
+            var html = getHtmlModalOrders(res.data[i]);
+            $("#modals-order-detail").append(html);
+         }
+
+         // $("[data-accepted~='1']").css("background-color", "#c33332");
+         // $("[data-accepted~='1']").text("Por concluir");
+         // $("[data-accepted~='1']").addClass("complete");
+         // $("[data-accepted='1']").css("cursor", "pointer");
+
+         $("[data-accepted~='0']").css("background-color", "#047a06");
+         $("[data-accepted~='0']").text("Aceitar");
+         $("[data-accepted~='0']").addClass("accept");
+         $("[data-accepted~='0']").css("cursor", "pointer");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function createOrder(currentButtonClicked) {
    // var data = { "product_id":  };
    var token = getCookie("token");
@@ -1045,6 +1086,33 @@ function cancelOrder(currentButtonClicked) {
       success: res => {
          openModal(res.message);
          $("#button-get-orders-from-user").trigger("click");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function acceptDelivery(id) {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      data: { "order_id": id },
+      headers: { Authorization: "Bearer " + token },
+      type: "post",
+      url: urlApi + "deliveries/accept/",
+
+      success: res => {
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);

@@ -21,6 +21,7 @@ module.exports = {
          INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
          WHERE Deliveries.user_id = ?\
        ";
+
       var params = user.id;
       db.all(sql, params, function (err, rows) {
          if (err)
@@ -47,8 +48,11 @@ module.exports = {
       if (!orderExist.exist)
          return res.status(400).json({ "message": orderExist.message });
 
-      var allData = Object.assign({ "order_id": req.body.order_id, "user_id": req.user.id });
-      var delivery = new Delivery(allData);
+      var pendingDelivery = await checkPendingDelivery(db, req.user.id);
+      if (pendingDelivery.exist)
+         return res.status(400).json({ "message": pendingDelivery.message });
+
+      var delivery = new Delivery({ "order_id": req.body.order_id, "user_id": req.user.id });
 
       // inserir entrega na base de dados
       var sql = "INSERT INTO Deliveries (order_id, user_id, pending, completed) VALUES (?, ?, 1, 0)";
@@ -60,8 +64,8 @@ module.exports = {
          var order = new Order({ "id": req.body.order_id });
 
          // atualizar estado da encomenda na base de dados
-         var sql = "UPDATE Orders SET accepted = 1 WHERE id = ? AND user_id = ?";
-         var params = [order.id, delivery.user_id];
+         var sql = "UPDATE Orders SET accepted = 1 WHERE id = ?";
+         var params = order.id;
          db.run(sql, params, err => {
             if (err)
                return res.status(500).json({ "message": "Oh! " + err.message });
@@ -130,6 +134,27 @@ function checkOrderExist(db, orderId) {
          return orderExist = { "exist": true };
       }, () => {
          resolve(orderExist);
+      });
+   });
+}
+
+
+function checkPendingDelivery(db, userId) {
+   return new Promise(resolve => {
+      var delivery = new Delivery({ "user_id": userId });
+
+      // selecionar estado da entrega na base de dados
+      var sql = "SELECT pending FROM Deliveries WHERE user_id = ? AND pending = 1";
+      var params = delivery.user_id;
+      var pendingDelivery = { "exist": false };
+
+      db.each(sql, params, (err, row) => {
+         if (err)
+            return pendingDelivery = { "exist": true, "message": "Oh! " + err.message };
+
+         return pendingDelivery = { "exist": true, "message": "Ups! Existe uma encomenda por concluir, não pode aceitar enquanto não concluir." };
+      }, () => {
+         resolve(pendingDelivery);
       });
    });
 }

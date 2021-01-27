@@ -83,7 +83,7 @@ module.exports = {
             Clients.name as client_name, Clients.phone_number as client_phone_number, Clients.email as client_email,\
             Products.name as product_name, Products.price, Products.description,\
 			   Merchants.name as merchant_name\
-		      FROM Deliveries\
+		   FROM Deliveries\
          INNER JOIN Orders ON Orders.id = Deliveries.order_id\
          INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
 		   INNER JOIN Products ON Products.id = Deliveries.order_id\
@@ -92,6 +92,38 @@ module.exports = {
       ";
 
       var params = user.id;
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem encomendas entregues." });
+         else
+            res.status(200).json({ "message": "Encomendas entregues obtidas com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
+   getNotAccepted: async (req, res) => {
+      const db = database.connect();
+
+      // selecionar encomendas não aceites na base de dados
+      var sql = "\
+         SELECT\
+            Orders.id, Orders.address, Orders.zip_code, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Products.name as product_name, Products.price, Products.description, Products.urL_photo as url_photo,\
+            Merchants.name as merchant_name,\
+            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
+         FROM Orders\
+         INNER JOIN Products ON Orders.product_id = Products.id\
+         INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
+         INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
+         WHERE Orders.accepted = 0\
+      ";
+
+      var params = [];
       db.all(sql, params, function (err, rows) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });

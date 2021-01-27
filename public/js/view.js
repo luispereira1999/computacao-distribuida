@@ -1137,3 +1137,21 @@ function getHtmlModalUserDetail(data) {
       </script>\
    ');
 }
+
+
+function getHtmlAllOrdersNotAccepted(data) {
+   return $('\
+      <li>\
+         <div class="order-id">'+ data.id + '</div>\
+         <div>'+ data.merchant_name + '</div>\
+         <div>'+ data.product_name + '</div>\
+         <div>'+ data.address + ", " + data.zip_code + '</div>\
+         <div class="order-btn">\
+            <span data-accepted="'+ data.accepted + '" data-canceled="' + data.canceled + '" class="order-status"></span>\
+         </div>\
+         <div>\
+            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '"><i class="icon-plus2 text-color"></i></a>\
+         </div>\
+      </li>\
+   ');
+}
