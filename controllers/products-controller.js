@@ -46,7 +46,8 @@ module.exports = {
       // selecionar produto na base de dados
       var sql = "\
          SELECT\
-            Products.id, Products.name AS product_name, Products.stock, Products.price, Products.description, Products.url_photo\
+            Products.id, Products.name, Products.stock, Products.price, Products.description, Products.url_photo as product_url_photo,\
+            Users.email, Users.address, Users.zip_code, Users.url_photo as merchant_url_photo\
          FROM Products\
          INNER JOIN Users ON Users.id = Products.user_id\
          WHERE Users.name = ?\

@@ -475,7 +475,7 @@
 .user-dashboard-menu > ul > li.user-dashboard-menu-children.menu-open > a { z-index: 10; }
 .user-dashboard-menu > ul > li ul { position: absolute; right: 0; top: 100%; width: -webkit-calc(100% + 10px); width: -moz-calc(100% + 10px); width: calc(100% + 10px); background: #fff; text-align: left; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; z-index: 10; opacity: 1; visibility: visible; margin: 0; padding: 0; border-radius: 0; border: solid 1px #dfe4e5; }
 .user-dashboard-menu > ul > li > ul { opacity: 0; visibility: hidden; -webkit-transform: none; -moz-transform: none; -ms-transform: none; transform: none; display: none; }
-.user-dashboard-menu > ul > li.menu-open > ul { min-width: 205px; opacity: 1; visibility: visible; -webkit-transform: none; -moz-transform: none; -ms-transform: none; transform: none; display: block; }
+.user-dashboard-menu > ul > li.menu-open > ul { min-width: 220px; opacity: 1; visibility: visible; -webkit-transform: none; -moz-transform: none; -ms-transform: none; transform: none; display: block; }
 .user-dashboard-menu .close-menu-location { display: none; position: absolute; right: -20px; top: 0px; cursor: pointer; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; width: 20px; height: 20px; background: #fff; line-height: 20px; text-align: center; margin-top: -1px; border: solid 1px #dfe4e5; }
 /*Inner Sub Menu*/
 .user-dashboard-menu > ul > li > ul li { position: relative; }

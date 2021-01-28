@@ -224,9 +224,9 @@ function checkInvalidFields(req) {
    if (!req.body.address)
       errors.push("Ups! A morada não foi preenchida.");
    if (!req.body.zip_code)
-      errors.push("Ups! O código postal não foi preenchido.");
+      errors.push("O código postal não foi preenchido.");
    if (!req.body.product_id)
-      errors.push("Ups! O ID do produto não foi preenchido.");
+      errors.push("O ID do produto não foi preenchido.");
 
    if (errors.length)
       return { "exist": true, "message": errors };

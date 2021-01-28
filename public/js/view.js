@@ -75,6 +75,31 @@ function getHtmlMerchantsInMerchants(data) {
 }
 
 
+function getHtmlProductsInProducts(data) {
+   return $('\
+      <li id="product-'+ data.id + '">\
+         <div class="img-holder">\
+            <figure>\
+               <img src="./uploads/products/'+ data.product_url_photo + '" class="img-list wp-post-image">\
+            </figure>\
+         </div>\
+         <div class="text-holder">\
+            <div class="post-title">\
+               <h5>\
+                  <a href="listing-detail.html">'+ data.name + '</a>\
+               </h5>\
+            </div>\
+            <span class="post-categories">'+ data.description + '</span>\
+         </div>\
+         <div class="list-option">\
+            <span class="data-price" style="margin-right:40px;">'+ data.price + '€</span>\
+            <a style="cursor:pointer" onclick="document.getElementById('+ "'div-create-order'" + ').style.display=' + "'block'" + '" class="span-create-order viewmenu-btn text-color">Encomendar</a>\
+         </div>\
+      </li>\
+   ');
+}
+
+
 function getHtmlUserInfoOnHeader() {
    return $('\
       <figure class="profile-image">\
@@ -142,6 +167,28 @@ function getHtmlTitle(data) {
             </li>\
             <li class="email">\
                <i class="icon-mail5"></i><a href="mail:josetomas@gmail.com">'+ getCookie("email") + '</a>\
+            </li>\
+         </ul>\
+      </div>\
+   ');
+}
+
+
+function getHtmlMerchantTitle(data) {
+   return $('\
+      <div class="img-holder">\
+         <figure>\
+            <img src="./uploads/photos/' + data.merchant_url_photo + '"">\
+         </figure>\
+      </div>\
+      <div class="text-holder">\
+         <span class="restaurant-title">'+ getCookie("name") + '</span>\
+         <ul class="user-info-contact">\
+            <li class="cell">\
+               <i class="icon-address-book"></i><a href="">'+ data.address + ", " + data.zip_code + '</a>\
+            </li>\
+            <li class="email">\
+               <i class="icon-mail5"></i><a href="mail:josetomas@gmail.com">'+ data.email + '</a>\
             </li>\
          </ul>\
       </div>\

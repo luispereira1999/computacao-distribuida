@@ -335,6 +335,34 @@ function getMerchantsInMerchants() {
 }
 
 
+function getProductsInProducts() {
+   $.ajax({
+      cache: false,
+      type: "get",
+      url: urlApi + "products/name/yk",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlProductsInProducts(res.data[i]);
+            $("#ul-products").append(html);
+         }
+
+         var html = getHtmlMerchantTitle(res.data[0]);
+         $("#title-info").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function getUsersAccepted() {
    var token = getCookie("token");
 
@@ -1041,20 +1069,20 @@ function getOrdersNotAccepted() {
 }
 
 
-function createOrder(currentButtonClicked) {
-   // var data = { "product_id":  };
+function createOrder() {
+   var form = $("#form-create-order");
+   var formData = getFormData(form);
    var token = getCookie("token");
-   var data = { "product_id": currentButtonClicked.parent().parent().children(".td-id").text() };
 
    $.ajax({
       cache: false,
-      data: data,
+      data: formData,
       headers: { Authorization: "Bearer " + token },
       type: "post",
       url: urlApi + "orders/create/",
 
       success: res => {
-         openModal(res.message);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
