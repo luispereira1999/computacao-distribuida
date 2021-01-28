@@ -13,7 +13,7 @@ module.exports = {
       // selecionar encomendas do utilizador na base de dados
       var sql = "\
          SELECT\
-            Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Orders.id, Orders.address, Orders.zip_code, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
             Products.name as product_name, Products.price, Products.description, Products.urL_photo as url_photo,\
             Merchants.name as merchant_name,\
             Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
@@ -46,9 +46,9 @@ module.exports = {
       // selecionar encomendas da empresa feitas por utilizadores na base de dados
       var sql = "\
          SELECT\
-   	      Orders.id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
-	         Products.name as product_name,\
-	         Clients.name as client_name\
+            Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Products.name as product_name, Products.price, Products.description,\
+            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
          FROM Orders\
          INNER JOIN Products ON Orders.user_id = Products.id\
          INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
@@ -77,14 +77,18 @@ module.exports = {
 
       // selecionar encomendas do condutor entregues pelo condutor na base de dados
       var sql = "\
-         SELECT\
-            Orders.id as order_id, Orders.address, Orders.date, Orders.total, Orders.accepted, Orders.canceled,\
-            Deliveries.user_id as delivery_id,\
-            Clients.name as client_name\
-            FROM Orders\
-         INNER JOIN Deliveries ON Deliveries.user_id = Orders.id\
+		   SELECT\
+            Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+		      Deliveries.user_id as delivery_id, Deliveries.pending, Deliveries.completed,\
+            Clients.name as client_name, Clients.phone_number as client_phone_number, Clients.email as client_email,\
+            Products.name as product_name, Products.price, Products.description,\
+			   Merchants.name as merchant_name\
+		   FROM Deliveries\
+         INNER JOIN Orders ON Orders.id = Deliveries.order_id\
          INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
-         WHERE Deliveries.user_id = 3\
+		   INNER JOIN Products ON Products.id = Deliveries.order_id\
+		   INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
+		   WHERE Deliveries.user_id = ?\
       ";
 
       var params = user.id;
@@ -93,9 +97,41 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem encomendas." });
+            res.status(400).json({ "message": "Ups! Não existem encomendas entregues." });
          else
-            res.status(200).json({ "message": "Encomendas obtidas com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Encomendas entregues obtidas com sucesso!", "data": rows });
+      });
+
+      db.close();
+   },
+
+
+   getNotAccepted: async (req, res) => {
+      const db = database.connect();
+
+      // selecionar encomendas não aceites na base de dados
+      var sql = "\
+         SELECT\
+            Orders.id, Orders.address, Orders.zip_code, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
+            Products.name as product_name, Products.price, Products.description, Products.urL_photo as url_photo,\
+            Merchants.name as merchant_name,\
+            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
+         FROM Orders\
+         INNER JOIN Products ON Orders.product_id = Products.id\
+         INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
+         INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
+         WHERE Orders.accepted = 0\
+      ";
+
+      var params = [];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! Não existem encomendas entregues." });
+         else
+            res.status(200).json({ "message": "Encomendas entregues obtidas com sucesso!", "data": rows });
       });
 
       db.close();
@@ -188,9 +224,9 @@ function checkInvalidFields(req) {
    if (!req.body.address)
       errors.push("Ups! A morada não foi preenchida.");
    if (!req.body.zip_code)
-      errors.push("Ups! O código postal não foi preenchido.");
+      errors.push("O código postal não foi preenchido.");
    if (!req.body.product_id)
-      errors.push("Ups! O ID do produto não foi preenchido.");
+      errors.push("O ID do produto não foi preenchido.");
 
    if (errors.length)
       return { "exist": true, "message": errors };

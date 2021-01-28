@@ -18,10 +18,7 @@ $(window).ready(() => {
    $("#img-photo").append(html);
    getAdminData();
 
-   $("#file-photo").change(() => {
-      $("#form-edit-user-photo").trigger("submit");
-      editUserPhoto();
-   });
+   getUserOrders();
 
    $("#id_truebtn").click(() => {
       deleteUser();
@@ -29,16 +26,5 @@ $(window).ready(() => {
 
    $(".a-logout").click(() => {
       logout("Sessão terminada com sucesso!");
-   });
-
-   $("#form-edit-user-data").submit(e => {
-      e.preventDefault();
-      $("input[name='description']").val($("textarea").val());
-      editUserData();
-   });
-
-   $("#form-edit-password").submit(e => {
-      e.preventDefault();
-      editPassword();
    });
 });

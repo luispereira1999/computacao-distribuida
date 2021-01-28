@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
    <!-- metadados -->
-   <title>Motorista - Encomendas</title>
+   <title>Condutor - Entregas</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -43,7 +43,7 @@
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/motorista-orders.js"></script>
+   <script type="text/javascript" defer src="js/condutor-withdrawals.js"></script>
 </head>
 
 <body>
@@ -94,6 +94,7 @@
                </div>
             </div>
          </div>
+
       </header>
       <!-- Header End -->
 
@@ -109,21 +110,7 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div class="company-info">
-                           <div class="img-holder">
-                              <figure>
-                                 <img src="assets/extra-images/listing-logo18.png" alt="">
-                              </figure>
-                           </div>
-
-                           <div class="text-holder">
-                              <span class="restaurant-title">Restaurante Demo</span>
-                              <div class="text">
-                                 <i class="icon-local_pizza"></i>
-                                 <p>Pizzaria</p>
-                              </div>
-                           </div>
-                        </div>
+                        <div id="title-info" class="company-info"></div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -139,11 +126,11 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="motorista-account-setting.html"><i class="icon-build"></i>Configurações</a>
+                              <li><a href="condutor-account-setting.html"><i class="icon-build"></i>Configurações</a>
                               </li>
-                              </li>
-                              <li><a href="motorista-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
-                              <li><a href="motorista-orders.html" class="btn-edit-profile"><i
+                              <li><a href="condutor-accept-orders.html"><i class="icon-open_in_browser"></i>Aceitar Encomendas</a></li>
+                              <li><a href="condutor-withdrawals.html"><i class="icon-bill"></i>Entregas</a></li>
+                              <li><a href="condutor-orders.html" class="btn-edit-profile"><i
                                        class="icon-add_shopping_cart"></i>Encomendas</a></li>
                               <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
                                     Perfil</a></li>
@@ -155,19 +142,23 @@
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                      <div class="user-dashboard loader-holder">
                         <div class="user-holder">
-                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="row">
-                                 <div class="element-title has-border right-filters-row">
-                                    <h5>Encomendas</h5>
-                                 </div>
+                           <div class="publisher-withdrawal-form">
+                              <div class="element-title has-border right-filters-row">
+                                 <h5>ENTREGAS</h5>
                               </div>
                            </div>
-                           <div class="row">
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                 <div class="user-orders-list">
-                                    <div id="get-user-orders" class="row"></div>
-                                 </div>
-                              </div>
+                           <div class="responsive-table">
+                              <ul class="table-generic" id="table-deliveries">
+                                 <li class="order-heading-titles">
+                                    <div>Encomenda</div>
+                                    <div>Restaurante</div>
+                                    <div>Cliente</div>
+                                    <div>Data</div>
+                                    <div>Status</div>
+                                    <div>Detalhes</div>
+                                 </li>
+                                 <li class="order-heading-titles"></li>
+                              </ul>
                            </div>
                         </div>
                      </div>
@@ -184,27 +175,6 @@
          <div class="footer-widget">
             <div class="container">
                <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                     <div class="widget widget-newsletter">
-                        <div class="widget-title">
-                           <h5>Subscreva no nosso Newsletter</h5>
-                           <p style="margin-top: 10px;">Para obter as melhores promoções e novidades</p>
-                        </div>
-                        <div class="fieldset">
-                           <form action="#">
-                              <div class="field-holder">
-                                 <label>
-                                    <i class=" icon-envelope3"></i>
-                                    <input type="text" class="field-input" placeholder=" E-Mail">
-                                 </label>
-                              </div>
-                              <div class="field-holder btn-holder">
-                                 <input class="subscribe-btn bgcolor" type="submit" value="Entrar">
-                              </div>
-                           </form>
-                        </div>
-                     </div>
-                  </div>
                   <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -212,7 +182,8 @@
                         <div class="widget-title">
                            <h5>Sobre nós</h5>
                         </div>
-                        <div class="textwidget">Picand Go é uma plataforma que permite obter os melhores produtos da sua
+                        <div class="textwidget">Picand Go é uma plataforma que permite obter os melhores produtos da
+                           sua
                            cidade em poucos minutos.
                            O projeto nasceu com o objetivo de transformar a forma como os utilizadores adquirem o que
                            precisam,
@@ -227,10 +198,10 @@
                            <h5>Cidades Populares</h5>
                         </div>
                         <ul>
-                           <li><a href="listings.html">Famalicão</a></li>
-                           <li><a href="listings.html">Braga</a></li>
-                           <li><a href="listings.html">Barcelos</a></li>
-                           <li><a href="listings.html">Guimarães</a></li>
+                           <li><a href="index.html">Famalicão</a></li>
+                           <li><a href="index.html">Braga</a></li>
+                           <li><a href="index.html">Barcelos</a></li>
+                           <li><a href="index.html">Guimarães</a></li>
                         </ul>
                      </div>
                   </div>
@@ -279,62 +250,7 @@
 
 
    <!-- Modal Popup Start -->
-   <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                     aria-hidden="true">×</span></button>
-               <h2><a>Booking Detail</a></h2>
-            </div>
-            <div class="modal-body booking-modal-body">
-               <div class="order-detail-inner">
-                  <h3>Restaurant Demo </h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>Booking ID :</strong>
-                        <span>22603</span>
-                     </li>
-                     <li>
-                        <strong>Booking Date :</strong>
-                        <span>Apr 9,2020 6:40 AM </span>
-                     </li>
-                  </ul>
-                  <h3>Customer Deatil</h3>
-                  <ul class="order-detail-options">
-                     <li>
-                        <strong>First Name:</strong>
-                        <span>Mark</span>
-                     </li>
-                     <li>
-                        <strong>Last Name:</strong>
-                        <span>Jose</span>
-                     </li>
-                     <li>
-                        <strong>Email:</strong>
-                        <span>markjose@gmail.com</span>
-                     </li>
-                     <li>
-                        <span>4-guest</span>
-                     </li>
-                     <li>
-                        <span>Apr 30,2020 11:00 AM</span>
-                     </li>
-                     <li class="order-detail-message">
-                        <strong>Instructions:</strong>
-                        <span>I need to book a special table for my friends. Make it some special.!</span>
-                     </li>
-                  </ul>
-                  <div class="booking-status-holder">
-                     <div class="booking-status-process booking-status">
-                        <p style="background:#1e73be;">Your booking is Processing.</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+   <div id="modals-driver-orders"></div>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>
@@ -343,9 +259,9 @@
          <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
       </div>
    </div>
-
-
    <!-- Modal Popup End -->
+
+
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
    <script src="assets/js/bootstrap-datepicker.js"></script>

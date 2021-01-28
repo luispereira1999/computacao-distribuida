@@ -3,7 +3,7 @@
 
 <head>
    <!-- metadados -->
-   <title>Restaurantes</title>
+   <title>Produtos</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -39,11 +39,29 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
 
+   <link rel="stylesheet" href="css/index.css">
+   <link rel="stylesheet" href="css/create-product.css">
+
    <script type="text/javascript" defer src="js/environment.js"></script>
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/restaurants.js"></script>
+   <script type="text/javascript" defer src="js/products.js"></script>
+
+   <style>
+      .listing.simple ul li {
+         list-style: none;
+         background-color: #fff;
+         -webkit-box-shadow: none;
+         box-shadow: none;
+         text-shadow: none;
+         border: none;
+         padding: 5px 30px 5px 20px;
+         margin: 0px 0px 20px 0;
+         border-radius: 3px;
+         position: relative;
+      }
+   </style>
 </head>
 
 <body>
@@ -98,44 +116,26 @@
 
       <!-- Main Section Start -->
       <div class="main-section">
-         <div class="page-section nopadding cs-nomargin"
-            style="margin-top: 0px;padding-top: 80px;padding-bottom: 60px;margin-bottom: 0px;background: url(assets/extra-images/banner-img-2.jpg) no-repeat center top / cover;">
+         <div class="page-section restaurant-detail-image-section"
+            style=" background: url(assets/extra-images/cover-photo01.jpg) no-repeat scroll 0 0 / cover;">
             <!-- Container Start -->
-            <div class="container ">
+            <div class="container">
+               <!-- Row Start -->
                <div class="row">
-                  <div class="section-fullwidth col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                           <!--Element Section Start-->
-                           <!--Foodbakery Element Start-->
-                           <div class="row">
-                              <!-- Column Start -->
-                              <div class="listing-main-search">
-                                 <div class="main-search">
-                                    <form action="#">
-                                       <div class="restaurant-search-element-container row">
-                                          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                                             <div class="field-holder"> <span class="restaurant-element-search-btn"><i
-                                                      class="icon-search5"></i> </span>
-                                                <input placeholder="Nome do Restaurante" name="search_title" value=""
-                                                   type="text">
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </form>
-                                 </div>
-                              </div>
-                              <!-- Column End -->
-                           </div>
-                           <!--Foodbakery Element End-->
-                        </div>
-                     </div><!-- end section row -->
+                  <!-- Column Start -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <div class="company-info-detail">
+                        <div id="title-info" class="company-info"></div>
+                     </div>
                   </div>
+                  <!-- Column End -->
                </div>
-            </div> <!-- End Container Start -->
+               <!-- Row End -->
+            </div>
+            <!-- Container End -->
          </div>
          <div class="page-section nopadding cs-nomargin"
-            style="margin-top: 0px;padding-top: 60px;padding-bottom: 10px;margin-bottom: 0px;">
+            style="margin-top: 0px;padding-top: 0px;padding-bottom: 10px;margin-bottom: 0px;">
             <div class="container">
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -145,12 +145,12 @@
                            <div class="listing-sorting-holder">
                               <div class="row">
                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <h4>Restaurantes Encontrados</h4>
+                                    <h4>Produtos Encontrados</h4>
                                  </div>
                               </div>
                            </div>
                            <div class="listing simple">
-                              <ul id="ul-merchants"></ul>
+                              <ul id="ul-products"></ul>
                            </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"></div>
@@ -442,6 +442,43 @@
                </div>
             </div>
          </div>
+      </div>
+   </div>
+   <div id="div-create-order" class="modal">
+      <div class="box">
+         <div class="title">Editar dados do produto</div>
+
+         <form id="form-create-order" class="form modal-content animate">
+            <input type="hidden" name="product_id">
+            <div class="topico">
+               <label>Morada</label>
+               <input type="text" class="input" name="address">
+            </div>
+            <div class="topico">
+               <label>Código Postal</label>
+               <input type="text" class="input" name="zip_code">
+            </div>
+            <div class="topico">
+               <label>Subtotal</label>
+               <input type="text" class="input" name="price" disabled>
+            </div>
+            <div class="topico">
+               <label>Preço com IVA (23%)</label>
+               <input type="text" class="input" id="vat" disabled>
+            </div>
+            <div class="topico">
+               <label>Portes de Envio</label>
+               <input type="text" class="input" id="pick-up-fee"value="" disabled>
+            </div>
+            <div class="topico">
+               <label>Total</label>
+               <input type="text" class="input" 9d="total" name="total" disabled>
+            </div>
+
+            <div class="topico">
+               <input type="submit" class="btn" value="Confirmar">
+            </div>
+         </form>
       </div>
    </div>
    <!-- Modal Popup End -->

@@ -17,10 +17,11 @@ $(window).ready(() => {
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
    getAdminData();
+   getUsersNotAccepted();
 
-   $("#file-photo").change(() => {
-      $("#form-edit-user-photo").trigger("submit");
-      editUserPhoto();
+   $("#table-users").on("click", ".accept", function () {
+      var id = $(this).parent().parent().children(".user-id").text();
+      acceptUser(id);
    });
 
    $("#id_truebtn").click(() => {
@@ -29,16 +30,5 @@ $(window).ready(() => {
 
    $(".a-logout").click(() => {
       logout("Sessão terminada com sucesso!");
-   });
-
-   $("#form-edit-user-data").submit(e => {
-      e.preventDefault();
-      $("input[name='description']").val($("textarea").val());
-      editUserData();
-   });
-
-   $("#form-edit-password").submit(e => {
-      e.preventDefault();
-      editPassword();
    });
 });

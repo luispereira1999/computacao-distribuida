@@ -1,6 +1,6 @@
 $(window).ready(() => {
    var userLogged = checkUserLogged();
-   if (userLogged || getCookie("type") == 3) {
+   if (userLogged && getCookie("type") == 3) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
@@ -17,10 +17,11 @@ $(window).ready(() => {
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
    getDriverData();
+   getDriverOrders();
 
-   $("#form-edit-user-photo input[name='file']").change(() => {
-      $("#form-edit-user-photo").trigger("submit");
-      editUserPhoto();
+   $("#table-deliveries").on("click", ".complete", function () {
+      var id = $(this).parent().parent().children(".order-id").text();
+      completeDelivery(id);
    });
 
    $("#id_truebtn").click(() => {
@@ -29,21 +30,5 @@ $(window).ready(() => {
 
    $(".a-logout").click(() => {
       logout("Sessão terminada com sucesso!");
-   });
-
-   $("#form-edit-user-data").submit(e => {
-      e.preventDefault();
-      $("input[name='description']").val($("textarea").val());
-      editUserData();
-   });
-
-   $("#form-edit-driving-license").submit(e => {
-      e.preventDefault();
-      editDrivingLicense();
-   });
-
-   $("#form-edit-password").submit(e => {
-      e.preventDefault();
-      editPassword();
    });
 });

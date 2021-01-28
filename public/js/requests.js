@@ -30,6 +30,7 @@ function registerClient() {
    });
 }
 
+
 function registerMerchant() {
    var form = $("#form-register-merchant")[0];
    var formData = new FormData(form);
@@ -59,6 +60,7 @@ function registerMerchant() {
    });
 }
 
+
 function registerDriver() {
    var form = $("#form-register-driver")[0];
    var formData = new FormData(form);
@@ -87,6 +89,7 @@ function registerDriver() {
       }
    });
 }
+
 
 function registerAdmin() {
    var form = $("#form-register-admin");
@@ -181,6 +184,7 @@ function getClientData() {
    });
 }
 
+
 function getMerchantData() {
    var token = getCookie("token");
 
@@ -211,6 +215,7 @@ function getMerchantData() {
       }
    });
 }
+
 
 function getDriverData() {
    var token = getCookie("token");
@@ -245,6 +250,7 @@ function getDriverData() {
    });
 }
 
+
 function getAdminData() {
    var token = getCookie("token");
 
@@ -276,6 +282,7 @@ function getAdminData() {
    });
 }
 
+
 function getMerchantsToIndex() {
    $.ajax({
       cache: false,
@@ -301,6 +308,160 @@ function getMerchantsToIndex() {
    });
 }
 
+
+function getMerchantsInMerchants() {
+   $.ajax({
+      cache: false,
+      type: "get",
+      url: urlApi + "users/get-merchants/50",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlMerchantsInMerchants(res.data[i]);
+            $("#ul-merchants").append(html);
+         }
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function getProductsInProducts() {
+   $.ajax({
+      cache: false,
+      type: "get",
+      url: urlApi + "products/name/yk",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlProductsInProducts(res.data[i]);
+            $("#ul-products").append(html);
+         }
+
+         var html = getHtmlMerchantTitle(res.data[0]);
+         $("#title-info").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function getUsersAccepted() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/accepted",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlAllUsers(res.data[i]);
+            $("#table-users").append(html);
+         }
+
+         $(".type-user:contains('1')").text("Cliente");
+         $(".type-user:contains('2')").text("Restaurante");
+         $(".type-user:contains('3')").text("Condutor");
+         $(".type-user:contains('4')").text("Admin");
+
+         $("span[data-type~='1']").css("background-color", "#047a06");
+         $("span[data-type~='1']").text("Definir Admin");
+         $("span[data-type~='1']").addClass("set-admin");
+         $("span[data-type~='2']").css("background-color", "#047a06");
+         $("span[data-type~='2']").text("Definir Admin");
+         $("span[data-type~='2']").addClass("set-admin");
+         $("span[data-type~='3']").css("background-color", "#047a06");
+         $("span[data-type~='3']").text("Definir Admin");
+         $("span[data-type~='3']").addClass("set-admin");
+         $("span[data-type~='4']").css("background-color", "#c33332");
+         $("span[data-type~='4']").text("Remover Admin");
+         $("span[data-type~='4']").addClass("remove-admin");
+
+         $("span[data-type]").css("cursor", "pointer");
+
+         $(".user-id:contains('" + getCookie("id") + "')").parent().hide();
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function getUsersNotAccepted() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "users/not-accepted",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlAllUsersNotAccepted(res.data[i]);
+            $("#table-users").append(html);
+            var html = getHtmlModalUserDetail(res.data[i]);
+            $("#modals-user-detail").append(html);
+         }
+
+         $(".type-user:contains('1')").text("Cliente");
+         $(".type-user:contains('2')").text("Restaurante");
+         $(".type-user:contains('3')").text("Condutor");
+         $(".type-user:contains('4')").text("Admin");
+
+         $("span[data-type]").css("background-color", "#047a06");
+         $("span[data-type]").text("Aceitar");
+         $("span[data-type]").addClass("accept");
+
+         $("span[data-type]").css("cursor", "pointer");
+
+         $(".user-id:contains('" + getCookie("id") + "')").parent().hide();
+
+         $("div[data-driving-license~='1']").hide();
+         $("div[data-driving-license~='2']").hide();
+         $("div[data-driving-license~='4']").hide();
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function editUserData() {
    var form = $("#form-edit-user-data");
    var formData = getFormData(form);
@@ -310,7 +471,7 @@ function editUserData() {
       cache: false,
       data: formData,
       headers: { Authorization: "Bearer " + token },
-      type: "patch",
+      type: "put",
       url: urlApi + "users/edit-data/",
 
       success: res => {
@@ -333,6 +494,7 @@ function editUserData() {
    });
 }
 
+
 function editDrivingLicense() {
    var form = $("#form-edit-driving-license")[0];
    var formData = new FormData(form);
@@ -344,7 +506,7 @@ function editDrivingLicense() {
       data: formData,
       processData: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "users/edit-driving-license/",
 
       success: res => {
@@ -363,6 +525,7 @@ function editDrivingLicense() {
    });
 }
 
+
 function editPassword() {
    var form = $("#form-edit-password");
    var formData = getFormData(form);
@@ -372,7 +535,7 @@ function editPassword() {
       cache: false,
       data: formData,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "users/edit-password/",
 
       success: res => {
@@ -395,6 +558,7 @@ function editPassword() {
    });
 }
 
+
 function editUserPhoto() {
    var form = $("#form-edit-user-photo")[0];
    var formData = new FormData(form);
@@ -408,7 +572,7 @@ function editUserPhoto() {
       data: formData,
       processData: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "users/edit-photo/",
 
       success: res => {
@@ -430,6 +594,7 @@ function editUserPhoto() {
       }
    });
 }
+
 
 function deleteUser() {
    var token = getCookie("token");
@@ -456,42 +621,18 @@ function deleteUser() {
    });
 }
 
-function getUsersNotAccepted() {
-   var thead = $("#table-users-not-accepted thead");
-   var tbody = $("#table-users-not-accepted tbody");
 
-   var htmlExists = checkHtmlExists(tbody.html());
-   if (htmlExists) {
-      destroyElement(thead.find("tr"));
-      destroyElement(tbody.find("tr"));
-   }
-
+function setAdmin(id) {
    var token = getCookie("token");
 
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
-      type: "get",
-      url: urlApi + "users/not-accepted/",
+      type: "patch",
+      url: urlApi + "users/set-admin/" + id,
 
       success: res => {
-         var table = $("#table-users-not-accepted");
-         createTableWithData(res.data, table);
-
-         var elements = [{
-            "selector": ".td-accept",
-            "table": table,
-            "th": $("<th>Aceitar</th>"),
-            "td": $("<td class='td-accept'></td>"),
-            "button": $("<button class='button-accept-user'>Aceitar</button>"),
-         }, {
-            "selector": ".td-decline",
-            "table": table,
-            "th": $("<th>Recusar</th>"),
-            "td": $("<td class='td-decline'></td>"),
-            "button": $("<button class='button-decline-user'>Recusar</button>"),
-         }];
-         addButtonColumnToTable(elements);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -506,28 +647,44 @@ function getUsersNotAccepted() {
    });
 }
 
-function acceptUser(currentButtonClicked) {
+
+function removeAdmin(id) {
    var token = getCookie("token");
-   var userId = currentButtonClicked.parent().parent().children(".td-id").text();
 
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
-      url: urlApi + "users/accept/" + userId,
+      type: "patch",
+      url: urlApi + "users/remove-admin/" + id,
 
       success: res => {
-         openModal(res.message);
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
 
-         var rowCount = $("tbody tr").length;
-         if (rowCount > 1) {
-            var currentRow = $("tbody tr .td-id:contains('" + userId + "')").parent();
-            destroyElement(currentRow);
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
          }
-         else {
-            destroyElement($("thead").find("tr"));
-            destroyElement($("tbody").find("tr"));
-         }
+      }
+   });
+}
+
+
+function acceptUser(id) {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "patch",
+      url: urlApi + "users/accept/" + id,
+
+      success: res => {
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -672,7 +829,7 @@ function editProductData() {
       cache: false,
       data: formData,
       headers: { Authorization: "Bearer " + token },
-      type: "patch",
+      type: "put",
       url: urlApi + "products/edit-data/" + formData.id,
 
       success: res => {
@@ -705,7 +862,7 @@ function editProductPhoto() {
       data: formData,
       processData: false,
       headers: { Authorization: "Bearer " + token },
-      type: "put",
+      type: "patch",
       url: urlApi + "products/edit-photo/" + formData.get("id"),
 
       success: res => {
@@ -769,6 +926,8 @@ function getUserOrders() {
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlUserOrders(res.data[i]);
             $("#get-user-orders").append(html);
+            var html = getHtmlModalOrders(res.data[i]);
+            $("#modals-orders").append(html);
          }
 
          $("span[data-accepted~='0']").css("background-color", "#1e73be");
@@ -804,9 +963,9 @@ function getMerchantOrders() {
       success: res => {
          for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlMerchantOrders(res.data[i]);
-            $(".table-generic").append(html);
-            var html = getHtmlMerchantOrdersDetail(res.data[i]);
-            $("#detail-orders").append(html);
+            $("#table-orders").append(html);
+            var html = getHtmlModalMerchantOrders(res.data[i]);
+            $("#modals-merchant-orders").append(html);
          }
 
          $("[data-accepted~='0']").css("background-color", "#1e73be");
@@ -830,20 +989,100 @@ function getMerchantOrders() {
 }
 
 
-function createOrder(currentButtonClicked) {
-   // var data = { "product_id":  };
+function getDriverOrders() {
    var token = getCookie("token");
-   var data = { "product_id": currentButtonClicked.parent().parent().children(".td-id").text() };
 
    $.ajax({
       cache: false,
-      data: data,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "orders/driver",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlDriverOrders(res.data[i]);
+            $("#table-deliveries").append(html);
+            var html = getHtmlModalDriverOrders(res.data[i]);
+            $("#modals-driver-orders").append(html);
+         }
+
+         $("[data-pending~='1']").css("background-color", "#c33332");
+         $("[data-pending~='1']").text("Por concluir");
+         $("[data-pending~='1']").addClass("complete");
+         $("[data-pending='1']").css("cursor", "pointer");
+
+         $("[data-completed~='1']").css("background-color", "#047a06");
+         $("[data-completed~='1']").text("Concluída");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function getOrdersNotAccepted() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "orders/not-accepted",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlAllOrdersNotAccepted(res.data[i]);
+            $("#table-orders").append(html);
+            var html = getHtmlModalOrders(res.data[i]);
+            $("#modals-order-detail").append(html);
+         }
+
+         // $("[data-accepted~='1']").css("background-color", "#c33332");
+         // $("[data-accepted~='1']").text("Por concluir");
+         // $("[data-accepted~='1']").addClass("complete");
+         // $("[data-accepted='1']").css("cursor", "pointer");
+
+         $("[data-accepted~='0']").css("background-color", "#047a06");
+         $("[data-accepted~='0']").text("Aceitar");
+         $("[data-accepted~='0']").addClass("accept");
+         $("[data-accepted~='0']").css("cursor", "pointer");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function createOrder() {
+   var form = $("#form-create-order");
+   var formData = getFormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      data: formData,
       headers: { Authorization: "Bearer " + token },
       type: "post",
       url: urlApi + "orders/create/",
 
       success: res => {
-         openModal(res.message);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -875,6 +1114,60 @@ function cancelOrder(currentButtonClicked) {
       success: res => {
          openModal(res.message);
          $("#button-get-orders-from-user").trigger("click");
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function acceptDelivery(id) {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      data: { "order_id": id },
+      headers: { Authorization: "Bearer " + token },
+      type: "post",
+      url: urlApi + "deliveries/accept/",
+
+      success: res => {
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function completeDelivery(id) {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      data: { "order_id": id },
+      type: "patch",
+      url: urlApi + "deliveries/complete/",
+
+      success: res => {
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);

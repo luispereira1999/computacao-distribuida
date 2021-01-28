@@ -1,5 +1,5 @@
 $(window).ready(() => {
-   getMerchantsInMerchants();
+   getProductsInProducts();
 
    var userLogged = checkUserLogged();
    if (userLogged) {
@@ -11,6 +11,8 @@ $(window).ready(() => {
       $("#header-user-not-logged").show();
       return;
    }
+
+   startModal($("div-create-order"));
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
@@ -32,7 +34,32 @@ $(window).ready(() => {
       $("#header-menu").append(html);
    }
 
+   $("#ul-products").on("click", ".span-create-order", function () {
+      var data = {
+         "product_id": $(this).parent().parent().attr("id").split("-")[1],
+         "price": $(this).parent(".list-option").children(".data-price").text().split("€")[0]
+      };
+
+      var vat = 0.23 + parseInt(data.price);
+      var pickUpFee = 3.5 + parseInt(data.price);
+      var total = vat + pickUpFee + data.price;
+
+      setFormData(data);
+      $("#vat").val(vat)
+   });
+
+   $("#form-create-order").submit(e => {
+      e.preventDefault();
+      createOrder();
+   });
+
    $(".a-logout").click(() => {
       logout("Sessão terminada com sucesso!");
+   });
+
+   $('body').click((e) => {
+      if ($(e.target).is('#div-create-order')) {
+         $("#div-create-order").hide();
+      }
    });
 });

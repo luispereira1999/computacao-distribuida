@@ -50,6 +50,7 @@ const upload = multer({
 
 router.get("/account", [validateLogin, validateUser], userController.view);
 router.get("/get-merchants/:quantity", userController.getMerchants);
+router.get("/accepted", [validateLogin, validateUser, validateType.checkAdmin], userController.getByAccepted);
 router.get("/not-accepted", [validateLogin, validateUser, validateType.checkAdmin], userController.getByNotAccepted);
 router.put("/edit-data", [validateLogin, validateUser], userController.editData);
 router.patch("/edit-password", [validateLogin, validateUser], userController.editPassword);

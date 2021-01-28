@@ -3,7 +3,7 @@
 
 <head>
    <!-- metadados -->
-   <title>Restaurante - Encomendas</title>
+   <title>Condutor - Encomendas</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -43,7 +43,7 @@
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/restaurant-orders.js"></script>
+   <script type="text/javascript" defer src="js/condutor-orders.js"></script>
 </head>
 
 <body>
@@ -65,10 +65,8 @@
                      <div class="main-nav">
                         <nav id="site-navigation" class="main-navigation">
                            <ul>
-                              <li><a href="listings.html">Restaurantes</a></li>
+                              <li><a href="index.html">Restaurantes</a></li>
                               <li>
-                              <li><a href="contact-us.html">Contactos</a></li>
-                              </li>
                            </ul>
                         </nav>
                      </div>
@@ -109,21 +107,7 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div class="company-info">
-                           <div class="img-holder">
-                              <figure>
-                                 <img src="assets/extra-images/listing-logo18.png" alt="">
-                              </figure>
-                           </div>
-
-                           <div class="text-holder">
-                              <span class="restaurant-title">Restaurante Demo</span>
-                              <div class="text">
-                                 <i class="icon-local_pizza"></i>
-                                 <p>Pizzaria</p>
-                              </div>
-                           </div>
-                        </div>
+                        <div id="title-info" class="company-info"></div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -139,11 +123,11 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="restaurant-account-setting.html"><i
-                                       class="icon-building"></i>Configurações</a>
-                              <li><a href="restaurant-menu.html"><i class="icon-menu5"></i>Menu</a></li>
-                              <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
-                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
+                              <li><a href="condutor-account-setting.html"><i class="icon-build"></i>Configurações</a>
+                              </li>
+                              <li><a href="condutor-accept-orders.html"><i class="icon-open_in_browser"></i>Aceitar Encomendas</a></li>
+                              <li><a href="condutor-withdrawals.html"><i class="icon-bill"></i>Entregas</a></li>
+                              <li><a href="condutor-orders.html" class="btn-edit-profile"><i
                                        class="icon-add_shopping_cart"></i>Encomendas</a></li>
                               <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
                                     Perfil</a></li>
@@ -258,8 +242,65 @@
    </div>
 
 
-   <!-- Modal Popup Start -->
    <div id="modals-orders"></div>
+
+   <!-- Modal Popup Start -->
+   <div class="modal fade menu-order-detail menu-order-info" id="booking-detail-22603" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                     aria-hidden="true">×</span></button>
+               <h2><a>Booking Detail</a></h2>
+            </div>
+            <div class="modal-body booking-modal-body">
+               <div class="order-detail-inner">
+                  <h3>Restaurant Demo </h3>
+                  <ul class="order-detail-options">
+                     <li>
+                        <strong>Booking ID :</strong>
+                        <span>22603</span>
+                     </li>
+                     <li>
+                        <strong>Booking Date :</strong>
+                        <span>Apr 9,2020 6:40 AM </span>
+                     </li>
+                  </ul>
+                  <h3>Customer Deatil</h3>
+                  <ul class="order-detail-options">
+                     <li>
+                        <strong>First Name:</strong>
+                        <span>Mark</span>
+                     </li>
+                     <li>
+                        <strong>Last Name:</strong>
+                        <span>Jose</span>
+                     </li>
+                     <li>
+                        <strong>Email:</strong>
+                        <span>markjose@gmail.com</span>
+                     </li>
+                     <li>
+                        <span>4-guest</span>
+                     </li>
+                     <li>
+                        <span>Apr 30,2020 11:00 AM</span>
+                     </li>
+                     <li class="order-detail-message">
+                        <strong>Instructions:</strong>
+                        <span>I need to book a special table for my friends. Make it some special.!</span>
+                     </li>
+                  </ul>
+                  <div class="booking-status-holder">
+                     <div class="booking-status-process booking-status">
+                        <p style="background:#1e73be;">Your booking is Processing.</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>
@@ -268,9 +309,9 @@
          <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
       </div>
    </div>
+
+
    <!-- Modal Popup End -->
-
-
    <script src="assets/js/responsive.menu.js"></script>
    <script src="assets/js/swiper.min.js"></script>
    <script src="assets/js/bootstrap-datepicker.js"></script>

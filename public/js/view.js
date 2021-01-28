@@ -45,6 +45,61 @@ function getHtmlProductsInIndex(data) {
 }
 
 
+function getHtmlMerchantsInMerchants(data) {
+   return $('\
+      <li>\
+         <div class="img-holder">\
+            <figure>\
+               <a href="#"><img src="assets/extra-images/listing-logo18.png" class="img-list wp-post-image" alt=""></a>\
+            </figure>\
+         </div>\
+         <div class="text-holder">\
+            <div class="post-title">\
+               <h5>\
+                  <a href="listing-detail.html">'+ data.name + '</a>\
+               </h5>\
+            </div>\
+            <span class="post-categories">'+ data.description + '</span>\
+            <div class="delivery-potions">\
+               <div class="post-time">\
+                  <i class="icon-motorcycle"></i>\
+               </div>\
+               <span>'+ data.address + ", " + data.zip_code + '</span>\
+            </div>\
+         </div>\
+         <div class="list-option">\
+            <a href="#" class="viewmenu-btn text-color">Ver Menu</a>\
+         </div>\
+      </li>\
+   ');
+}
+
+
+function getHtmlProductsInProducts(data) {
+   return $('\
+      <li id="product-'+ data.id + '">\
+         <div class="img-holder">\
+            <figure>\
+               <img src="./uploads/products/'+ data.product_url_photo + '" class="img-list wp-post-image">\
+            </figure>\
+         </div>\
+         <div class="text-holder">\
+            <div class="post-title">\
+               <h5>\
+                  <a href="listing-detail.html">'+ data.name + '</a>\
+               </h5>\
+            </div>\
+            <span class="post-categories">'+ data.description + '</span>\
+         </div>\
+         <div class="list-option">\
+            <span class="data-price" style="margin-right:40px;">'+ data.price + '€</span>\
+            <a style="cursor:pointer" onclick="document.getElementById('+ "'div-create-order'" + ').style.display=' + "'block'" + '" class="span-create-order viewmenu-btn text-color">Encomendar</a>\
+         </div>\
+      </li>\
+   ');
+}
+
+
 function getHtmlUserInfoOnHeader() {
    return $('\
       <figure class="profile-image">\
@@ -57,8 +112,8 @@ function getHtmlUserInfoOnHeader() {
 
 function getHtmlClientHeaderItems() {
    return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
@@ -66,7 +121,7 @@ function getHtmlClientHeaderItems() {
 
 function getHtmlMerchantHeaderItems() {
    return $('\
-      <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Meu Restaurante</a></li>\
+      <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
       <li><a href="restaurant-menu.html"><i class="icon-menu5"></i>Menu</a></li>\
       <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
       <li><a href="restaurant-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
@@ -77,9 +132,10 @@ function getHtmlMerchantHeaderItems() {
 
 function getHtmlDriverHeaderItems() {
    return $('\
-      <li><a href="motorista-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a href="motorista-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
-      <li><a href="motorista-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
+      <li><a href="condutor-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a href="condutor-accept-orders.html"><i class="icon-open_in_browser"></i>Aceitar Encomendas</a></li>\
+      <li><a href="condutor-withdrawals.html"><i class="icon-bill"></i>Entregas</a></li>\
+      <li><a href="condutor-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
@@ -87,41 +143,10 @@ function getHtmlDriverHeaderItems() {
 
 function getHtmlAdminHeaderItems() {
    return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
-   ');
-}
-
-
-function getHtmlMerchantSidebarItems() {
-   return $('\
-      <li><a href="restaurant-restaurant.html"><i class="icon-building"></i>Meu Restaurante</a></li>\
-      <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu</a></li>\
-      <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>\
-      <li><a href="restaurant-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="restaurant-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar Perfil</a></li>\
-      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
-   ');
-}
-
-
-function getHtmlDriverSidebarItems() {
-   return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar Perfil</a></li>\
-      <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
-   ');
-}
-
-
-function getHtmlAdminSidebarItems() {
-   return $('\
-      <li><a href="buyer-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
-      <li><a href="buyer-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
-      <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar Perfil</a></li>\
+      <li><a href="admin-account-setting.html"><i class="icon-build"></i>Configurações</a></li>\
+      <li><a href="admin-users-accepted.html" class="btn-edit-profile"><i class="icon-users"></i>Utilizadores Aceites</a></li>\
+      <li><a href="admin-accept-users.html" class="btn-edit-profile"><i class="icon-open_in_browser"></i>Aceitar utilizadores</a></li>\
+      <li><a href="admin-orders.html" class="btn-edit-profile"><i class="icon-add_shopping_cart"></i>Encomendas</a></li>\
       <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>\
    ');
 }
@@ -142,6 +167,28 @@ function getHtmlTitle(data) {
             </li>\
             <li class="email">\
                <i class="icon-mail5"></i><a href="mail:josetomas@gmail.com">'+ getCookie("email") + '</a>\
+            </li>\
+         </ul>\
+      </div>\
+   ');
+}
+
+
+function getHtmlMerchantTitle(data) {
+   return $('\
+      <div class="img-holder">\
+         <figure>\
+            <img src="./uploads/photos/' + data.merchant_url_photo + '"">\
+         </figure>\
+      </div>\
+      <div class="text-holder">\
+         <span class="restaurant-title">'+ getCookie("name") + '</span>\
+         <ul class="user-info-contact">\
+            <li class="cell">\
+               <i class="icon-address-book"></i><a href="">'+ data.address + ", " + data.zip_code + '</a>\
+            </li>\
+            <li class="email">\
+               <i class="icon-mail5"></i><a href="mail:josetomas@gmail.com">'+ data.email + '</a>\
             </li>\
          </ul>\
       </div>\
@@ -454,132 +501,9 @@ function getHtmlUserOrders(data) {
             </div>\
             <span class="date-time">'+ data.date + '</span>\
             <div class="order-btn">\
-               <a href="#" data-toggle="modal" data-target="#order_detail">Detalhes de Encomenda</a>\
+               <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '">Detalhes de Encomenda</a>\
                <span data-accepted="'+ data.accepted + '" data-canceled="' + data.canceled + '" class="order-status"></span>\
             </div>\
-            \
-            <div class="modal fade menu-order-detail order-detail" id="order_detail" tabindex="-1" role="dialog">\
-               <div class="modal-dialog">\
-                  <div class="modal-content">\
-                     <div class="modal-header">\
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
-                        <h2>Detalhes de Encomenda</h2>\
-                     </div>\
-                     <div class="modal-body">\
-                        <div class="order-detail-inner">\
-                           <div class="description-holder">\
-                              <div class="row">\
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
-                                    <div class="list-detail-options has-checkbox">\
-                                       <h3>Restaurante de Demonstração </h3>\
-                                       <ul class="order-detail-options">\
-                                          <li class="order-number">\
-                                             <strong>ID de Encomenda:</strong>\
-                                             <span>'+ data.id + '</span>\
-                                          </li>\
-                                          <li class="order-number">\
-                                             <strong>Nome do Restaurante:</strong>\
-                                             <span>'+ data.merchant_name + '</span>\
-                                          </li>\
-                                          <li class="created-date">\
-                                             <strong>Data de Entrega:</strong>\
-                                             <span>'+ data.date + '</span>\
-                                          </li>\
-                                          <li class="order-type">\
-                                             <strong>Pagamento:</strong>\
-                                             <span>Aprovado</span>\
-                                          </li>\
-                                       </ul>\
-                                    </div>\
-                                 </div>\
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
-                                    <div class="list-detail-options has-checkbox">\
-                                       <h3>Detalhe de Encomenda</h3>\
-                                       <ul class="order-detail-options">\
-                                          <li>\
-                                             <strong>Nome do Cliente:</strong>\
-                                             <span>'+ data.client_name + '</span>\
-                                          </li>\
-                                          <li>\
-                                             <strong>Nº Telemóvel:</strong>\
-                                             <span>'+ data.client_phone_number + '</span>\
-                                          </li>\
-                                          <li>\
-                                             <strong>Email:</strong>\
-                                             <span>'+ data.client_email + '</span>\
-                                          </li>\
-                                          <li>\
-                                             <strong>Morada:</strong>\
-                                             <span>'+ data.address + '</span>\
-                                          </li>\
-                                       </ul>\
-                                    </div>\
-                                 </div><br><br>\
-                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
-                                    <h2 class="heading">Menu </h2>\
-                                    <div class="responsive-table">\
-                                       <ul class="categories-order table-generic">\
-                                          <li class="order-heading-titles">\
-                                             <div>Produto</div>\
-                                             <div>Preço</div>\
-                                          </li>\
-                                          <li class="order-heading-titles">\
-                                             <div>\
-                                                <h4>'+ data.product_name + '</h4>\
-                                                <h5>'+ data.description + '</h5>\
-                                             </div>\
-                                             <div><span class="category-price">'+ data.price + '€</span>\
-                                             </div>\
-                                          </li>\
-                                       </ul>\
-                                    </div>\
-                                 </div>\
-                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
-                                    <div class="row">\
-                                       <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
-                                          <h3>Encomenda Total</h3>\
-                                       </div>\
-                                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
-                                          <ul class="order-detail-options order-total">\
-                                             <li class="created-date">\
-                                                <strong>Subtotal:</strong>\
-                                                <span>'+ data.price + '€</span>\
-                                             </li>\
-                                             <li class="order-type">\
-                                                <strong>\
-                                                   Taxa de Entrega:</strong>\
-                                                <span>'+ data.pick_up_fee + '€</span>\
-                                             </li>\
-                                             <li class="order-type">\
-                                                <strong>IVA ('+ data.vat / 0.01 + '%)</strong>\
-                                                <span>'+ (data.total - data.pick_up_fee - data.price) + '€</span>\
-                                             </li>\
-                                             <li class="order-type total-price">\
-                                                <strong>Total:</strong>\
-                                                <span>'+ data.total + '€</span>\
-                                             </li>\
-                                          </ul>\
-                                       </div>\
-                                    </div>\
-                                 </div>\
-                              </div>\
-                           </div>\
-                        </div>\
-                     </div>\
-                  </div>\
-               </div>\
-            </div>\
-            <script>\
-               (function ($) {\
-                  $(document).ready(function () {\
-                     $(".order-detail .modal-dialog .modal-content").mCustomScrollbar({\
-                        setHeight: 575,\
-                        theme: "minimal-dark",\
-                        mouseWheelPixels: 100\
-                     });\
-                  });\
-               })(jQuery);\
-            </script>\
          </div>\
       </div>\
    ');
@@ -598,9 +522,388 @@ function getHtmlMerchantOrders(data) {
             <span data-accepted="'+ data.accepted + '" data-canceled="' + data.canceled + '" class="order-status"></span>\
          </div>\
          <div>\
-            <a href="#" data-toggle="modal" data-target="#order-det-22606"><i class="icon-plus2 text-color"></i></a>\
+            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '"><i class="icon-plus2 text-color"></i></a>\
          </div>\
       </li>\
+   ');
+}
+
+
+function getHtmlDriverOrders(data) {
+   return $('\
+      <li>\
+         <div class="order-id">'+ data.id + '</div>\
+         <div>'+ data.merchant_name + '</div>\
+         <div>'+ data.client_name + '</div>\
+         <div>'+ data.date + '</div>\
+         <div class="order-btn">\
+            <span data-pending="'+ data.pending + '" data-completed="' + data.completed + '" class="order-status"></span>\
+         </div>\
+         <div>\
+            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '"><i class="icon-plus2 text-color"></i></a>\
+         </div>\
+      </li>\
+   ');
+}
+
+
+function getHtmlModalOrders(data) {
+   return $('\
+      <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
+         <div class="modal-dialog" style="width: 60%;">\
+            <div class="modal-content">\
+               <div class="modal-header">\
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
+                  <h2>Detalhes de Encomenda</h2>\
+               </div>\
+               <div class="modal-body">\
+                  <div class="order-detail-inner">\
+                     <div class="description-holder">\
+                        <div class="row">\
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
+                              <div class="list-detail-options has-checkbox">\
+                                 <h3>Restaurante</h3>\
+                                 <ul class="order-detail-options">\
+                                    <li class="order-number">\
+                                       <strong>ID de Encomenda:</strong>\
+                                       <span>'+ data.id + '</span>\
+                                    </li>\
+                                    <li class="order-number">\
+                                       <strong>Nome do Restaurante:</strong>\
+                                       <span>'+ data.merchant_name + '</span>\
+                                    </li>\
+                                    <li class="created-date">\
+                                       <strong>Data de Entrega:</strong>\
+                                       <span>'+ data.date + '</span>\
+                                    </li>\
+                                    <li class="order-type">\
+                                       <strong>Pagamento:</strong>\
+                                       <span>Aprovado</span>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div>\
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
+                              <div class="list-detail-options has-checkbox">\
+                                 <h3>Cliente</h3>\
+                                 <ul class="order-detail-options">\
+                                    <li>\
+                                       <strong>Nome do Cliente:</strong>\
+                                       <span>'+ data.client_name + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Nº Telemóvel:</strong>\
+                                       <span>'+ data.client_phone_number + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Email:</strong>\
+                                       <span>'+ data.client_email + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Morada:</strong>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div><br><br>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <h2 class="heading">Menu </h2>\
+                              <div class="responsive-table">\
+                                 <ul class="categories-order table-generic">\
+                                    <li class="order-heading-titles">\
+                                       <div>Produto</div>\
+                                       <div>Preço</div>\
+                                    </li>\
+                                    <li class="order-heading-titles">\
+                                       <div>\
+                                          <h4>'+ data.product_name + '</h4>\
+                                          <h5>'+ data.description + '</h5>\
+                                       </div>\
+                                       <div><span class="category-price">'+ data.price + '€</span>\
+                                       </div>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="row">\
+                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
+                                    <h3>Encomenda Total</h3>\
+                                 </div>\
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
+                                    <ul class="order-detail-options order-total">\
+                                       <li class="created-date">\
+                                          <strong>Subtotal:</strong>\
+                                          <span>'+ data.price + '€</span>\
+                                       </li>\
+                                       <li class="order-type">\
+                                          <strong>\
+                                             Taxa de Entrega:</strong>\
+                                          <span>'+ data.pick_up_fee + '€</span>\
+                                       </li>\
+                                       <li class="order-type">\
+                                          <strong>IVA ('+ data.vat / 0.01 + '%)</strong>\
+                                          <span>'+ (data.total - data.pick_up_fee - data.price) + '€</span>\
+                                       </li>\
+                                       <li class="order-type total-price">\
+                                          <strong>Total:</strong>\
+                                          <span>'+ data.total + '€</span>\
+                                       </li>\
+                                    </ul>\
+                                 </div>\
+                              </div>\
+                           </div>\
+                        </div>\
+                     </div>\
+                  </div>\
+               </div>\
+            </div>\
+         </div>\
+      </div>\
+      <script>\
+         (function ($) {\
+            $(document).ready(function () {\
+               $(".order-detail .modal-dialog .modal-content").mCustomScrollbar({\
+                  setHeight: 570,\
+                  theme: "minimal-dark",\
+                  mouseWheelPixels: 100\
+               });\
+            });\
+         })(jQuery);\
+      </script>\
+   ');
+}
+
+
+function getHtmlModalMerchantOrders(data) {
+   return $('\
+      <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
+         <div class="modal-dialog" style="width: 60%;">\
+            <div class="modal-content">\
+               <div class="modal-header">\
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
+                  <h2>Detalhes de Venda</h2>\
+               </div>\
+               <div class="modal-body">\
+                  <div class="order-detail-inner">\
+                     <div class="description-holder">\
+                        <div class="row">\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="list-detail-options has-checkbox">\
+                                 <h3>Cliente</h3>\
+                                 <ul class="order-detail-options">\
+                                    <li>\
+                                       <strong>Nome do Cliente:</strong>\
+                                       <span>'+ data.client_name + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Nº Telemóvel do Cliente:</strong>\
+                                       <span>'+ data.client_phone_number + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Email do Cliente:</strong>\
+                                       <span>'+ data.client_email + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Morada do Cliente:</strong>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div><br><br>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <h2 class="heading">Menu </h2>\
+                              <div class="responsive-table">\
+                                 <ul class="categories-order table-generic">\
+                                    <li class="order-heading-titles">\
+                                       <div>Produto</div>\
+                                       <div>Preço</div>\
+                                    </li>\
+                                    <li class="order-heading-titles">\
+                                       <div>\
+                                          <h4>'+ data.product_name + '</h4>\
+                                          <h5>'+ data.description + '</h5>\
+                                       </div>\
+                                       <div><span class="category-price">'+ data.price + '€</span>\
+                                       </div>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="row">\
+                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
+                                    <h3>Encomenda Total</h3>\
+                                 </div>\
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
+                                    <ul class="order-detail-options order-total">\
+                                       <li class="created-date">\
+                                          <strong>Subtotal:</strong>\
+                                          <span>'+ data.price + '€</span>\
+                                       </li>\
+                                       <li class="order-type">\
+                                          <strong>\
+                                             Taxa de Entrega:</strong>\
+                                          <span>'+ data.pick_up_fee + '€</span>\
+                                       </li>\
+                                       <li class="order-type">\
+                                          <strong>IVA ('+ data.vat / 0.01 + '%)</strong>\
+                                          <span>'+ (data.total - data.pick_up_fee - data.price) + '€</span>\
+                                       </li>\
+                                       <li class="order-type total-price">\
+                                          <strong>Total:</strong>\
+                                          <span>'+ data.total + '€</span>\
+                                       </li>\
+                                    </ul>\
+                                 </div>\
+                              </div>\
+                           </div>\
+                        </div>\
+                     </div>\
+                  </div>\
+               </div>\
+            </div>\
+         </div>\
+      </div>\
+      <script>\
+         (function ($) {\
+            $(document).ready(function () {\
+               $(".order-detail .modal-dialog .modal-content").mCustomScrollbar({\
+                  setHeight: 570,\
+                  theme: "minimal-dark",\
+                  mouseWheelPixels: 100\
+               });\
+            });\
+         })(jQuery);\
+      </script>\
+   ');
+}
+
+
+function getHtmlModalDriverOrders(data) {
+   return $('\
+      <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
+         <div class="modal-dialog" style="width: 60%;">\
+            <div class="modal-content">\
+               <div class="modal-header">\
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
+                  <h2>Detalhes de Entrega</h2>\
+               </div>\
+               <div class="modal-body">\
+                  <div class="order-detail-inner">\
+                     <div class="description-holder">\
+                        <div class="row">\
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
+                              <div class="list-detail-options has-checkbox">\
+                                 <h3>Restaurante</h3>\
+                                 <ul class="order-detail-options">\
+                                    <li class="order-number">\
+                                       <strong>ID de Encomenda:</strong>\
+                                       <span>'+ data.id + '</span>\
+                                    </li>\
+                                    <li class="order-number">\
+                                       <strong>Nome do Restaurante:</strong>\
+                                       <span>'+ data.merchant_name + '</span>\
+                                    </li>\
+                                    <li class="created-date">\
+                                       <strong>Data de Entrega:</strong>\
+                                       <span>'+ data.date + '</span>\
+                                    </li>\
+                                    <li class="order-type">\
+                                       <strong>Pagamento:</strong>\
+                                       <span>Aprovado</span>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div>\
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">\
+                              <div class="list-detail-options has-checkbox">\
+                                 <h3>Cliente</h3>\
+                                 <ul class="order-detail-options">\
+                                    <li>\
+                                       <strong>Nome do Cliente:</strong>\
+                                       <span>'+ data.client_name + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Nº Telemóvel:</strong>\
+                                       <span>'+ data.client_phone_number + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Email:</strong>\
+                                       <span>'+ data.client_email + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Morada:</strong>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div><br><br>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <h2 class="heading">Menu </h2>\
+                              <div class="responsive-table">\
+                                 <ul class="categories-order table-generic">\
+                                    <li class="order-heading-titles">\
+                                       <div>Produto</div>\
+                                       <div>Preço</div>\
+                                    </li>\
+                                    <li class="order-heading-titles">\
+                                       <div>\
+                                          <h4>'+ data.product_name + '</h4>\
+                                          <h5>'+ data.description + '</h5>\
+                                       </div>\
+                                       <div><span class="category-price">'+ data.price + '€</span>\
+                                       </div>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="row">\
+                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
+                                    <h3>Encomenda Total</h3>\
+                                 </div>\
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
+                                    <ul class="order-detail-options order-total">\
+                                       <li class="created-date">\
+                                          <strong>Subtotal:</strong>\
+                                          <span>'+ data.price + '€</span>\
+                                       </li>\
+                                       <li class="order-type">\
+                                          <strong>\
+                                             Taxa de Entrega:</strong>\
+                                          <span>'+ data.pick_up_fee + '€</span>\
+                                       </li>\
+                                       <li class="order-type">\
+                                          <strong>IVA ('+ data.vat / 0.01 + '%)</strong>\
+                                          <span>'+ (data.total - data.pick_up_fee - data.price) + '€</span>\
+                                       </li>\
+                                       <li class="order-type total-price">\
+                                          <strong>Total:</strong>\
+                                          <span>'+ data.total + '€</span>\
+                                       </li>\
+                                    </ul>\
+                                 </div>\
+                              </div>\
+                           </div>\
+                        </div>\
+                     </div>\
+                  </div>\
+               </div>\
+            </div>\
+         </div>\
+      </div>\
+      <script>\
+         (function ($) {\
+            $(document).ready(function () {\
+               $(".order-detail .modal-dialog .modal-content").mCustomScrollbar({\
+                  setHeight: 570,\
+                  theme: "minimal-dark",\
+                  mouseWheelPixels: 100\
+               });\
+            });\
+         })(jQuery);\
+      </script>\
    ');
 }
 
@@ -618,7 +921,7 @@ function getHtmlProductsInAccount(data) {
                <div class="text-holder">\
                   <h6><a class="data-product-name" href="#">'+ data.product_name + '</a></h6>\
                   <address class="data-stock">'+ data.stock + '</address>\
-                  <span class="price data-price">'+ data.price + '</span><span>€</span>\
+                  <span class="price data-price">'+ data.price + '€</span>\
                </div>\
             </div>\
             <div class="post-time">\
@@ -759,6 +1062,143 @@ function getHtmlProductsInAccount(data) {
 }
 
 
-function getHtmlMerchantOrdersDetail(data) {
-   return $('d')
+function getHtmlAllUsers(data) {
+   return $('\
+      <li>\
+         <div class="user-id">'+ data.id + '</div>\
+         <div>'+ data.username + '</div>\
+         <div>'+ data.email + '</div>\
+         <div class="type-user">'+ data.type + '</div>\
+         <div>\
+            <span data-type="'+ data.type + '" class="order-status"></span>\
+         </div>\
+      </li>\
+   ');
+}
+
+
+function getHtmlAllUsersNotAccepted(data) {
+   return $('\
+      <li>\
+         <div class="user-id">'+ data.id + '</div>\
+         <div>'+ data.username + '</div>\
+         <div>'+ data.name + '</div>\
+         <div>'+ data.email + '</div>\
+         <div class="type-user">'+ data.type + '</div>\
+         <div>\
+            <span data-type="'+ data.type + '" class="order-status"></span>\
+         </div>\
+         <div>\
+            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '"><i class="icon-plus2 text-color"></i></a>\
+         </div>\
+      </li>\
+   ');
+}
+
+
+function getHtmlModalUserDetail(data) {
+   return $('\
+      <div class="modal fade menu-order-detail order-detail" id="order_detail_'+ data.id + '" tabindex="-1" role="dialog">\
+         <div class="modal-dialog" style="width: 35%;">\
+            <div class="modal-content">\
+               <div class="modal-header">\
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>\
+                  <h2>Detalhes de Utilizador</h2>\
+               </div>\
+               <div class="modal-body">\
+                  <div class="order-detail-inner">\
+                     <div class="description-holder">\
+                        <div class="row">\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="list-detail-options has-checkbox">\
+                                 <h3>Utilizador</h3>\
+                                 <ul class="order-detail-options">\
+                                    <li>\
+                                       <strong>Nome do Utilizador:</strong>\
+                                       <span>'+ data.name + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Nº Telemóvel do Cliente:</strong>\
+                                       <span>'+ data.phone_number + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Email do Utilizador:</strong>\
+                                       <span>'+ data.email + '</span>\
+                                    </li>\
+                                    <li>\
+                                       <strong>Morada do Utilizador:</strong>\
+                                       <span>'+ data.address + ", " + data.zip_code + '</span>\
+                                    </li>\
+                                 </ul>\
+                              </div>\
+                           </div><br><br>\
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="row">\
+                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
+                                    <h3>Foto</h3>\
+                                 </div>\
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
+                                    <ul class="order-detail-options order-total">\
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                                          <figure>\
+                                             <a><img src="./uploads/photos/'+ data.url_photo + '" class="attachment-full size-full wp-post-image" alt=""></a>\
+                                          </figure>\
+                                       </div>\
+                                    </ul>\
+                                 </div>\
+                              </div>\
+                           </div><br><br>\
+                           <div data-driving-license="'+ data.type + '" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                              <div class="row">\
+                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">\
+                                    <h3>Carta de Condução</h3>\
+                                 </div>\
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">\
+                                    <ul class="order-detail-options order-total">\
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\
+                                          <figure>\
+                                             <a><img src="./images/pdf.png" class="attachment-full size-full wp-post-image" alt=""></a>\
+                                          </figure>\
+                                       </div>\
+                                    </ul>\
+                                 </div>\
+                              </div>\
+                           </div>\
+                        </div>\
+                     </div>\
+                  </div>\
+               </div>\
+            </div>\
+         </div>\
+      </div>\
+      <script>\
+         (function ($) {\
+            $(document).ready(function () {\
+               $(".order-detail .modal-dialog .modal-content").mCustomScrollbar({\
+                  setHeight: 450,\
+                  theme: "minimal-dark",\
+                  mouseWheelPixels: 100\
+               });\
+            });\
+         })(jQuery);\
+      </script>\
+   ');
+}
+
+
+function getHtmlAllOrdersNotAccepted(data) {
+   return $('\
+      <li>\
+         <div class="order-id">'+ data.id + '</div>\
+         <div>'+ data.merchant_name + '</div>\
+         <div>'+ data.product_name + '</div>\
+         <div>'+ data.address + ", " + data.zip_code + '</div>\
+         <div class="order-btn">\
+            <span data-accepted="'+ data.accepted + '" data-canceled="' + data.canceled + '" class="order-status"></span>\
+         </div>\
+         <div>\
+            <a href="#" data-toggle="modal" data-target="#order_detail_'+ data.id + '"><i class="icon-plus2 text-color"></i></a>\
+         </div>\
+      </li>\
+   ');
 }

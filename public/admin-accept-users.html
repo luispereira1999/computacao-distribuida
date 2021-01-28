@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
    <!-- metadados -->
-   <title>Restaurante - Encomendas</title>
+   <title>Admin - Aceitar UtilizadoresVendas</title>
    <meta charset="utf-8">
    <meta name="description" content="Aplicação web de venda e entrega de bens.">
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
@@ -43,7 +43,7 @@
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
    <script type="text/javascript" defer src="js/view.js"></script>
-   <script type="text/javascript" defer src="js/restaurant-orders.js"></script>
+   <script type="text/javascript" defer src="js/admin-accept-users.js"></script>
 </head>
 
 <body>
@@ -94,6 +94,7 @@
                </div>
             </div>
          </div>
+
       </header>
       <!-- Header End -->
 
@@ -109,21 +110,7 @@
                   <!-- Column Start -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="company-info-detail">
-                        <div class="company-info">
-                           <div class="img-holder">
-                              <figure>
-                                 <img src="assets/extra-images/listing-logo18.png" alt="">
-                              </figure>
-                           </div>
-
-                           <div class="text-holder">
-                              <span class="restaurant-title">Restaurante Demo</span>
-                              <div class="text">
-                                 <i class="icon-local_pizza"></i>
-                                 <p>Pizzaria</p>
-                              </div>
-                           </div>
-                        </div>
+                        <div id="title-info" class="company-info"></div>
                      </div>
                   </div>
                   <!-- Column End -->
@@ -139,11 +126,11 @@
                      <div class="user-account-nav user-account-sidebar">
                         <div class="user-nav-list">
                            <ul>
-                              <li><a href="restaurant-account-setting.html"><i
-                                       class="icon-building"></i>Configurações</a>
-                              <li><a href="restaurant-menu.html"><i class="icon-menu5"></i>Menu</a></li>
-                              <li><a href="restaurant-withdrawals.html"><i class="icon-bill"></i>Vendas</a></li>
-                              <li><a href="restaurant-orders.html" class="btn-edit-profile"><i
+                              <li><a href="admin-account-setting.html"><i class="icon-build"></i>Configurações</a></li>
+                              <li><a href="admin-users-accepted.html"><i class="icon-users"></i>Utilizadores Aceites</a></li>
+                              <li><a href="admin-accept-users.html"><i class="icon-open_in_browser"></i>Aceitar
+                                    Utilizadores</a></li>
+                              <li><a href="admin-orders.html" class="btn-edit-profile"><i
                                        class="icon-add_shopping_cart"></i>Encomendas</a></li>
                               <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
                                     Perfil</a></li>
@@ -155,19 +142,24 @@
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                      <div class="user-dashboard loader-holder">
                         <div class="user-holder">
-                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="row">
-                                 <div class="element-title has-border right-filters-row">
-                                    <h5>Encomendas</h5>
-                                 </div>
+                           <div class="publisher-withdrawal-form">
+                              <div class="element-title has-border right-filters-row">
+                                 <h5>ACEITAR UTILIZADORES</h5>
                               </div>
                            </div>
-                           <div class="row">
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                 <div class="user-orders-list">
-                                    <div id="get-user-orders" class="row"></div>
-                                 </div>
-                              </div>
+                           <div class="responsive-table">
+                              <ul class="table-generic" id="table-users">
+                                 <li class="order-heading-titles">
+                                    <div>Id</div>
+                                    <div>Utilizador</div>
+                                    <div>Nome</div>
+                                    <div>Email</div>
+                                    <div>Tipo</div>
+                                    <div>Status</div>
+                                    <div>Detalhes</div>
+                                 </li>
+                                 <li class="order-heading-titles"></li>
+                              </ul>
                            </div>
                         </div>
                      </div>
@@ -259,7 +251,7 @@
 
 
    <!-- Modal Popup Start -->
-   <div id="modals-orders"></div>
+   <div id="modals-user-detail"></div>
    <div id="id_confrmdiv" style="display: none;">
       <div class="cs-confirm-container">
          <i class="icon-sad"></i>

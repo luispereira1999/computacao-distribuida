@@ -1,6 +1,6 @@
 $(window).ready(() => {
    var userLogged = checkUserLogged();
-   if (userLogged && getCookie("type") == 4) {
+   if (userLogged && getCookie("type") == 3) {
       $("#header-user-logged").show();
       $("#header-user-not-logged").hide();
    }
@@ -12,15 +12,16 @@ $(window).ready(() => {
 
    var html = getHtmlUserInfoOnHeader();
    $("#header-user-info").append(html);
-   var html = getHtmlAdminHeaderItems();
+   var html = getHtmlDriverHeaderItems();
    $("#header-menu").append(html);
    var html = getHtmlImgEditPhoto();
    $("#img-photo").append(html);
-   getAdminData();
+   getDriverData();
+   getOrdersNotAccepted();
 
-   $("#file-photo").change(() => {
-      $("#form-edit-user-photo").trigger("submit");
-      editUserPhoto();
+   $("#table-orders").on("click", ".accept", function () {
+      var id = $(this).parent().parent().children(".order-id").text();
+      acceptDelivery(id);
    });
 
    $("#id_truebtn").click(() => {
@@ -29,16 +30,5 @@ $(window).ready(() => {
 
    $(".a-logout").click(() => {
       logout("Sessão terminada com sucesso!");
-   });
-
-   $("#form-edit-user-data").submit(e => {
-      e.preventDefault();
-      $("input[name='description']").val($("textarea").val());
-      editUserData();
-   });
-
-   $("#form-edit-password").submit(e => {
-      e.preventDefault();
-      editPassword();
    });
 });

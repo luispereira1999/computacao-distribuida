@@ -1,6 +1,5 @@
 const database = require("../utils/database");
 const fs = require("fs");
-const globalConfig = require("../utils/global-config.json");
 var User = require("../models/user");
 var Product = require("../models/product");
 
@@ -47,7 +46,8 @@ module.exports = {
       // selecionar produto na base de dados
       var sql = "\
          SELECT\
-            Products.id, Products.name AS product_name, Products.stock, Products.price, Products.description, Products.url_photo\
+            Products.id, Products.name, Products.stock, Products.price, Products.description, Products.url_photo as product_url_photo,\
+            Users.email, Users.address, Users.zip_code, Users.url_photo as merchant_url_photo\
          FROM Products\
          INNER JOIN Users ON Users.id = Products.user_id\
          WHERE Users.name = ?\
@@ -241,27 +241,6 @@ function checkFilter(filter) {
       return { "exist": false };
    else
       return { "exist": true };
-}
-
-
-function getUrlPhoto(db, productId) {
-   return new Promise(resolve => {
-      var product = new Product({ "id": productId });
-
-      // selecionar foto do produto na base de dados
-      var sql = "SELECT url_photo FROM Products WHERE id = ?";
-      var params = product.id;
-      var urlPhoto = { "error": false, "value": "" };
-
-      db.each(sql, params, (err, row) => {
-         if (err)
-            return urlPhoto = { "error": true, "message": "Oh! " + err.message };
-
-         return urlPhoto = { "error": false, "value": globalConfig.path.UPLOADS + globalConfig.path.PRODUCTS + row.url_photo };
-      }, () => {
-         resolve(urlPhoto);
-      });
-   });
 }
 
 
