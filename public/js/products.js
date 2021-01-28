@@ -45,7 +45,7 @@ $(window).ready(() => {
       var total = vat + pickUpFee + data.price;
 
       setFormData(data);
-      $("#vat").val(vat)
+      $("#vat").val(0.27)
    });
 
    $("#form-create-order").submit(e => {
