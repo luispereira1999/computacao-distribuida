@@ -68,7 +68,7 @@ function getHtmlMerchantsInMerchants(data) {
             </div>\
          </div>\
          <div class="list-option">\
-            <a href="#" class="viewmenu-btn text-color">Ver Menu</a>\
+            <a href="products.html" class="viewmenu-btn text-color">Ver Menu</a>\
          </div>\
       </li>\
    ');
@@ -86,7 +86,7 @@ function getHtmlProductsInProducts(data) {
          <div class="text-holder">\
             <div class="post-title">\
                <h5>\
-                  <a href="listing-detail.html">'+ data.name + '</a>\
+                  <a href="listing-detail.html">'+ data.product_name + '</a>\
                </h5>\
             </div>\
             <span class="post-categories">'+ data.description + '</span>\
@@ -182,7 +182,7 @@ function getHtmlMerchantTitle(data) {
          </figure>\
       </div>\
       <div class="text-holder">\
-         <span class="restaurant-title">'+ getCookie("name") + '</span>\
+         <span class="restaurant-title">'+ data.name + '</span>\
          <ul class="user-info-contact">\
             <li class="cell">\
                <i class="icon-address-book"></i><a href="">'+ data.address + ", " + data.zip_code + '</a>\
