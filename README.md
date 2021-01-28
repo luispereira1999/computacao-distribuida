@@ -54,4 +54,4 @@ Para poder contribuir em desenvolvimento, leia por favor as diretivas estabeleci
 ## Licença
 Ao contribuir para este projeto, você concorda com as políticas da licença MIT.
 
-joao antunes 
+Feito por Rui Pinto
