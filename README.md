@@ -1,8 +1,13 @@
 # Picand Go
 
-Aplicação web de venda e entrega de bens.
+<img height="275" src="public/images/full-logo-white.png">
 
-<img height="150" src="public/images/full-logo-white.png">
+A sua comida está mais perto e nos melhores locais de restauração.\
+Nunca mais fique longe da sua comida favorita!
+
+Picand Go é uma aplicação desenvolvida em ambiente Web com ajuda de Node.js para o back-end. No quesito de preservar os dados foi elaborado com SQLite, um sistema de gestão para a base de dados.
+
+> Esta não é um aplicação oficializada no mercado, foi construida no âmbito académico de forma aumentar as nossas capacidades técnicas e interpessoais.
 
 
 ## Pré-Requisitos
@@ -37,6 +42,15 @@ Para colocar o projeto a funcionar localmente na sua máquina basta:
    ```sh
    http://localhost:8080
    ```
+
+
+## API
+
+É graças à API que o software se comunica com o servidor, possibilitando a interação com a base de dados e o armazenamento de ficheiros.
+
+Pode aceder facilmente à documentação da mesma através da seguinte página do nosso [GitHub Pages](https://luispereira1999.github.io/picand-go).
+Aqui você encontrará uma explicação clara e detalhada para efetuar essa comunicação.
+
 
 ## Contribuições
 
