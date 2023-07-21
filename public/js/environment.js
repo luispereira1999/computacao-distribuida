@@ -1,8 +1,7 @@
 let currentOrigin = window.location.origin;
 
-if (currentOrigin == "file://")
+// define a URL da API dependendo do servidor atual
+if (currentOrigin == "file://" || currentOrigin == "http://localhost:8080")  // servidor local
    var urlApi = "http://localhost:8080/api/";
-else if (currentOrigin == "http://localhost:8080")
-   var urlApi = "http://localhost:8080/api/";
-else
-   var urlApi = "http://picandgo.westeurope.cloudapp.azure.com/api/";
+else  // servidor externo
+   var urlApi = "http://picandgo.westeurope.cloudapp.azure.com/api/";  // exemplo

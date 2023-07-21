@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <!-- metadados -->
+   <title>Condutor - Configurações</title>
+   <meta charset="utf-8">
+   <meta name="description" content="Aplicação web de venda e entrega de bens.">
+   <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
+   <meta name="author" content="João Antunes, Luís Pereira, Rui Pinto">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.svg">
+
+   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
+
+   <!-- Alertify -->
+   <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
+   <link href="libs/css/bootstrap.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-theme.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-datepicker.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-slider.css" rel="stylesheet">
+   <link href="libs/css/iconmoon.css" rel="stylesheet">
+   <link href="libs/css/animate.css" rel="stylesheet">
+   <link href="libs/css/chosen.css" rel="stylesheet">
+   <link href="libs/css/swiper.min.css" rel="stylesheet">
+   <link href="libs/css/woocommerce.css" rel="stylesheet">
+   <link href="libs/css/prettyPhoto.css" rel="stylesheet">
+   <link href="libs/css/daterangepicker.css" rel="stylesheet">
+   <link href="libs/css/jquery.mCustomScrollbar.css" rel="stylesheet">
+   <link href="style.css" rel="stylesheet">
+   <link href="libs/css/cs-foodbakery-plugin.css" rel="stylesheet">
+   <link href="libs/css/color.css" rel="stylesheet">
+   <link href="libs/css/widget.css" rel="stylesheet">
+   <link href="libs/css/responsive.css" rel="stylesheet">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+   <script src="libs/js/modernizr.js"></script>
+   <script src="libs/js/bootstrap.js"></script>
+
+   <script type="text/javascript" defer src="js/environment.js"></script>
+   <script type="text/javascript" defer src="js/requests.js"></script>
+   <script type="text/javascript" defer src="js/functions.js"></script>
+   <script type="text/javascript" defer src="js/views.js"></script>
+   <script type="text/javascript" defer src="js/condutor-configuracoes.js"></script>
+</head>
+
+<body>
+   <!-- Main Wrapper -->
+   <div class="wrapper">
+      <!-- Header Start -->
+      <header id="header">
+         <div class="main-header">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                     <div class="logo">
+                        <figure>
+                           <a href="index.html" class="light-logo">
+                              <img src="images/full-logo.png" style="height: 49px;" alt="Logótipo">
+                           </a>
+                        </figure>
+                     </div>
+                     <div class="main-nav">
+                        <nav id="site-navigation" class="main-navigation">
+                           <ul>
+                              <li><a href="index.html">Comerciantes</a></li>
+                           </ul>
+                        </nav>
+                     </div>
+                  </div>
+                  <div id="header-user-not-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     <div class="login-option">
+                        <a class="cs-color cs-popup-joinus-btn login-popup" href="login.html">Login</a>
+                        <a class="get-start-btn" href="registo.html">Registo</a>
+                     </div>
+                  </div>
+                  <div id="header-user-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     <div class="login-option">
+                        <div class="user-dashboard-menu">
+                           <ul>
+                              <li class="user-dashboard-menu-children">
+                                 <a href="javascript:void(0);" id="header-user-info"></a>
+                                 <ul id="header-menu"></ul>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </header>
+      <!-- Header End -->
+
+
+      <!-- Main Section Start -->
+      <div class="main-section">
+         <div class="page-section merchant-detail-image-section"
+            style=" background: url(images/cover-account.jpg) no-repeat scroll 0 0 / cover;">
+            <!-- Container Start -->
+            <div class="container">
+               <!-- Row Start -->
+               <div class="row">
+                  <!-- Column Start -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <div class="company-info-detail">
+                        <div id="title-info" class="company-info"></div>
+                     </div>
+                  </div>
+                  <!-- Column End -->
+               </div>
+               <!-- Row End -->
+            </div>
+            <!-- Container End -->
+         </div>
+
+         <div class="page-section account-header buyer-logged-in">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                     <div class="user-account-nav user-account-sidebar">
+                        <div class="user-nav-list">
+                           <ul>
+                              <li><a href="condutor-configuracoes.html"><i class="icon-build"></i>Configurações</a>
+                              </li>
+                              <li><a href="condutor-aceitar-encomendas.html"><i class="icon-open_in_browser"></i>Aceitar
+                                    Encomendas</a></li>
+                              <li><a href="condutor-entregas.html"><i class="icon-bill"></i>Entregas</a></li>
+                              <li><a href="condutor-encomendas.html" class="btn-edit-profile"><i
+                                       class="icon-add_shopping_cart"></i>Encomendas</a></li>
+                              <li><a id="profile_delete" style="cursor: pointer;"><i class="icon-delete"></i>Eliminar
+                                    Perfil</a></li>
+                              <li><a class="a-logout" style="cursor: pointer;"><i class="icon-log-out"></i>Sair</a></li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                     <div class="user-dashboard loader-holder">
+                        <div class="user-holder">
+                           <div class="user-profile">
+                              <div class="element-title has-border">
+                                 <h5>Configurações</h5>
+                              </div>
+                              <div class="row">
+                                 <form id="form-edit-user-data">
+                                    <div id="user-data-1" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
+                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                       <div class="user-profile-images">
+                                          <div class="current-img">
+                                             <div class="row mt">
+                                                <div id="cropContainerModal" data-def-img="images/team-medium-img1.jpg"
+                                                   data-img-type="default">
+                                                   <figure>
+                                                      <a id="img-photo"></a>
+                                                   </figure>
+                                                </div>
+                                             </div>
+                                             <span>Coloque uma foto nova</span>
+                                          </div>
+                                          <div class="upload-file">
+                                             <form id="form-edit-user-photo">
+                                                <input id="file-photo" type="file" name="file" class="hide">
+                                                <input type="submit" id="submit-edit-user-photo"
+                                                   form="form-edit-user-photo" class="hide">
+                                                <button id="button-edit-user-photo"
+                                                   onclick="document.getElementById('file-photo').click();"
+                                                   type="button"><span>Upload
+                                                      Foto</span></button>
+                                             </form>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div id="user-data-2" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+                                 </form><br><br>
+
+                                 <form id="form-edit-driving-license">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                       <div class="element-title has-border" style="margin-bottom: 10px;">
+                                          <h5>Carta de condução</h5>
+                                       </div>
+                                    </div>
+                                    <div id="div-edit-driving-license" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                       style="padding: 0px;">
+                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                          <div class="field-holder">
+                                             <label>Tipo da Carta de Condução*</label>
+                                             <select name="driving_license">
+                                                <option value="1">A (moto)</option>
+                                                <option value="2">B (carro)</option>
+                                                <option value="3">A + B (ambos os veículos)</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                          <div class="field-holder">
+                                             <label>Carta de Condução (PDF)*</label>
+                                             <input type="file" class="form-control gllpLongitude" name="file" value="">
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                       <div class="field-holder search-location-map input-button-loader">
+                                          <input type="submit" form="form-edit-driving-license"
+                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
+                                             value="Alterar carta de condução"
+                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
+                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
+                                       </div>
+                                    </div>
+                                 </form><br>
+
+                                 <form id="form-edit-password">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="element-title has-border" style="margin-bottom: 10px;">
+                                          <h5>Palavra-Passe</h5>
+                                       </div>
+                                    </div>
+                                    <div id="div-edit-password" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <div class="field-holder">
+                                          <label>Nova palavra-pasee*</label>
+                                          <input type="password" name="password">
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                       <div class="field-holder search-location-map input-button-loader">
+                                          <input type="submit" form="form-edit-password"
+                                             class="acc-submit cs-section-update cs-color gllpSearchButton"
+                                             value="Alterar palavra-passe"
+                                             style="background: #3ab54b; border: 0 none; border-radius: 2px; color: #fff; display: inline-block; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; line-height: 28px;
+                                          margin: 0; outline: none; padding: 2px 25px; text-decoration: none; text-transform: capitalize; min-height: 40px;">
+                                       </div>
+                                    </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Main Section End -->
+
+
+      <!-- Footer Start -->
+      <footer id="footer" class="footer-style-2">
+         <div class="footer-widget">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                     <div class="widget widget_text">
+                        <div class="widget-title">
+                           <h5>Sobre nós</h5>
+                        </div>
+                        <div class="textwidget">Picand Go é uma plataforma que permite obter os melhores produtos da
+                           sua
+                           cidade em poucos minutos.
+                           O projeto nasceu com o objetivo de transformar a forma como os utilizadores adquirem o que
+                           precisam,
+                           tornando as cidades mais acessíveis e querendo ter um impacto sustentável na economia,
+                           sociedade e meio ambiente.
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                     <div class="widget widget-top-cities">
+                        <div class="widget-title">
+                           <h5>Cidades Populares</h5>
+                        </div>
+                        <ul>
+                           <li><a href="index.html">Famalicão</a></li>
+                           <li><a href="index.html">Braga</a></li>
+                           <li><a href="index.html">Barcelos</a></li>
+                           <li><a href="index.html">Guimarães</a></li>
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                     <div class="widget widget-connect">
+                        <div class="widget-title">
+                           <h5>Contacte-nos</h5>
+                        </div>
+                        <ul>
+                           <li><span class="bgcolor"><i class="icon-ring_volume"></i></span>
+                              <p>960 606 060</p>
+                           </li>
+                           <li><span class="bgcolor"><i class="icon-envelope-o"></i></span>
+                              <p><a href="#">suporte@picandgo.com</a>
+                              </p>
+                           </li>
+                           <li><span class="bgcolor"><i class="icon-location-pin2"></i></span>
+                              <p>Famalicão, Braga, Portugal</p>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="copyright-sec">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <div class="copyright-inner">
+                        <div class="copy-right">
+                           <p>Trabalho realizado no âmbito das unidades curriculares de <br>
+                              Computação Distribuída e Desenvolvimento Colaborativo de Software <br><br>
+
+                              João Antunes | Luís Pereira | Rui Pinto
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div> <!-- /.cs-copyright -->
+      </footer>
+      <!-- Footer End -->
+   </div>
+
+
+   <!-- Modal Popup Start -->
+   <div id="id_confrmdiv" style="display: none;">
+      <div class="cs-confirm-container">
+         <i class="icon-sad"></i>
+         <div class="message">Tem a certeza?</div>
+         <a href="javascript:void(0);" id="id_truebtn">Sim, Eliminar</a>
+         <a href="javascript:void(0);" id="id_falsebtn">Não, Cancelar</a>
+      </div>
+   </div>
+   <!-- Modal Popup End -->
+
+
+   <script src="libs/js/responsive.menu.js"></script>
+   <script src="libs/js/swiper.min.js"></script>
+   <script src="libs/js/bootstrap-datepicker.js"></script>
+   <script src="libs/js/chosen.js"></script>
+   <script src="libs/js/counter.js"></script>
+   <script src="libs/js/fliters.js"></script>
+   <script src="libs/js/jquery.fitvids.js"></script>
+   <script src="libs/js/jquery.growl.js"></script>
+   <script src="libs/js/jquery.matchHeight-min.js"></script>
+   <script src="libs/js/masonry.pkgd.js"></script>
+   <script src="libs/js/skills-progress.js"></script>
+   <script src="libs/js/bootstrap-slider.js"></script>
+   <script src="libs/js/wow.js"></script>
+   <script src="libs/js/jquery.mCustomScrollbar.concat.min.js"></script>
+   <script src="libs/js/daterangepicker.js"></script>
+   <script src="libs/js/functions-plugin.js"></script>
+   <script src="libs/js/functions.js"></script>
+</body>
+
+</html>

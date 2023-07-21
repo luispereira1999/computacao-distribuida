@@ -9,7 +9,7 @@
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
    <meta name="author" content="João Antunes, Luís Pereira, Rui Pinto">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.svg">
 
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
@@ -19,31 +19,31 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
 
-   <link href="assets/css/bootstrap.css" rel="stylesheet">
-   <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
-   <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
-   <link href="assets/css/bootstrap-slider.css" rel="stylesheet">
-   <link href="assets/css/iconmoon.css" rel="stylesheet">
-   <link href="assets/css/animate.css" rel="stylesheet">
-   <link href="assets/css/chosen.css" rel="stylesheet">
-   <link href="assets/css/swiper.css" rel="stylesheet">
-   <link href="assets/css/woocommerce.css" rel="stylesheet">
-   <link href="assets/css/prettyPhoto.css" rel="stylesheet">
+   <link rel="stylesheet" href="css/index.css">
+
+   <link href="libs/css/bootstrap.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-theme.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-datepicker.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-slider.css" rel="stylesheet">
+   <link href="libs/css/iconmoon.css" rel="stylesheet">
+   <link href="libs/css/animate.css" rel="stylesheet">
+   <link href="libs/css/chosen.css" rel="stylesheet">
+   <link href="libs/css/swiper.min.css" rel="stylesheet">
+   <link href="libs/css/woocommerce.css" rel="stylesheet">
+   <link href="libs/css/prettyPhoto.css" rel="stylesheet">
    <link href="style.css" rel="stylesheet">
-   <link href="assets/css/cs-foodbakery-plugin.css" rel="stylesheet">
-   <link href="assets/css/color.css" rel="stylesheet">
-   <link href="assets/css/widget.css" rel="stylesheet">
-   <link href="assets/css/responsive.css" rel="stylesheet">
-   <link href="assets/css/rtl.css" rel="stylesheet">
+   <link href="libs/css/cs-foodbakery-plugin.css" rel="stylesheet">
+   <link href="libs/css/color.css" rel="stylesheet">
+   <link href="libs/css/widget.css" rel="stylesheet">
+   <link href="libs/css/responsive.css" rel="stylesheet">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-   <script src="assets/js/modernizr.js"></script>
-   <script src="assets/js/bootstrap.js"></script>
+   <script src="libs/js/modernizr.js"></script>
+   <script src="libs/js/bootstrap.js"></script>
 
    <script type="text/javascript" defer src="js/environment.js"></script>
-   <script type="text/javascript" defer src="js/events.js"></script>
    <script type="text/javascript" defer src="js/requests.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
-   <script type="text/javascript" defer src="js/view.js"></script>
+   <script type="text/javascript" defer src="js/views.js"></script>
    <script type="text/javascript" defer src="js/index.js"></script>
 </head>
 
@@ -59,15 +59,14 @@
                      <div class="logo">
                         <figure>
                            <a href="index.html" class="light-logo">
-                              <img src="assets/extra-images/main-logo.png" alt="Picand Go">
+                              <img src="images/full-logo.png" style="height: 49px;" alt="Logótipo">
                            </a>
                         </figure>
                      </div>
                      <div class="main-nav">
                         <nav id="site-navigation" class="main-navigation">
                            <ul>
-                              <li><a href="restaurants.html">Restaurantes</a></li>
-                              <li>
+                              <li><a href="comerciantes.html">Comerciantes</a></li>
                            </ul>
                         </nav>
                      </div>
@@ -75,7 +74,7 @@
                   <div id="header-user-not-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                      <div class="login-option">
                         <a class="cs-color cs-popup-joinus-btn login-popup" href="login.html">Login</a>
-                        <a class="get-start-btn" href="type-register.html">Registo</a>
+                        <a class="get-start-btn" href="registo.html">Registo</a>
                      </div>
                   </div>
                   <div id="header-user-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -103,14 +102,14 @@
 
          <!-- Main Search Start -->
          <div class="page-section nopadding cs-nomargin"
-            style="padding-top: 200px; padding-bottom: 150px; margin-bottom: 0px; background: url(assets/extra-images/bg-image1.jpg) no-repeat center / cover;">
+            style="padding-top: 200px; padding-bottom: 150px; margin-bottom: 0px; background: url(images/cover-index.jpg) no-repeat center / cover;">
             <div class="container">
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                      <div class="element-title">
                         <h1
                            style="font-size: 40px; color: #505050; text-transform: uppercase; line-height: 50px; margin-bottom: 25px; text-align:center;">
-                           A sua comida mais perto de si<br>Com os melhores restaurantes</h1>
+                           A sua comida está mais perto<br>Nos melhores locais de restauração</h1>
                         <p style="font-size: 18px; letter-spacing: 1px; color: #505050; text-align:center;">
                            Nunca mais fique longe da sua comida favorita.</p>
                      </div>
@@ -131,7 +130,7 @@
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="element-title align-left">
-                        <h2>Os melhores restaurantes</h2>
+                        <h2>As melhores refeições</h2>
                         <p>Explora restaurantes, bares e cafés na tua localidade</p>
                      </div>
                   </div>
@@ -153,7 +152,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div class="element-title align-center">
                         <h2>Escolha entre os mais populares</h2>
-                        <p>Tens uma variedade enorme de restaurantes para escolheres.</p>
+                        <p>Tens uma variedade enorme de comerciantes para escolheres.</p>
                      </div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -165,15 +164,15 @@
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                style="display: flex; justify-content: center;align-items: center;">
-              <a href="restaurants.html"> <button class="acc-submit cs-section-update cs-color gllpSearchButton"
-                  value="Todos os Produtos" style="display: inline-block;
+               <a href="comerciantes.html"> <button class="acc-submit cs-section-update cs-color gllpSearchButton"
+                     value="Todos os Produtos" style="display: inline-block;
                   text-transform: uppercase;
                   padding: 10px 20px;
                   border-radius: 5px;
                   border:none;
                   box-shadow: 0  17px 10px -10px #bbb;
-                  ">VER TODOS OS RESTAURANTES
-               </button></a>
+                  ">VER TODOS OS COMERCIANTES
+                  </button></a>
             </div>
          </div>
          <!-- Choose From Most Popular Listing End -->
@@ -193,37 +192,13 @@
                         <div class="testimonial default">
                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                               <div class="text-holder">
-                                 <p> Eu amo vocês Picand Go, acabei agora de pedir comida, e digo a vocês, vocês
-                                    facilitam muito a minha vida.</p>
-                                 <div class="img-holder">
-                                    <figure><img src="assets/extra-images/testimonial-img1.jpg" alt=""></figure>
-                                 </div>
-                                 <div class="author-detail">
-                                    <div class="auther-name"><span>@AfornsoRibeiro</span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                              <div class="text-holder">
                                  <p>Hoje fiz o meu primeiro pedido no Picand Go e adorei, é tão bom poder pedir comida e
-                                    não ter que falar com ninguém.</p>
+                                    não ter que ir diretamente ao restaurante!</p>
                                  <div class="img-holder">
-                                    <figure><img src="assets/extra-images/testimonial-img2.jpg" alt=""></figure>
+                                    <figure><img src="images/user-feedback-1.jpg" alt=""></figure>
                                  </div>
                                  <div class="author-detail">
-                                    <div class="auther-name"><span>@MargaridaCorreia</span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                              <div class="text-holder">
-                                 <p>É incrivel como o Picand Go torna a minha vida tão fácil, muito simples e vale mesmo
-                                    a pena! Exprimentem não se vão arrepender!</p>
-                                 <div class="img-holder">
-                                    <figure><img src="assets/extra-images/testimonial-img3.jpg" alt=""></figure>
-                                 </div>
-                                 <div class="author-detail">
-                                    <div class="auther-name"><span>@JuliaNogueira</span></div>
+                                    <div class="auther-name"><span>@PauloFigueiredo</span></div>
                                  </div>
                               </div>
                            </div>
@@ -232,10 +207,34 @@
                                  <p>Demasiado bom para ser verdade, o Picand Go ajuda me imenso a preparar o jantar, a
                                     comida vem sempre deliciosa e quentinha.</p>
                                  <div class="img-holder">
-                                    <figure><img src="assets/extra-images/testimonial-img4.jpg" alt=""></figure>
+                                    <figure><img src="images/user-feedback-2.jpg" alt=""></figure>
                                  </div>
                                  <div class="author-detail">
-                                    <div class="auther-name"><span>@DanielaFaria</span></div>
+                                    <div class="auther-name"><span>@DanielaSilva</span></div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                              <div class="text-holder">
+                                 <p>É incrível como o Picand Go torna a minha vida tão fácil, vale mesmo
+                                    a pena! Sou dona de um restaurante e recomendo para os restantes.</p>
+                                 <div class="img-holder">
+                                    <figure><img src="images/user-feedback-3.jpg" alt=""></figure>
+                                 </div>
+                                 <div class="author-detail">
+                                    <div class="auther-name"><span>@EmmaSantos</span></div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                              <div class="text-holder">
+                                 <p>Já entrego comida ao domicílio há 6 meses e não podia estar mais satisfeita com o
+                                    serviço. É fantástico!!</p>
+                                 <div class="img-holder">
+                                    <figure><img src="images/user-feedback-4.jpg" alt=""></figure>
+                                 </div>
+                                 <div class="author-detail">
+                                    <div class="auther-name"><span>@JuliaDeolinda</span></div>
                                  </div>
                               </div>
                            </div>
@@ -330,21 +329,21 @@
    </div>
 
 
-   <script src="assets/js/responsive.menu.js"></script>
-   <script src="assets/js/swiper.min.js"></script>
-   <script src="assets/js/bootstrap-datepicker.js"></script>
-   <script src="assets/js/chosen.js"></script>
-   <script src="assets/js/counter.js"></script>
-   <script src="assets/js/fliters.js"></script>
-   <script src="assets/js/jquery.fitvids.js"></script>
-   <script src="assets/js/jquery.growl.js"></script>
-   <script src="assets/js/jquery.matchHeight-min.js"></script>
-   <script src="assets/js/masonry.pkgd.js"></script>
-   <script src="assets/js/skills-progress.js"></script>
-   <script src="assets/js/bootstrap-slider.js"></script>
-   <script src="assets/js/wow.js"></script>
-   <script src="assets/js/functions-plugin.js"></script>
-   <script src="assets/js/functions.js"></script>
+   <script src="libs/js/responsive.menu.js"></script>
+   <script src="libs/js/swiper.min.js"></script>
+   <script src="libs/js/bootstrap-datepicker.js"></script>
+   <script src="libs/js/chosen.js"></script>
+   <script src="libs/js/counter.js"></script>
+   <script src="libs/js/fliters.js"></script>
+   <script src="libs/js/jquery.fitvids.js"></script>
+   <script src="libs/js/jquery.growl.js"></script>
+   <script src="libs/js/jquery.matchHeight-min.js"></script>
+   <script src="libs/js/masonry.pkgd.js"></script>
+   <script src="libs/js/skills-progress.js"></script>
+   <script src="libs/js/bootstrap-slider.js"></script>
+   <script src="libs/js/wow.js"></script>
+   <script src="libs/js/functions-plugin.js"></script>
+   <script src="libs/js/functions.js"></script>
 </body>
 
 </html>

@@ -7,7 +7,7 @@ function registerClient() {
       cache: false,
       data: formData,
       type: "post",
-      url: urlApi + "register/client/",
+      url: urlApi + "register/client",
 
       success: res => {
          setCookie(res.token);
@@ -41,7 +41,7 @@ function registerMerchant() {
       data: formData,
       processData: false,
       type: "post",
-      url: urlApi + "register/merchant/",
+      url: urlApi + "register/merchant",
 
       success: res => {
          var url = "./index.html";
@@ -71,7 +71,7 @@ function registerDriver() {
       data: formData,
       processData: false,
       type: "post",
-      url: urlApi + "register/driver/",
+      url: urlApi + "register/driver",
 
       success: res => {
          var url = "./index.html";
@@ -99,7 +99,7 @@ function registerAdmin() {
       cache: false,
       data: formData,
       type: "post",
-      url: urlApi + "register/admin/",
+      url: urlApi + "register/admin",
 
       success: res => {
          var url = "./index.html";
@@ -128,7 +128,7 @@ function login() {
       cache: false,
       data: formData,
       type: "post",
-      url: urlApi + "login/",
+      url: urlApi + "login",
 
       success: res => {
          setCookie("token", res.token, 3);
@@ -160,7 +160,7 @@ function getClientData() {
       cache: false,
       headers: { Authorization: "Bearer " + token },
       type: "get",
-      url: urlApi + "users/account/",
+      url: urlApi + "users/account",
 
       success: res => {
          var html = getHtmlTitle(res.data);
@@ -192,11 +192,13 @@ function getMerchantData() {
       cache: false,
       headers: { Authorization: "Bearer " + token },
       type: "get",
-      url: urlApi + "users/account/",
+      url: urlApi + "users/account",
 
       success: res => {
          var html = getHtmlTitle(res.data);
          $("#title-info").append(html);
+
+         setMainCover(res.data.url_photo);
 
          var html = getHtmlMerchantData1(res.data);
          $("#user-data-1").append(html);
@@ -224,7 +226,7 @@ function getDriverData() {
       cache: false,
       headers: { Authorization: "Bearer " + token },
       type: "get",
-      url: urlApi + "users/account/",
+      url: urlApi + "users/account",
 
       success: res => {
          var html = getHtmlTitle(res.data);
@@ -258,7 +260,7 @@ function getAdminData() {
       cache: false,
       headers: { Authorization: "Bearer " + token },
       type: "get",
-      url: urlApi + "users/account/",
+      url: urlApi + "users/account",
 
       success: res => {
          var html = getHtmlTitle(res.data);
@@ -283,6 +285,32 @@ function getAdminData() {
 }
 
 
+function getMerchantInProducts(merchantID) {
+   $.ajax({
+      cache: false,
+      type: "get",
+      url: urlApi + "users/get-user/" + merchantID,
+
+      success: res => {
+         setMainCover(res.data.url_photo);
+
+         var html = getHtmlMerchantTitle(res.data);
+         $("#title-info").append(html);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
 function getMerchantsToIndex() {
    $.ajax({
       cache: false,
@@ -290,7 +318,7 @@ function getMerchantsToIndex() {
       url: urlApi + "users/get-merchants/8",
 
       success: res => {
-         for (var i = 0; i < 8; i++) {
+         for (var i = 0; i < res.data.length; i++) {
             var html = getHtmlMerchantsInIndex(res.data[i]);
             $("#ul-get-merchants").append(html);
          }
@@ -335,34 +363,6 @@ function getMerchantsInMerchants() {
 }
 
 
-function getProductsInProducts() {
-   $.ajax({
-      cache: false,
-      type: "get",
-      url: urlApi + "products/name/yk",
-
-      success: res => {
-         for (var i = 0; i < res.data.length; i++) {
-            var html = getHtmlProductsInProducts(res.data[i]);
-            $("#ul-products").append(html);
-         }
-
-         var html = getHtmlMerchantTitle(res.data[0]);
-         $("#title-info").append(html);
-      },
-      error: err => {
-         var status = getStatus(err);
-         if (status >= 400 && status <= 599 != 404)
-            showErrorAlert(err.responseJSON.message);
-         else if (status == 0 || status == 404) {
-            var url = "./404.html";
-            redirectPage(url);
-         }
-      }
-   });
-}
-
-
 function getUsersAccepted() {
    var token = getCookie("token");
 
@@ -379,7 +379,7 @@ function getUsersAccepted() {
          }
 
          $(".type-user:contains('1')").text("Cliente");
-         $(".type-user:contains('2')").text("Restaurante");
+         $(".type-user:contains('2')").text("Comerciante");
          $(".type-user:contains('3')").text("Condutor");
          $(".type-user:contains('4')").text("Admin");
 
@@ -432,7 +432,7 @@ function getUsersNotAccepted() {
          }
 
          $(".type-user:contains('1')").text("Cliente");
-         $(".type-user:contains('2')").text("Restaurante");
+         $(".type-user:contains('2')").text("Comerciante");
          $(".type-user:contains('3')").text("Condutor");
          $(".type-user:contains('4')").text("Admin");
 
@@ -472,44 +472,13 @@ function editUserData() {
       data: formData,
       headers: { Authorization: "Bearer " + token },
       type: "put",
-      url: urlApi + "users/edit-data/",
+      url: urlApi + "users/edit-data",
 
       success: res => {
          setCookie(res.token);
          for (const [key, value] of Object.entries(res.data))
             setCookie(key, value, 3);
 
-         showModalAndRefresh(res.message);
-      },
-      error: err => {
-         var status = getStatus(err);
-
-         if (status >= 400 && status <= 599 != 404)
-            showErrorAlert(err.responseJSON.message);
-         else if (status == 0 || status == 404) {
-            var url = "./404.html";
-            redirectPage(url);
-         }
-      }
-   });
-}
-
-
-function editDrivingLicense() {
-   var form = $("#form-edit-driving-license")[0];
-   var formData = new FormData(form);
-   var token = getCookie("token");
-
-   $.ajax({
-      cache: false,
-      contentType: false,
-      data: formData,
-      processData: false,
-      headers: { Authorization: "Bearer " + token },
-      type: "patch",
-      url: urlApi + "users/edit-driving-license/",
-
-      success: res => {
          showModalAndRefresh(res.message);
       },
       error: err => {
@@ -536,7 +505,7 @@ function editPassword() {
       data: formData,
       headers: { Authorization: "Bearer " + token },
       type: "patch",
-      url: urlApi + "users/edit-password/",
+      url: urlApi + "users/edit-password",
 
       success: res => {
          setCookie(res.token);
@@ -573,7 +542,7 @@ function editUserPhoto() {
       processData: false,
       headers: { Authorization: "Bearer " + token },
       type: "patch",
-      url: urlApi + "users/edit-photo/",
+      url: urlApi + "users/edit-photo",
 
       success: res => {
          setCookie(res.token);
@@ -596,17 +565,48 @@ function editUserPhoto() {
 }
 
 
-function deleteUser() {
+function editDrivingLicense() {
+   var form = $("#form-edit-driving-license")[0];
+   var formData = new FormData(form);
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      contentType: false,
+      data: formData,
+      processData: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "patch",
+      url: urlApi + "users/edit-driving-license",
+
+      success: res => {
+         showModalAndRefresh(res.message);
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function acceptUser(id) {
    var token = getCookie("token");
 
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
-      type: "delete",
-      url: urlApi + "users/delete/",
+      type: "patch",
+      url: urlApi + "users/accept/" + id,
 
-      success: (res) => {
-         logout(res.message);
+      success: res => {
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -674,17 +674,17 @@ function removeAdmin(id) {
 }
 
 
-function acceptUser(id) {
+function deleteUser() {
    var token = getCookie("token");
 
    $.ajax({
       cache: false,
       headers: { Authorization: "Bearer " + token },
-      type: "patch",
-      url: urlApi + "users/accept/" + id,
+      type: "delete",
+      url: urlApi + "users/delete/",
 
-      success: res => {
-         showModalAndRefresh(res.message);
+      success: (res) => {
+         logout(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -701,56 +701,20 @@ function acceptUser(id) {
 
 
 // PRODUCTS
-function getProductsInAccount() {
-   var token = getCookie("token");
-
+function getProductsInProducts(merchantID) {
    $.ajax({
       cache: false,
-      headers: { Authorization: "Bearer " + token },
       type: "get",
-      url: urlApi + "products/",
+      url: urlApi + "products/" + merchantID,
 
       success: res => {
          for (var i = 0; i < res.data.length; i++) {
-            var html = getHtmlProductsInAccount(res.data[i]);
-            $("#get-user-products").append(html);
+            var html = getHtmlProductsInProducts(res.data[i]);
+            $("#ul-products").append(html);
          }
       },
       error: err => {
          var status = getStatus(err);
-
-         if (status >= 400 && status <= 599 != 404)
-            showErrorAlert(err.responseJSON.message);
-         else if (status == 0 || status == 404) {
-            var url = "./404.html";
-            redirectPage(url);
-         }
-      }
-   });
-}
-
-
-function getProductsToIndex() {
-   var token = getCookie("token");
-
-   $.ajax({
-      cache: false,
-      headers: { Authorization: "Bearer " + token },
-      type: "get",
-      url: urlApi + "products/",
-
-      success: res => {
-         for (var i = 0; i < 6; i++) {
-            var html = getHtmlProductsInIndex(res.data[i]);
-            $("#ul-get-products").append(html);
-         }
-
-         $("#ul-get-products .restaurant-status:contains(' 0 ')").removeClass("open").addClass("close");
-         $("#ul-get-products .restaurant-status:contains(' 0 ')").text("Esgotado");
-      },
-      error: err => {
-         var status = getStatus(err);
-
          if (status >= 400 && status <= 599 != 404)
             showErrorAlert(err.responseJSON.message);
          else if (status == 0 || status == 404) {
@@ -764,7 +728,7 @@ function getProductsToIndex() {
 
 function getProductById(currentButtonClicked) {
    var productId = currentButtonClicked.parent().parent().children(".td-id").text();
-
+   alert("a")
    $.ajax({
       cache: false,
       type: "get",
@@ -772,6 +736,35 @@ function getProductById(currentButtonClicked) {
 
       success: res => {
          console.log(res.data)
+      },
+      error: err => {
+         var status = getStatus(err);
+
+         if (status >= 400 && status <= 599 != 404)
+            showErrorAlert(err.responseJSON.message);
+         else if (status == 0 || status == 404) {
+            var url = "./404.html";
+            redirectPage(url);
+         }
+      }
+   });
+}
+
+
+function getProductsInAccount() {
+   var token = getCookie("token");
+
+   $.ajax({
+      cache: false,
+      headers: { Authorization: "Bearer " + token },
+      type: "get",
+      url: urlApi + "products/merchant-logged/",
+
+      success: res => {
+         for (var i = 0; i < res.data.length; i++) {
+            var html = getHtmlProductsInAccount(res.data[i]);
+            $("#get-user-products").append(html);
+         }
       },
       error: err => {
          var status = getStatus(err);
@@ -799,7 +792,7 @@ function createProduct() {
       processData: false,
       headers: { Authorization: "Bearer " + token },
       type: "post",
-      url: urlApi + "products/create/",
+      url: urlApi + "products/create",
 
       success: res => {
          var modal = $("#div-create-product");
@@ -920,20 +913,35 @@ function getUserOrders() {
       cache: false,
       headers: { Authorization: "Bearer " + token },
       type: "get",
-      url: urlApi + "orders/",
+      url: urlApi + "orders",
 
       success: res => {
          for (var i = 0; i < res.data.length; i++) {
-            var html = getHtmlUserOrders(res.data[i]);
+            // definir 0 quando NULL ou vazio
+            res.data[i].pending = (res.data[i].pending == null || res.data[i].pending == "") ? 0 : res.data[i].pending;
+            res.data[i].completed = (res.data[i].completed == null || res.data[i].completed == "") ? 0 : res.data[i].completed;
+
+            var disableOrderCancellation = 0;  // 0 - desativa | 1 - ativa
+            if ((res.data[i].accepted == 0 && res.data[i].canceled == 0) && (res.data[i].pending == 0 || res.data[i].completed == 0)) {
+               disableOrderCancellation = 1;
+            }
+
+            var html = getHtmlUserOrders(res.data[i], disableOrderCancellation);
             $("#get-user-orders").append(html);
             var html = getHtmlModalOrders(res.data[i]);
             $("#modals-orders").append(html);
          }
 
+         $("span[data-disableOrderCancellation~='0']").css("display", "none");
+
          $("span[data-accepted~='0']").css("background-color", "#1e73be");
-         $("span[data-accepted~='0']").text("Pendente");
-         $("span[data-accepted~='1']").css("background-color", "#047a06");
-         $("span[data-accepted~='1']").text("Entregue");
+         $("span[data-accepted~='0']").text("Por aceitar");
+         $("span[data-accepted~='1']").css("background-color", "#1e73be");
+         $("span[data-accepted~='1']").text("Por entregar");
+         $("span[data-pending~='1']").css("background-color", "#1e73be");
+         $("span[data-pending~='1']").text("Por entregar");
+         $("span[data-completed~='1']").css("background-color", "#047a06");
+         $("span[data-completed~='1']").text("Entregue");
          $("span[data-canceled~='1']").css("background-color", "#c33332");
          $("span[data-canceled~='1']").text("Cancelada");
       },
@@ -962,18 +970,26 @@ function getMerchantOrders() {
 
       success: res => {
          for (var i = 0; i < res.data.length; i++) {
+            // definir 0 quando NULL ou vazio
+            res.data[i].pending = (res.data[i].pending == null || res.data[i].pending == "") ? 0 : res.data[i].pending;
+            res.data[i].completed = (res.data[i].completed == null || res.data[i].completed == "") ? 0 : res.data[i].completed;
+
             var html = getHtmlMerchantOrders(res.data[i]);
             $("#table-orders").append(html);
             var html = getHtmlModalMerchantOrders(res.data[i]);
             $("#modals-merchant-orders").append(html);
          }
 
-         $("[data-accepted~='0']").css("background-color", "#1e73be");
-         $("[data-accepted~='0']").text("Pendente");
-         $("[data-accepted~='1']").css("background-color", "#047a06");
-         $("[data-accepted~='1']").text("Entregue");
-         $("[data-canceled~='1']").css("background-color", "#c33332");
-         $("[data-canceled~='1']").text("Cancelada");
+         $("span[data-accepted~='0']").css("background-color", "#1e73be");
+         $("span[data-accepted~='0']").text("Por aceitar");
+         $("span[data-accepted~='1']").css("background-color", "#1e73be");
+         $("span[data-accepted~='1']").text("Por entregar");
+         $("span[data-pending~='1']").css("background-color", "#1e73be");
+         $("span[data-pending~='1']").text("Por entregar");
+         $("span[data-completed~='1']").css("background-color", "#047a06");
+         $("span[data-completed~='1']").text("Entregue");
+         $("span[data-canceled~='1']").css("background-color", "#c33332");
+         $("span[data-canceled~='1']").text("Cancelada");
       },
       error: err => {
          var status = getStatus(err);
@@ -1000,6 +1016,10 @@ function getDriverOrders() {
 
       success: res => {
          for (var i = 0; i < res.data.length; i++) {
+            // definir 0 quando NULL ou vazio
+            res.data[i].pending = (res.data[i].pending == null || res.data[i].pending == "") ? 0 : res.data[i].pending;
+            res.data[i].completed = (res.data[i].completed == null || res.data[i].completed == "") ? 0 : res.data[i].completed;
+
             var html = getHtmlDriverOrders(res.data[i]);
             $("#table-deliveries").append(html);
             var html = getHtmlModalDriverOrders(res.data[i]);
@@ -1007,7 +1027,7 @@ function getDriverOrders() {
          }
 
          $("[data-pending~='1']").css("background-color", "#c33332");
-         $("[data-pending~='1']").text("Por concluir");
+         $("[data-pending~='1']").text("Concluir");
          $("[data-pending~='1']").addClass("complete");
          $("[data-pending='1']").css("cursor", "pointer");
 
@@ -1045,11 +1065,6 @@ function getOrdersNotAccepted() {
             $("#modals-order-detail").append(html);
          }
 
-         // $("[data-accepted~='1']").css("background-color", "#c33332");
-         // $("[data-accepted~='1']").text("Por concluir");
-         // $("[data-accepted~='1']").addClass("complete");
-         // $("[data-accepted='1']").css("cursor", "pointer");
-
          $("[data-accepted~='0']").css("background-color", "#047a06");
          $("[data-accepted~='0']").text("Aceitar");
          $("[data-accepted~='0']").addClass("accept");
@@ -1079,7 +1094,7 @@ function createOrder() {
       data: formData,
       headers: { Authorization: "Bearer " + token },
       type: "post",
-      url: urlApi + "orders/create/",
+      url: urlApi + "orders/create",
 
       success: res => {
          showModalAndRefresh(res.message);
@@ -1098,10 +1113,8 @@ function createOrder() {
 }
 
 
-function cancelOrder(currentButtonClicked) {
+function cancelOrder(orderId, productId) {
    var token = getCookie("token");
-   var orderId = currentButtonClicked.parent().parent().children(".td-id").text();
-   var productId = currentButtonClicked.parent().parent().children(".td-product_id").text();
    var data = { "order_id": orderId, "product_id": productId };
 
    $.ajax({
@@ -1109,11 +1122,12 @@ function cancelOrder(currentButtonClicked) {
       data: data,
       headers: { Authorization: "Bearer " + token },
       type: "delete",
-      url: urlApi + "orders/cancel/",
+      url: urlApi + "orders/cancel",
 
       success: res => {
-         openModal(res.message);
-         $("#button-get-orders-from-user").trigger("click");
+         var modal = $("#id_order_confrmdiv");
+         closeModal(modal);
+         showModalAndRefresh(res.message);
       },
       error: err => {
          var status = getStatus(err);
@@ -1129,6 +1143,7 @@ function cancelOrder(currentButtonClicked) {
 }
 
 
+// DELIVERIES
 function acceptDelivery(id) {
    var token = getCookie("token");
 
@@ -1137,7 +1152,7 @@ function acceptDelivery(id) {
       data: { "order_id": id },
       headers: { Authorization: "Bearer " + token },
       type: "post",
-      url: urlApi + "deliveries/accept/",
+      url: urlApi + "deliveries/accept",
 
       success: res => {
          showModalAndRefresh(res.message);
@@ -1164,7 +1179,7 @@ function completeDelivery(id) {
       headers: { Authorization: "Bearer " + token },
       data: { "order_id": id },
       type: "patch",
-      url: urlApi + "deliveries/complete/",
+      url: urlApi + "deliveries/complete",
 
       success: res => {
          showModalAndRefresh(res.message);

@@ -30,7 +30,7 @@ module.exports = {
          if (rows.length == 0)
             res.status(400).json({ "message": "Ups! Não existem entregas." });
          else
-            res.status(200).json({ "message": "Produtos obtidos com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Entregas obtidas com sucesso!", "data": rows });
       });
 
       db.close();
@@ -71,7 +71,7 @@ module.exports = {
                return res.status(500).json({ "message": "Oh! " + err.message });
          });
 
-         res.status(201).json({ "message": "Entrega aceite com sucesso!" });
+         res.status(201).json({ "message": "Encomenda aceite (para envio) com sucesso!" });
       });
 
       db.close();

@@ -2,12 +2,11 @@ const database = require("../utils/database");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const globalConfig = require("../utils/global-config.json");
 var User = require("../models/user");
 
 
 module.exports = {
-   view: async (req, res, next) => {
+   account: async (req, res, next) => {
       const db = database.connect();
 
       var user = new User(req.user);
@@ -26,6 +25,26 @@ module.exports = {
    },
 
 
+   getUser: async (req, res, next) => {
+      const db = database.connect();
+
+      // selecionar utilizador na base de dados
+      var sql = "SELECT id, username, name, email, description, address, zip_code, url_photo, type FROM Users WHERE accepted = 1 AND deleted = 0 AND id = ? LIMIT 1";
+      var params = [req.params.id];
+      db.all(sql, params, function (err, rows) {
+         if (err)
+            return res.status(500).json({ "message": "Oh! " + err.message });
+
+         if (rows.length == 0)
+            res.status(400).json({ "message": "Ups! O utilizador não existe." });
+         else
+            res.status(200).json({ "message": "Utilizador obtido com sucesso!", "data": rows[0] });
+      });
+
+      db.close();
+   },
+
+
    getMerchants: async (req, res, next) => {
       const db = database.connect();
 
@@ -37,9 +56,9 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem empresas." });
+            res.status(400).json({ "message": "Ups! Não existem comerciantes." });
          else
-            res.status(200).json({ "message": "Empresas obtidas com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Comerciantes obtidos com sucesso!", "data": rows });
       });
 
       db.close();
@@ -57,9 +76,9 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem utilizadores." });
+            res.status(400).json({ "message": "Ups! Não existem utilizadores aceites." });
          else
-            res.status(200).json({ "message": "Utilizadores obtidas com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Utilizadores obtidos com sucesso!", "data": rows });
       });
 
       db.close();
@@ -274,7 +293,7 @@ module.exports = {
          if (this.changes == 0)
             return res.status(400).json({ "message": "Ups! O utilizador não existe." });
 
-         res.status(200).json({ "message": "Utilizador definido como administrador com sucesso!" });
+         res.status(200).json({ "message": "Utilizador definido como admin com sucesso!" });
       });
 
       db.close();
@@ -288,7 +307,7 @@ module.exports = {
       var userLogged = new User(req.user);
 
       if (userLogged.id == user.id)
-         return res.status(201).json({ "message": "Oh! Não pode remover de administrador o utilizador atual." });
+         return res.status(201).json({ "message": "Oh! Não pode remover de admin o utilizador atual." });
 
       // selecionar tipo de utilizador antigo na base de dados
       var sql = "SELECT old_type FROM Users WHERE id = ?";
@@ -309,7 +328,7 @@ module.exports = {
             if (this.changes == 0)
                return res.status(400).json({ "message": "Ups! O utilizador não existe." });
 
-            res.status(200).json({ "message": "Utilizador removido de administrador com sucesso! Voltou ao seu tipo antigo." });
+            res.status(200).json({ "message": "Utilizador removido de admin com sucesso! Voltou ao seu tipo antigo." });
          });
       });
 
@@ -369,7 +388,7 @@ function checkInvalidFields(req, route, typeUserId) {
                   return { "exist": true, "message": errors };
                else
                   return { "exist": false };
-            // empresa
+            // comerciante
             case 2:
                if (!req.body.username)
                   errors.push("Ups! O nome de utilizador não foi preenchido.");
@@ -414,6 +433,10 @@ function checkInvalidFields(req, route, typeUserId) {
                   errors.push("A morada não foi preenchida.");
                if (!req.body.zip_code)
                   errors.push("O código postal não foi preenchido.");
+               if (!req.body.nif)
+                  errors.push("O NIF não foi preenchido.");
+               else if (req.body.nif.toString().length != 9)
+                  errors.push("O NIF tem de ter 9 dígitos.");
 
                if (errors.length)
                   return { "exist": true, "message": errors };
@@ -437,8 +460,6 @@ function checkInvalidFields(req, route, typeUserId) {
                   errors.push("A morada não foi preenchida.");
                if (!req.body.zip_code)
                   errors.push("O código postal não foi preenchido.");
-               if (!req.body.description)
-                  errors.push("A descrição não foi preenchida.");
 
                if (errors.length)
                   return { "exist": true, "message": errors };
@@ -490,69 +511,6 @@ function checkInvalidFields(req, route, typeUserId) {
       default:
          return { "exist": false };
    }
-}
-
-
-function getDrivingLicense(db, userId) {
-   return new Promise(resolve => {
-      var user = new User({ "id": userId });
-
-      // inserir pdf da carta de condução do utilizador na base de dados
-      var sql = "SELECT url_driving_license FROM Users WHERE id = ?";
-      var params = user.id;
-      var drivingLicense = { "error": false, "value": "" };
-
-      db.each(sql, params, (err, row) => {
-         if (err)
-            return drivingLicense = { "error": true, "message": "Oh! " + err.message };
-
-         return drivingLicense = { "error": false, "value": globalConfig.path.UPLOADS + globalConfig.path.DRIVING_LICENSES + row.url_driving_license };
-      }, () => {
-         resolve(drivingLicense);
-      });
-   });
-}
-
-
-function getUrlPhoto(db, userId) {
-   return new Promise(resolve => {
-      var user = new User({ "id": userId });
-
-      // selecionar foto do utilizador na base de dados
-      var sql = "SELECT url_photo FROM Users WHERE id = ?";
-      var params = user.id;
-      var urlPhoto = { "error": false, "value": "" };
-
-      db.each(sql, params, (err, row) => {
-         if (err)
-            return urlPhoto = { "error": true, "message": "Oh! " + err.message };
-
-         return urlPhoto = { "error": false, "value": globalConfig.path.UPLOADS + globalConfig.path.PHOTOS + row.url_photo };
-      }, () => {
-         resolve(urlPhoto);
-      });
-   });
-}
-
-
-function getTypeUserId(db, userId) {
-   return new Promise(resolve => {
-      var user = new User({ "id": userId });
-
-      // selecionar tipo do utilizador na base de dados
-      var sql = "SELECT type FROM Users WHERE id = ?";
-      var params = user.id;
-      var type = { "error": true, "message": "Ups! O utilizador não existe." };
-
-      db.each(sql, params, (err, row) => {
-         if (err)
-            return type = { "error": true, "message": "Oh! " + err.message };
-
-         return type = { "error": false, "value": row.type };
-      }, () => {
-         resolve(type);
-      });
-   });
 }
 
 

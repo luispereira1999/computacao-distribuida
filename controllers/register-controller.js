@@ -101,9 +101,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 3 });
 
       // inserir utilizador na base de dados
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, url_driving_license, driving_license, old_type, accepted, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, nif, url_photo, url_driving_license, driving_license, old_type, accepted, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, globalConfig.file.DEFAULT_PHOTO, user.url_driving_license, user.driving_license, typeUser.id, typeUser.id];
+      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.nif, globalConfig.file.DEFAULT_PHOTO, user.url_driving_license, user.driving_license, typeUser.id, typeUser.id];
 
       db.run(sql, params, err => {
          if (err) {
@@ -134,9 +134,9 @@ module.exports = {
       var typeUser = new TypeUser({ "id": 4 })
 
       // inserir utilizador na base de dados
-      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, description, url_photo, old_type, accepted, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)";
+      var sql = "INSERT INTO Users (username, password, name, surname, email, phone_number, address, zip_code, url_photo, old_type, accepted, deleted, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)";
       const hash = await bcrypt.hashSync(user.password, 10);
-      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, user.description, globalConfig.file.DEFAULT_PHOTO, typeUser.id, typeUser.id];
+      var params = [user.username, hash, user.name, user.surname, user.email, user.phone_number, user.address, user.zip_code, globalConfig.file.DEFAULT_PHOTO, typeUser.id, typeUser.id];
 
       db.run(sql, params, err => {
          if (err)
@@ -179,7 +179,7 @@ function checkInvalidFields(req, typeUserId) {
             return { "exist": true, "message": errors };
          else
             return { "exist": false };
-      // empresa
+      // comerciante
       case 2:
          if (!req.body.username)
             errors.push("Ups! O nome de utilizador não foi preenchido.");
@@ -236,6 +236,10 @@ function checkInvalidFields(req, typeUserId) {
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
             errors.push("O código postal não foi preenchido.");
+         if (!req.body.nif)
+            errors.push("O NIF não foi preenchido.");
+         else if (req.body.nif.toString().length != 9)
+            errors.push("O NIF tem de ter 9 dígitos.");
          if (!req.body.driving_license)
             errors.push("O tipo de carta de condução não foi preenchida.");
          else if (req.body.driving_license != 1 && req.body.driving_license != 2 && req.body.driving_license != 3)
@@ -273,8 +277,6 @@ function checkInvalidFields(req, typeUserId) {
             errors.push("A morada não foi preenchida.");
          if (!req.body.zip_code)
             errors.push("O código postal não foi preenchido.");
-         if (!req.body.description)
-            errors.push("A descrição não foi preenchida.");
 
          if (errors.length)
             return { "exist": true, "message": errors };

@@ -5,7 +5,7 @@ var Product = require("../models/product");
 
 
 module.exports = {
-   getByMerchant: async (req, res) => {
+   getByMerchantLogged: async (req, res) => {
       const db = database.connect();
 
       var user = new User(req.user);
@@ -13,7 +13,7 @@ module.exports = {
       // selecionar produtos na base de dados
       var sql = "\
          SELECT\
-            p.id, p.name AS product_name, p.stock, p.price, p.description, p.url_photo,\
+            p.id, p.name AS product_name, p.stock, p.price, p.description, p.url_photo as product_url_photo,\
             u.name AS user_name\
          FROM Products AS p\
          INNER JOIN Users AS u ON u.id = p.user_id\
@@ -34,33 +34,29 @@ module.exports = {
    },
 
 
-   getByName: async (req, res) => {
+   getByMerchant: async (req, res) => {
       const db = database.connect();
 
-      var error = await checkFilter(req.params.filter);
-      if (error.exist)
-         return res.status(400).json({ "message": "Ups! O filtro não está disponível." });
+      var user = new User({ "id": req.params.id });
 
-      var user = new User({ "name": req.params.merchant });
-
-      // selecionar produto na base de dados
+      // selecionar produtos na base de dados
       var sql = "\
          SELECT\
-            Products.id, Products.name as product_name, Products.stock, Products.price, Products.description, Products.url_photo as product_url_photo,\
-            Users.name, Users.email, Users.address, Users.zip_code, Users.url_photo as merchant_url_photo\
-         FROM Products\
-         INNER JOIN Users ON Users.id = Products.user_id\
-         WHERE Users.name = ?\
+            p.id, p.name AS product_name, p.stock, p.price, p.description, p.url_photo as product_url_photo,\
+            u.name AS user_name\
+         FROM Products AS p\
+         INNER JOIN Users AS u ON u.id = p.user_id\
+         WHERE p.deleted = 0 AND u.id = ?\
       ";
-      var params = user.name;
+      var params = user.id;
       db.all(sql, params, function (err, rows) {
          if (err)
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (rows.length == 0)
-            res.status(400).json({ "message": "Ups! Não existem produtos com este filtro." });
+            res.status(400).json({ "message": "Ups! Não existem produtos." });
          else
-            res.status(200).json({ "message": "Produto(s) obtido(s) com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Produtos obtidos com sucesso!", "data": rows });
       });
 
       db.close();
@@ -76,6 +72,9 @@ module.exports = {
 
       var allData = Object.assign(req.body, { "url_photo": req.file.filename });
       var product = new Product(allData);
+      product.price = Number(product.price);
+      product.price = product.price.toFixed(2);
+
       var user = new User(req.user);
 
       // inserir produto na base de dados
@@ -103,6 +102,8 @@ module.exports = {
 
       var allData = Object.assign(req.body, { "id": req.params.id, "user_id": req.user.id });
       var product = new Product(allData);
+      product.price = Number(product.price);
+      product.price = product.price.toFixed(2);
 
       // atualizar dados do produto na base de dados
       var sql = "UPDATE Products SET name = ?, stock = ?, price = ?, description = ? WHERE id = ? AND user_id = ?";
@@ -112,7 +113,7 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
+            return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a este comerciante." });
 
          res.status(200).json({ "message": "Dados do produto editados com sucesso!" });
       });
@@ -142,7 +143,7 @@ module.exports = {
 
          if (this.changes == 0) {
             removeFile(req.file.path);
-            return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
+            return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a este comerciante." });
          }
 
          res.status(200).json({ "message": "Foto do produto editada com sucesso!" });
@@ -166,7 +167,7 @@ module.exports = {
             return res.status(500).json({ "message": "Oh! " + err.message });
 
          if (this.changes == 0)
-            return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a esta empresa." });
+            return res.status(400).json({ "message": "Ups! O produto não existe ou não pertence a este comerciante." });
 
          res.status(200).json({ "message": "Produto excluído com sucesso!" });
       });
@@ -233,14 +234,6 @@ function checkInvalidFields(req, operation) {
       default:
          return { "exist": false };
    }
-}
-
-
-function checkFilter(filter) {
-   if (filter == "name")
-      return { "exist": false };
-   else
-      return { "exist": true };
 }
 
 

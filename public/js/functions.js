@@ -9,6 +9,7 @@ function getFormData(form) {
    return indexedData;
 }
 
+
 function setFormData(data) {
    var formData = "";
 
@@ -18,6 +19,7 @@ function setFormData(data) {
          formData += $("textarea").text(value);
    }
 }
+
 
 function getCookie(cname) {
    var name = cname + "=";
@@ -35,12 +37,14 @@ function getCookie(cname) {
    return "";
 }
 
+
 function setCookie(cname, cvalue, exdays) {
    var d = new Date();
    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
    var expires = "expires=" + d.toUTCString();
    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+
 
 function destroyCookies() {
    var allCookies = document.cookie.split(';');
@@ -49,6 +53,7 @@ function destroyCookies() {
       document.cookie = allCookies[i] + "=;expires="
          + new Date(0).toUTCString();
 }
+
 
 function checkUserLogged() {
    if (getCookie("token"))
@@ -62,13 +67,16 @@ function getStatus(err) {
    return err.status;
 }
 
+
 function redirectPage(url) {
    location.href = url;
 }
 
+
 function refreshPage() {
    location.reload();
 }
+
 
 function openModal(text) {
    alertify.alert().setting({
@@ -77,6 +85,7 @@ function openModal(text) {
       "message": text
    }).show();
 }
+
 
 function showModalAndRedirect(title, message, url) {
    alertify.alert().setting({
@@ -87,6 +96,7 @@ function showModalAndRedirect(title, message, url) {
    }).show();
 }
 
+
 function showModalAndRefresh(text) {
    alertify.alert().setting({
       "title": "Sucesso",
@@ -96,15 +106,18 @@ function showModalAndRefresh(text) {
    }).show();
 }
 
+
 function showSuccessAlert(text) {
    alertify.set("notifier", "position", "top-center");
    alertify.notify(text, "success");
 }
 
+
 function showErrorAlert(text) {
    alertify.set("notifier", "position", "top-center");
    alertify.notify(text, "error");
 }
+
 
 function startModal(element) {
    window.onclick = function (event) {
@@ -113,6 +126,7 @@ function startModal(element) {
       }
    }
 }
+
 
 function closeModal(element) {
    element.css("display", "none")
@@ -127,6 +141,7 @@ function createTableWithData(data, element) {
    element.children("tbody").append(body);
 }
 
+
 function getDataToTableHeader(data) {
    var header;
 
@@ -139,6 +154,7 @@ function getDataToTableHeader(data) {
 
    return header;
 }
+
 
 function getDataToTableBody(data) {
    var body = "";
@@ -156,9 +172,11 @@ function getDataToTableBody(data) {
    return content;
 }
 
+
 function destroyElement(element) {
    element.remove();
 }
+
 
 function addButtonColumnToTable(elements) {
    elements.forEach(function (elem) {
@@ -176,13 +194,16 @@ function checkHtmlExists(html) {
       return true;
 }
 
+
 function clearFormData(element) {
    element.reset();
 }
 
+
 function clearTextOfElement(element) {
    element.text("");
 }
+
 
 function logout(message) {
    destroyCookies();

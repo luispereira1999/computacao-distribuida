@@ -14,13 +14,15 @@ module.exports = {
       var sql = "\
          SELECT\
             Orders.id, Orders.address, Orders.zip_code, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
-            Products.name as product_name, Products.price, Products.description, Products.urL_photo as url_photo,\
+            Products.id as product_id, Products.name as product_name, Products.price, Products.description, Products.urL_photo as url_photo,\
             Merchants.name as merchant_name,\
-            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
+            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number,\
+            Deliveries.pending, Deliveries.completed\
          FROM Orders\
          INNER JOIN Products ON Orders.product_id = Products.id\
          INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
          INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
+         LEFT JOIN Deliveries ON Deliveries.order_id = Orders.id\
          WHERE Orders.user_id = ?\
       ";
       var params = user.id;
@@ -43,15 +45,17 @@ module.exports = {
 
       var user = new User(req.user);
 
-      // selecionar encomendas da empresa feitas por utilizadores na base de dados
+      // selecionar encomendas do comerciante feitas por utilizadores na base de dados
       var sql = "\
          SELECT\
             Orders.id, Orders.address, Orders.zip_code, Orders.date, Orders.vat, Orders.pick_up_fee, Orders.total, Orders.accepted, Orders.canceled,\
             Products.name as product_name, Products.price, Products.description,\
-            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number\
+            Clients.name as client_name, Clients.email as client_email, Clients.phone_number as client_phone_number,\
+            Deliveries.pending, Deliveries.completed\
          FROM Orders\
-         INNER JOIN Products ON Orders.user_id = Products.id\
+         INNER JOIN Products ON Products.id = Orders.product_id\
          INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
+         LEFT JOIN Deliveries ON Deliveries.order_id = Orders.id\
          WHERE Products.user_id = ?\
       ";
 
@@ -85,8 +89,8 @@ module.exports = {
 			   Merchants.name as merchant_name\
 		   FROM Deliveries\
          INNER JOIN Orders ON Orders.id = Deliveries.order_id\
-         INNER JOIN Users as Clients ON Clients.id = Deliveries.user_id\
-		   INNER JOIN Products ON Products.id = Deliveries.order_id\
+         INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
+		   INNER JOIN Products ON Products.id = Orders.product_id\
 		   INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
 		   WHERE Deliveries.user_id = ?\
       ";
@@ -99,7 +103,7 @@ module.exports = {
          if (rows.length == 0)
             res.status(400).json({ "message": "Ups! Não existem encomendas entregues." });
          else
-            res.status(200).json({ "message": "Encomendas entregues obtidas com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Encomendas obtidas com sucesso!", "data": rows });
       });
 
       db.close();
@@ -120,7 +124,7 @@ module.exports = {
          INNER JOIN Products ON Orders.product_id = Products.id\
          INNER JOIN Users as Clients ON Clients.id = Orders.user_id\
          INNER JOIN Users as Merchants ON Merchants.id = Products.user_id\
-         WHERE Orders.accepted = 0\
+         WHERE Orders.accepted = 0 AND Orders.canceled = 0\
       ";
 
       var params = [];
@@ -131,7 +135,7 @@ module.exports = {
          if (rows.length == 0)
             res.status(400).json({ "message": "Ups! Não existem encomendas entregues." });
          else
-            res.status(200).json({ "message": "Encomendas entregues obtidas com sucesso!", "data": rows });
+            res.status(200).json({ "message": "Encomendas obtidas com sucesso!", "data": rows });
       });
 
       db.close();
@@ -155,9 +159,12 @@ module.exports = {
 
       var date = new Date();
       var currentDate = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes();
+
       const vat = 0.23;
-      const pickUpFee = 3.5;
+      const pickUpFee = 0.90;
       var total = calculateTotal(subtotal.value, vat, pickUpFee);
+      total = total.toFixed(2);
+      total = Number(total);
 
       var allData = Object.assign(req.body, { "user_id": req.user.id, "date": currentDate, "vat": vat, "pick_up_fee": pickUpFee, "total": total });
       var order = new Order(allData);
@@ -194,7 +201,7 @@ module.exports = {
       if (stock.error)
          return res.status(400).json({ "message": stock.message });
       else
-         product.stock = stock.value - 1;
+         product.stock = stock.value + 1;
 
       // atualizar estado da encomenda na base de dados
       var sql = "UPDATE Orders SET canceled = 1 WHERE id = ? AND product_id = ? AND user_id = ? AND accepted = 0 AND canceled = 0";
@@ -320,5 +327,5 @@ function updateStock(db, product) {
 
 
 function calculateTotal(subtotal, vat, pick_up_fee) {
-   return (subtotal + pick_up_fee) * (1 + vat);
+   return ((pick_up_fee + subtotal)) * (1 + vat);
 }

@@ -9,34 +9,33 @@
    <meta name="keywords" content="Loja, Vendas, Encomendas, Entregas">
    <meta name="author" content="João Antunes, Luís Pereira, Rui Pinto">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+   <link rel="shortcut icon" type="image/x-icon" href="images/favicon.svg">
 
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800">
-   <link href="assets/css/bootstrap.css" rel="stylesheet">
-   <link href="assets/css/bootstrap-theme.css" rel="stylesheet">
-   <link href="assets/css/bootstrap-datepicker.css" rel="stylesheet">
-   <link href="assets/css/bootstrap-slider.css" rel="stylesheet">
-   <link href="assets/css/iconmoon.css" rel="stylesheet">
-   <link href="assets/css/animate.css" rel="stylesheet">
-   <link href="assets/css/chosen.css" rel="stylesheet">
-   <link href="assets/css/swiper.css" rel="stylesheet">
-   <link href="assets/css/woocommerce.css" rel="stylesheet">
-   <link href="assets/css/prettyPhoto.css" rel="stylesheet">
+   <link href="libs/css/bootstrap.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-theme.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-datepicker.css" rel="stylesheet">
+   <link href="libs/css/bootstrap-slider.css" rel="stylesheet">
+   <link href="libs/css/iconmoon.css" rel="stylesheet">
+   <link href="libs/css/animate.css" rel="stylesheet">
+   <link href="libs/css/chosen.css" rel="stylesheet">
+   <link href="libs/css/swiper.min.css" rel="stylesheet">
+   <link href="libs/css/woocommerce.css" rel="stylesheet">
+   <link href="libs/css/prettyPhoto.css" rel="stylesheet">
    <link href="style.css" rel="stylesheet">
-   <link href="assets/css/cs-foodbakery-plugin.css" rel="stylesheet">
-   <link href="assets/css/color.css" rel="stylesheet">
-   <link href="assets/css/widget.css" rel="stylesheet">
-   <link href="assets/css/responsive.css" rel="stylesheet">
-   <link href="assets/css/rtl.css" rel="stylesheet">
+   <link href="libs/css/cs-foodbakery-plugin.css" rel="stylesheet">
+   <link href="libs/css/color.css" rel="stylesheet">
+   <link href="libs/css/widget.css" rel="stylesheet">
+   <link href="libs/css/responsive.css" rel="stylesheet">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-   <script src="assets/js/modernizr.js"></script>
-   <script src="assets/js/bootstrap.js"></script>
+   <script src="libs/js/modernizr.js"></script>
+   <script src="libs/js/bootstrap.js"></script>
 
    <script type="text/javascript" defer src="js/environment.js"></script>
    <script type="text/javascript" defer src="js/404.js"></script>
    <script type="text/javascript" defer src="js/functions.js"></script>
-   <script type="text/javascript" defer src="js/view.js"></script>
+   <script type="text/javascript" defer src="js/views.js"></script>
 </head>
 
 <body>
@@ -51,15 +50,14 @@
                      <div class="logo">
                         <figure>
                            <a href="index.html" class="light-logo">
-                              <img src="assets/extra-images/main-logo.png" alt="Picand Go">
+                              <img src="images/full-logo.png" style="height: 49px;" alt="Logótipo">
                            </a>
                         </figure>
                      </div>
                      <div class="main-nav">
                         <nav id="site-navigation" class="main-navigation">
                            <ul>
-                              <li><a href="index.html">Restaurantes</a></li>
-                              <li>
+                              <li><a href="index.html">Comerciantes</a></li>
                            </ul>
                         </nav>
                      </div>
@@ -67,7 +65,7 @@
                   <div id="header-user-not-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                      <div class="login-option">
                         <a class="cs-color cs-popup-joinus-btn login-popup" href="login.html">Login</a>
-                        <a class="get-start-btn" href="type-register.html">Registo</a>
+                        <a class="get-start-btn" href="registo.html">Registo</a>
                      </div>
                   </div>
                   <div id="header-user-logged" style="display: none;" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -78,11 +76,11 @@
                                  <a href="javascript:void(0);" id="header-user-info"></a>
                                  <ul>
                                     <li><a href="buyer-dashboard.html"><i class="icon-dashboard3"></i>Dashboard</a></li>
-                                    <li><a href="buyer-orders.html" class="btn-edit-profile"><i
+                                    <li><a href="cliente-encomendas.html" class="btn-edit-profile"><i
                                              class="icon-add_shopping_cart"></i>Minhas Encomendas</a></li>
                                     <li><a href="buyer-statement.html"><i class="icon-file-text22"></i>Transações</a>
                                     </li>
-                                    <li class="active"><a href="buyer-account-setting.html"><i
+                                    <li class="active"><a href="cliente-configuracoes.html"><i
                                              class="icon-build"></i>Configurações</a></li>
                                     <li><a class="a-logout" style="cursor: pointer;"><i
                                              class="icon-log-out"></i>Sair</a></li>
@@ -121,7 +119,7 @@
          <!-- Main Section End -->
       </div>
 
-      
+
       <!-- Footer Start -->
       <footer id="footer" class="footer-style-2">
          <div class="footer-widget">
@@ -201,21 +199,21 @@
    </div>
 
    <!-- Modal Popup End -->
-   <script src="assets/js/responsive.menu.js"></script>
-   <script src="assets/js/swiper.min.js"></script>
-   <script src="assets/js/bootstrap-datepicker.js"></script>
-   <script src="assets/js/chosen.js"></script>
-   <script src="assets/js/counter.js"></script>
-   <script src="assets/js/fliters.js"></script>
-   <script src="assets/js/jquery.fitvids.js"></script>
-   <script src="assets/js/jquery.growl.js"></script>
-   <script src="assets/js/jquery.matchHeight-min.js"></script>
-   <script src="assets/js/masonry.pkgd.js"></script>
-   <script src="assets/js/skills-progress.js"></script>
-   <script src="assets/js/bootstrap-slider.js"></script>
-   <script src="assets/js/wow.js"></script>
-   <script src="assets/js/functions-plugin.js"></script>
-   <script src="assets/js/functions.js"></script>
+   <script src="libs/js/responsive.menu.js"></script>
+   <script src="libs/js/swiper.min.js"></script>
+   <script src="libs/js/bootstrap-datepicker.js"></script>
+   <script src="libs/js/chosen.js"></script>
+   <script src="libs/js/counter.js"></script>
+   <script src="libs/js/fliters.js"></script>
+   <script src="libs/js/jquery.fitvids.js"></script>
+   <script src="libs/js/jquery.growl.js"></script>
+   <script src="libs/js/jquery.matchHeight-min.js"></script>
+   <script src="libs/js/masonry.pkgd.js"></script>
+   <script src="libs/js/skills-progress.js"></script>
+   <script src="libs/js/bootstrap-slider.js"></script>
+   <script src="libs/js/wow.js"></script>
+   <script src="libs/js/functions-plugin.js"></script>
+   <script src="libs/js/functions.js"></script>
 </body>
 
 </html>

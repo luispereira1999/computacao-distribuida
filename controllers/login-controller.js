@@ -38,7 +38,7 @@ module.exports = {
                };
                const token = generateToken(data);
 
-               res.status(200).json({ "message": "O utilizador efetuou login com sucesso!", "data": data, "token": token });
+               res.status(200).json({ "message": "O utilizador iniciou sessão com sucesso!", "data": data, "token": token });
             } else
                return res.status(400).json({ "message": "Ups! Nome de utilizador ou palavra-passe inválidos. Tente novamente!" });
          }
