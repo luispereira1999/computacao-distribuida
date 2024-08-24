@@ -30,7 +30,7 @@ Para colocar o projeto a funcionar localmente na sua máquina basta:
    npm install
    ```
 
-5. Iniciar servidor:
+5. Iniciar o servidor:
    ```sh
    npm start
    ```
