@@ -1,4 +1,4 @@
-<p align="center"><img width="350" src="public/images/full-logo-white.png" alt="Logótipo Picand Go"></p>
+<p align="center"><img width="425" src="http://luispereiralabs.com/assets/picand-go/page-cover.png" alt="Imagem de Apresentação"></p>
 
 ## ⚡️ O que é o Picand Go?
 
